@@ -1,0 +1,66 @@
+"use client";
+
+import { Menu, X } from "lucide-react";
+import { useEffect, useId, useState } from "react";
+import { NAV_GROUPS, NAV_PRICING } from "@/lib/nav";
+import { WAITLIST_HREF } from "@/lib/site";
+import { LinkButton } from "@/components/ui/Button";
+import { NavItemRow } from "./NavItemRow";
+
+export function MobileMenu() {
+  const [open, setOpen] = useState(false);
+  const panelId = useId();
+
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
+
+  return (
+    <div className="md:hidden">
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls={panelId}
+        aria-label={open ? "Close menu" : "Open menu"}
+        onClick={() => setOpen((v) => !v)}
+        className="inline-flex size-10 items-center justify-center rounded-control text-foreground hover:bg-hover"
+      >
+        {open ? <X aria-hidden="true" className="size-5" /> : <Menu aria-hidden="true" className="size-5" />}
+      </button>
+      {open && (
+        <div
+          id={panelId}
+          className="absolute inset-x-0 top-full max-h-[calc(100dvh-var(--navbar-height))] overflow-y-auto border-b border-line bg-background px-4 pb-6 pt-2"
+        >
+          {NAV_GROUPS.map((group) => (
+            <div key={group.label} className="py-2">
+              <p className="px-3 py-1 text-xs font-medium uppercase tracking-wide text-muted">
+                {group.label}
+              </p>
+              <ul>
+                {group.items.map((item) => (
+                  <li key={item.label}>
+                    <NavItemRow item={item} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+          <div className="py-2">
+            <NavItemRow item={NAV_PRICING} />
+          </div>
+          <LinkButton
+            href={WAITLIST_HREF}
+            onClick={() => setOpen(false)}
+            className="mt-3 w-full"
+          >
+            Join Waitlist
+          </LinkButton>
+        </div>
+      )}
+    </div>
+  );
+}

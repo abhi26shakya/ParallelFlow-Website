@@ -11,3 +11,15 @@ out/
 
 # macOS
 .DS_Store
+
+# testing / misc
+coverage/
+*.pem
+*.tsbuildinfo
+next-env.d.ts
+
+# debug logs
+npm-debug.log*
+
+# vercel
+.vercel
