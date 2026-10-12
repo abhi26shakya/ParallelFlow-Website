@@ -24,6 +24,81 @@
 
   /* Height of the sticky navbar, used for anchor offsets. */
   --navbar-height: 4rem;
+
+  /* Footer lanes: a dot crossing its track. Used with motion-safe: only. */
+  --animate-lane: lane 9s linear infinite;
+  --animate-lane-fast: lane 5.5s linear infinite;
+
+  /* Footer doodles (FooterDoodles.tsx). Used with motion-safe: only. */
+  --animate-bob: bob 0.5s ease-in-out infinite alternate;
+  --animate-bob-fast: bob 0.3s ease-in-out infinite alternate;
+  --animate-high-five: high-five 3.2s ease-in-out infinite;
+  --animate-spark: spark 3.2s ease-in-out infinite;
+  --animate-dash-flow: dash-flow 0.8s linear infinite;
+  --animate-draw-check: draw-check 3.2s ease-in-out infinite;
+
+  @keyframes bob {
+    to {
+      translate: 0 -2px;
+    }
+  }
+
+  /* Arms rest swung away (--swing) and meet in the middle of the loop. */
+  @keyframes high-five {
+    0%,
+    100% {
+      rotate: var(--swing);
+    }
+    40%,
+    60% {
+      rotate: 0deg;
+    }
+  }
+
+  @keyframes spark {
+    0%,
+    38%,
+    72%,
+    100% {
+      opacity: 0;
+    }
+    46%,
+    60% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes dash-flow {
+    to {
+      stroke-dashoffset: -7;
+    }
+  }
+
+  @keyframes draw-check {
+    0%,
+    15% {
+      stroke-dashoffset: 1;
+      opacity: 1;
+    }
+    45%,
+    85% {
+      stroke-dashoffset: 0;
+      opacity: 1;
+    }
+    100% {
+      stroke-dashoffset: 0;
+      opacity: 0;
+    }
+  }
+
+  @keyframes lane {
+    from {
+      translate: -10% 0;
+    }
+    to {
+      translate: 100% 0;
+    }
+  }
 }
 
 :root {

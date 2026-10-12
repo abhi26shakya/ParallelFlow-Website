@@ -1,6 +1,43 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero was redesigned after that, also at the owner's request.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request.
+
+## Change after Phase 11: Footer redesign
+
+**Owner decisions (2026-10-13)**
+- Fresh footer design in the site's monochrome language, using existing tokens and components. An earlier version from the same day (giant animated wordmark, neon gradient edge, full-viewport height) was replaced and is not in the site.
+- The domain **parallelflow.ai** is confirmed as the owner's. It is shown large in the footer as plain text (`SITE_DOMAIN` in `src/lib/site.ts`), not linked while the site is localhost-only.
+- Link columns: only those with live pages (Product, Solutions), plus Connect. Resources, Company and Legal stay hidden until their pages exist. No placeholder links.
+- Social links (Email, X, LinkedIn) use **dummy values** (`SOCIAL_LINKS` in `src/lib/site.ts`) at the owner's request. The owner will supply the real ones.
+- Bottom bar: "© {year} ParallelFlow" and a dot with "Pre-launch · Waitlist open". "All systems normal" and "built with ParallelFlow" were not used because neither is true before launch.
+
+**What it looks like**
+- Top band: two thin parallel lanes labelled HUMANS and AGENTS (mono). A solid dot crosses the human lane; two outlined dots cross the agent lane faster. Pure CSS (transform only, no JS), decorative (`aria-hidden`), and still under `prefers-reduced-motion`.
+- Doodles (owner request), all thin grey line drawings in `src/components/layout/FooterDoodles.tsx`, decorative and still under reduced motion:
+  - Lanes: a tiny walking stick figure on HUMANS and two tiny robots on AGENTS, bobbing as they travel.
+  - High-five at the right end of the lanes: the person's and robot's arms swing in and meet, and a spark flashes on contact.
+  - "Idea to done" next to the footer Join Waitlist button: a light bulb with twinkling rays, a dashed arrow flowing right, and a box whose tick draws itself in.
+- Brand block: shared `Logo`, large "parallelflow.ai" (".ai" in muted grey), the tagline (`SITE_TAGLINE`, now the hero subheading), and the shared Join Waitlist `LinkButton`.
+- Columns: Product, Solutions, Connect, with mono uppercase `h2` headings. On hover and keyboard focus, two parallel underlines draw in, the second a beat behind. External links say "(opens in a new tab)" to screen readers.
+
+**Files changed**
+- `src/components/layout/Footer.tsx` (rewritten; X and LinkedIn icons are inline SVG because lucide-react v1 has no brand icons)
+- New: `src/components/layout/FooterDoodles.tsx`
+- `src/app/globals.css` (lane and doodle keyframes and `--animate-*` tokens in `@theme`)
+- `src/lib/site.ts` (`SITE_DOMAIN` and `SOCIAL_LINKS` added, `SITE_TAGLINE` updated)
+- `PROGRESS.md`
+
+**Verified**
+- Lint, type-check and production build pass.
+- Driven in Chrome on the home page at 1440px and 375px, and with reduced motion: lanes animate, and stop with reduced motion; footer links point to real routes; Tab gives `:focus-visible` with the focus ring and underlines; hover draws the underlines.
+
+**Setup needed from the owner**
+- Replace the dummy email, X and LinkedIn values in `SOCIAL_LINKS` before the site goes public.
+
+**Notes**
+- The footer no longer says "All rights reserved." The brief's Part 3 bottom bar has it; add it back if wanted.
+- Mono column and lane labels depart from the CLAUDE.md rule that JetBrains Mono is for code or technical text only. The owner asked for mono headings.
+- On the home page the footer's Join Waitlist button sits just below the waitlist form.
 
 ## Change after Phase 11: Home hero redesign
 
