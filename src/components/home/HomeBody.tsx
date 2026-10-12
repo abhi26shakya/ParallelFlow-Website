@@ -8,7 +8,8 @@ import {
   VALUE_PROPOSITION,
   WHY_NOW,
 } from "@/content/home";
-import { ItemGrid, Section } from "./Section";
+import { ProductCards } from "@/components/sections/ProductCards";
+import { ItemGrid, Section } from "@/components/sections/Section";
 
 // Home page sections between the hero and the waitlist form.
 export function HomeBody() {
@@ -51,27 +52,15 @@ export function HomeBody() {
         </p>
       </Section>
 
-      <Section label={HOW_IT_WORKS.label} title={HOW_IT_WORKS.title}>
+      <Section
+        id="how-it-works"
+        label={HOW_IT_WORKS.label}
+        title={HOW_IT_WORKS.title}
+      >
         <p className="mt-6 max-w-3xl text-lg text-muted">
           {HOW_IT_WORKS.intro}
         </p>
-        <ul className="mt-12 grid gap-4 lg:grid-cols-3">
-          {HOW_IT_WORKS.products.map((product) => (
-            <li
-              key={product.name}
-              className="rounded-card border border-line bg-card p-6"
-            >
-              <div className="flex items-center justify-between gap-3">
-                <h3 className="text-lg font-semibold">{product.name}</h3>
-                <span className="shrink-0 rounded-pill border border-line px-3 py-1 text-xs text-muted">
-                  Coming soon
-                </span>
-              </div>
-              <p className="mt-1 text-sm font-medium">{product.role}</p>
-              <p className="mt-4 text-muted">{product.body}</p>
-            </li>
-          ))}
-        </ul>
+        <ProductCards />
       </Section>
 
       <Section label={OVERSIGHT.label} title={OVERSIGHT.title}>

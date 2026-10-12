@@ -1,18 +1,23 @@
-import type { HomeItem } from "@/content/home";
+export type SectionItem = {
+  title: string;
+  body: string;
+};
 
-// Shared layout for the home sections below the hero: small label,
-// section heading, then the section's own content.
+// Shared layout for marketing page sections: small label, section heading,
+// then the section's own content.
 export function Section({
+  id,
   label,
   title,
   children,
 }: {
+  id?: string;
   label: string;
   title: string;
   children: React.ReactNode;
 }) {
   return (
-    <section className="border-t border-line">
+    <section id={id} className="scroll-mt-(--navbar-height) border-t border-line">
       <div className="mx-auto max-w-5xl px-4 py-20 sm:px-6 sm:py-24">
         <p className="text-sm font-medium text-muted">{label}</p>
         <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-tight sm:text-4xl">
@@ -29,7 +34,7 @@ export function ItemGrid({
   items,
   columns = 3,
 }: {
-  items: HomeItem[];
+  items: SectionItem[];
   columns?: 2 | 3;
 }) {
   return (

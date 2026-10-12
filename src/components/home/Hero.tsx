@@ -1,7 +1,7 @@
 import { Laptop, Monitor } from "lucide-react";
+import { PreviewSlot } from "@/components/sections/PreviewSlot";
 import { DisabledButton, LinkButton } from "@/components/ui/Button";
 import { WAITLIST_HREF } from "@/lib/site";
-import { VideoSlot } from "./VideoSlot";
 
 function DownloadButton({
   icon,
@@ -53,7 +53,10 @@ export function Hero() {
         </p>
       </div>
 
-      <VideoSlot />
+      <PreviewSlot
+        description="Product preview video placeholder"
+        placeholder="Product video coming soon"
+      />
     </section>
   );
 }

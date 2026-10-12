@@ -1,14 +1,12 @@
 // Home page copy below the hero. Owner-approved in Phase 5; every line comes
 // from PROJECT_BRIEF.md (SDLC sections 2, 3, 5, 6; Parts 2, 6 and 7).
+// Product one-liners live in products.ts.
 // Change wording only with the owner's approval.
+
+import type { SectionItem } from "@/components/sections/Section";
 
 export const VALUE_PROPOSITION =
   "ParallelFlow brings teams, AI agents, tasks, and project context into a connected workspace to help them plan, build, and ship together.";
-
-export type HomeItem = {
-  title: string;
-  body: string;
-};
 
 export const HOME_HEADLINE =
   "AI-native development lifecycle enabling human-agent collaboration to build, track, communicate, and ship faster.";
@@ -34,7 +32,7 @@ export const PROBLEM = {
       title: "Coordination overhead",
       body: "People must manually assign tasks, track progress, resolve blockers, and connect the outputs of different tools.",
     },
-  ] satisfies HomeItem[],
+  ] satisfies SectionItem[],
   result:
     "Faster individual tasks do not always translate into faster software delivery.",
 };
@@ -61,23 +59,6 @@ export const HOW_IT_WORKS = {
   title: "From isolated tools to coordinated work.",
   intro:
     "Arena determines what the team needs to accomplish. Workspace is where the work is performed. Developer Space provides the reusable capabilities agents use.",
-  products: [
-    {
-      name: "Arena",
-      role: "Coordinate the team",
-      body: "Align people and AI around project goals, tasks, discussions, responsibilities, and progress.",
-    },
-    {
-      name: "Workspace",
-      role: "Execute the work",
-      body: "Run AI-assisted sessions, work with project context, use available tools, and produce deliverables.",
-    },
-    {
-      name: "Developer Space",
-      role: "Configure capabilities",
-      body: "Create and manage reusable agent roles, skills, tools, and integrations to adapt AI capabilities to the team's workflow.",
-    },
-  ],
 };
 
 export const OVERSIGHT = {
@@ -102,7 +83,7 @@ export const OVERSIGHT = {
       title: "Private personal assistants",
       body: "Personal assistants are optional and member-controlled. Private conversations are never automatically exposed.",
     },
-  ] satisfies HomeItem[],
+  ] satisfies SectionItem[],
 };
 
 export const AUDIENCE = {
@@ -127,5 +108,5 @@ export const AUDIENCE = {
       title: "AI agent builders and technical teams",
       body: "Experiment with agent workflows, tools, skills, and MCP.",
     },
-  ] satisfies HomeItem[],
+  ] satisfies SectionItem[],
 };

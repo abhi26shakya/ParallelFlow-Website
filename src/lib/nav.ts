@@ -23,7 +23,7 @@ export const NAV_GROUPS: NavGroup[] = [
   },
   {
     label: "Solutions",
-    items: [{ label: "Engineering: SDLC" }],
+    items: [{ label: "Engineering: SDLC", href: "/solutions/engineering/sdlc" }],
   },
   {
     label: "Resources",

@@ -1,6 +1,37 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero) and 4 (waitlist) built and committed. Phase 5 (home body) built, awaiting owner browser review and commit.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist) and 5 (home body) built and committed. Phase 6 (SDLC page) built, awaiting owner browser review and commit.
+
+## Phase 6: SDLC page
+
+**Files changed**
+- New: `src/app/solutions/engineering/sdlc/page.tsx` (page plus title and meta description from the Part 7 table), `src/content/sdlc.ts` (all 8 sections, word for word from Part 4), `src/content/products.ts` (Arena, Workspace, Developer Space one-liners, now shared by both pages)
+- New: `src/components/sections/ProductCards.tsx`. Moved to `src/components/sections/`: `Section.tsx` (from `home/`, now takes an optional `id`) and `PreviewSlot.tsx` (was `home/VideoSlot.tsx`, now takes its text as props)
+- Changed: `src/components/home/HomeBody.tsx` and `Hero.tsx` (use the shared components; the How it works section now has `id="how-it-works"`), `src/content/home.ts` (product list moved to `products.ts`), `src/lib/nav.ts` (Solutions → "Engineering: SDLC" is now a live link), `PROGRESS.md`
+
+**Owner decisions this session**
+- Open decision 5 settled: "Explore the Platform" is a secondary button that links to `/#how-it-works` on the home page.
+- Hero visual: an empty 16:9 frame labelled "Product preview" ("Workflow preview coming soon") until a real visual exists.
+- Section 4 carries the line "The lifecycle ParallelFlow aims to support." (new wording, owner approved).
+- Section 6 "Connected tools" ends at "...into the workflow."; the brief's clause "without promising integrations that are not yet available" was cut (owner approved).
+- No "Join the Waitlist" buttons on the SDLC page, which changes the brief's sections 1 and 8. The navbar's "Join waitlist" is the signup path. Because the closing CTA has no button, its supporting line "Be among the first to explore ParallelFlow." is left out too.
+
+**Setup needed from the owner**
+- None. No migrations, env vars or dependencies.
+
+**Verified**
+- Lint, type-check and production build pass; `/solutions/engineering/sdlc` is prerendered as static.
+- Page renders cleanly in headless Chrome at 1440px and 500px. Correct title and description, one H1, logical H2/H3 order, all products marked "Coming soon" with no links.
+
+**Still incomplete / notes**
+- The footer has no link columns yet. The SDLC page is reachable from the navbar only.
+- Not checked below 500px; check at phone width in a real browser.
+- Carried over: real Supabase persistence unverified, `/reference` screenshots missing.
+
+**Open decisions**
+- None new.
+
+**Next session:** "PF Phase 7 - Pricing page".
 
 ## Phase 5: Home body
 
