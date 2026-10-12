@@ -1,6 +1,33 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation) and 3 (home hero) built, committed and pushed. Phase 4 (waitlist) built, awaiting owner review and commit.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero) and 4 (waitlist) built and committed. Phase 5 (home body) built, awaiting owner browser review and commit.
+
+## Phase 5: Home body
+
+**Files changed**
+- New: `src/content/home.ts` (all home copy below the hero, owner-approved), `src/components/home/Section.tsx` (shared section layout and item grid), `src/components/home/HomeBody.tsx`
+- Changed: `src/app/page.tsx` (renders `HomeBody`; waitlist section gets a top divider), `PROGRESS.md`
+
+**What was built**
+- Sections follow the brief's "Product page key points for YC" table (owner approved): headline + value proposition, The problem, Why now, The solution, How it works (Arena, Workspace, Developer Space one-liners, each "Coming soon", no links), Trust / Human oversight, Who it's for, then the existing waitlist.
+- Copy is taken from SDLC sections 2, 3, 5 and 6, Part 2, Part 6 and Part 7. Section labels, the four Trust item titles and the shortened audience lines are new wording, approved by the owner. Problem and Solution text intentionally repeats on the SDLC page (owner approved).
+
+**Setup needed from the owner**
+- None for this phase. No migrations, no new env vars, no new dependencies.
+
+**Verified**
+- Lint, type-check and production build pass. Page renders cleanly in headless Chrome at 1440px and 500px wide; one H1, logical H2/H3 order.
+
+**Still incomplete / notes**
+- Not checked below 500px (headless Chrome's minimum); check at phone width in a real browser.
+- Carried over from Phase 4: persistence in a real Supabase project is still unverified (`.env.local` missing, migration not yet run).
+- `/reference` screenshots are still missing.
+- No real waitlist count, demo video, logos or testimonials are shown; add proof only once it is real.
+
+**Open decisions**
+- None new. Decision 2 (front-page copy) is settled in practice: tagline in the hero, headline as the first section below it.
+
+**Next session:** "PF Phase 6 - SDLC page".
 
 ## Phase 4: Waitlist
 
