@@ -70,7 +70,7 @@ export function NavDropdown({ group }: { group: NavGroup }) {
           <ul className="rounded-card border border-line bg-card p-1.5">
             {group.items.map((item) => (
               <li key={item.label}>
-                <NavItemRow item={item} />
+                <NavItemRow item={item} onSelect={() => setOpen(false)} />
               </li>
             ))}
           </ul>

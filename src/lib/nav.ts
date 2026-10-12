@@ -1,10 +1,15 @@
-// Single source for navbar (and, later, footer) links.
+// Single source for navbar and footer links.
 // An item with no `href` is not live yet and renders as a non-clickable
-// "Coming soon" label. Add `href` only once the destination page exists.
+// "Coming soon" label in the navbar and is left out of the footer. Add `href`
+// only once the destination page exists.
+
+import { PRODUCTS } from "@/content/products";
 
 export type NavItem = {
   label: string;
   href?: string;
+  // Longer label for the footer, where there is room for it.
+  footerLabel?: string;
 };
 
 export type NavGroup = {
@@ -15,15 +20,17 @@ export type NavGroup = {
 export const NAV_GROUPS: NavGroup[] = [
   {
     label: "Product",
-    items: [
-      { label: "Arena" },
-      { label: "Workspace" },
-      { label: "Developer Space" },
-    ],
+    items: PRODUCTS.map(({ name, href }) => ({ label: name, href })),
   },
   {
     label: "Solutions",
-    items: [{ label: "Engineering: SDLC", href: "/solutions/engineering/sdlc" }],
+    items: [
+      {
+        label: "Engineering: SDLC",
+        href: "/solutions/engineering/sdlc",
+        footerLabel: "Software Development Lifecycle (SDLC)",
+      },
+    ],
   },
   {
     label: "Resources",

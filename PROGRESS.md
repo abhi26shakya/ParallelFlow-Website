@@ -1,6 +1,43 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body) and 6 (SDLC page) built and committed. Phase 7 (Pricing page) built, awaiting owner browser review and commit.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page) and 7 (pricing page) built and committed. Phase 8 (remaining pages) built, awaiting owner browser review and commit.
+
+## Phase 8: Remaining pages
+
+**Files changed**
+- New: `src/app/product/arena/page.tsx`, `src/app/product/workspace/page.tsx`, `src/app/product/developer-space/page.tsx` (titles and meta descriptions from the Part 7 table)
+- New: `src/content/product-pages.ts` (all product page copy), `src/components/sections/ProductPage.tsx` (shared layout for the three pages)
+- Changed: `src/content/products.ts` (each product now has a `slug` and `href`), `src/components/sections/ProductCards.tsx` (cards link to the product pages and keep the "Coming soon" badge; new `exclude` prop), `src/lib/nav.ts` (Product items built from `products.ts` and now live; optional `footerLabel`), `src/components/layout/Footer.tsx` (link columns), `src/components/layout/NavItemRow.tsx`, `NavDropdown.tsx`, `MobileMenu.tsx` (menus close when a link is chosen), `PROGRESS.md`
+
+**Owner decisions this session**
+- Product page copy approved as drafted. It is written from Part 6 and the Part 1 "Lead with" points, using "designed to" wording. New wording: the section labels "What it's designed to do" and "How it connects", the heading "One of three connected areas.", the intros, and the item titles. Motion Design, the LLM Wiki, version-control and named integrations, and comparisons with other tools are left out on purpose.
+- URLs: `/product/arena`, `/product/workspace`, `/product/developer-space`.
+- No separate Solutions or Engineering pages, so the site has no thin pages. The navbar's "Engineering: SDLC" link goes straight to the SDLC page.
+- Each product page ends with a Join Waitlist button (`/#waitlist`) after the line "<Product> is coming soon. Join the waitlist for early access and product updates.", adapted from the brief's pre-launch line.
+- Footer link columns added, with live links only. Product has Arena, Workspace, Developer Space and Pricing. Solutions has "Software Development Lifecycle (SDLC)". Resources and Company are left out until those pages exist, and so are Privacy and Terms.
+
+**Fixed along the way**
+- The mobile menu and the desktop dropdowns stayed open after a nav link was clicked, because the navbar stays mounted across page changes. They now close when a link is chosen.
+
+**Setup needed from the owner**
+- None. No migrations, env vars or dependencies.
+
+**Verified**
+- Lint, type-check and production build pass. The three product pages are prerendered as static.
+- Each page has the correct title and description, one H1, and no prices or banned phrases.
+- Arena renders cleanly in headless Chrome at 1440px and 500px, and Developer Space at 1440px. The footer columns sit side by side on desktop and stack on mobile.
+- The home page product cards link to all three pages.
+
+**Still incomplete / notes**
+- Not checked below 500px. Check at phone width in a real browser, including that the mobile menu closes after a link is tapped.
+- Each product page has an empty 16:9 "Product preview" frame until real visuals exist.
+- The Part 1 "done when" condition is met: every nav item is a live page or a "Coming soon" label. Resources (Packages, Documentation, Developer Resources) stays "Coming soon".
+- Carried over: real Supabase persistence unverified, `/reference` screenshots missing, the Enterprise-lead rule undefined, no About/Careers/Contact/Privacy/Terms pages.
+
+**Open decisions**
+- None new. If Solutions or Engineering hub pages are wanted later, the Part 7 metadata for them is ready.
+
+**Next session:** "PF Phase 9 - SEO".
 
 ## Phase 7: Pricing page
 

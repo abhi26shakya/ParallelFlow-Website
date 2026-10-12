@@ -43,14 +43,14 @@ export function MobileMenu() {
               <ul>
                 {group.items.map((item) => (
                   <li key={item.label}>
-                    <NavItemRow item={item} />
+                    <NavItemRow item={item} onSelect={() => setOpen(false)} />
                   </li>
                 ))}
               </ul>
             </div>
           ))}
           <div className="py-2">
-            <NavItemRow item={NAV_PRICING} />
+            <NavItemRow item={NAV_PRICING} onSelect={() => setOpen(false)} />
           </div>
           <LinkButton
             href={WAITLIST_HREF}

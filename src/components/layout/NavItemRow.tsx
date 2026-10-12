@@ -3,11 +3,20 @@ import type { NavItem } from "@/lib/nav";
 
 // Live items render as links; items without an href render as a
 // non-clickable "Coming soon" label (no fake or broken links).
-export function NavItemRow({ item }: { item: NavItem }) {
+// `onSelect` lets the open menu close itself, since the navbar stays mounted
+// across page navigations.
+export function NavItemRow({
+  item,
+  onSelect,
+}: {
+  item: NavItem;
+  onSelect?: () => void;
+}) {
   if (item.href) {
     return (
       <Link
         href={item.href}
+        onClick={onSelect}
         className="block rounded-control px-3 py-2 text-sm text-foreground hover:bg-hover"
       >
         {item.label}
