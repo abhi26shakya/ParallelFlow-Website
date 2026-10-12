@@ -10,6 +10,7 @@ import { NavItemRow } from "./NavItemRow";
 export function NavDropdown({ group }: { group: NavGroup }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   // True while the panel is open only because the mouse is hovering, so the
   // first click pins it open instead of toggling it shut.
   const hoverOpened = useRef(false);
@@ -38,12 +39,18 @@ export function NavDropdown({ group }: { group: NavGroup }) {
         hoverOpened.current = false;
         setOpen(false);
       }}
-      onKeyDown={(e) => e.key === "Escape" && setOpen(false)}
+      onKeyDown={(e) => {
+        if (e.key !== "Escape") return;
+        setOpen(false);
+        // The panel unmounts, so keep focus on the trigger instead of losing it.
+        buttonRef.current?.focus();
+      }}
       onBlur={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false);
       }}
     >
       <button
+        ref={buttonRef}
         type="button"
         aria-expanded={open}
         aria-controls={panelId}

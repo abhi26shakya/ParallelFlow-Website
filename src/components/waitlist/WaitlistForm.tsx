@@ -39,7 +39,7 @@ const EMPTY: Values = {
 };
 
 const inputClass =
-  "w-full rounded-control border border-line bg-card px-3 py-2.5 text-sm text-foreground placeholder:text-muted";
+  "w-full rounded-control border border-field bg-card aria-invalid:border-foreground px-3 py-2.5 text-sm text-foreground placeholder:text-muted";
 
 export function WaitlistForm() {
   const id = useId();
@@ -48,11 +48,27 @@ export function WaitlistForm() {
   const [message, setMessage] = useState("");
   const [fieldErrors, setFieldErrors] = useState<WaitlistFieldErrors>({});
   const startedAt = useRef<number | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const successRef = useRef<HTMLParagraphElement>(null);
 
   // Read in an effect so the prerender stays free of the current time.
   useEffect(() => {
     startedAt.current = Date.now();
   }, []);
+
+  // After a failed submit, move focus to the first invalid field so keyboard
+  // and screen reader users land on the problem.
+  useEffect(() => {
+    formRef.current
+      ?.querySelector<HTMLElement>('[aria-invalid="true"]')
+      ?.focus();
+  }, [fieldErrors]);
+
+  // The form unmounts on success, so focus the confirmation to keep the
+  // user's place and have it announced.
+  useEffect(() => {
+    if (status === "success") successRef.current?.focus();
+  }, [status]);
 
   const set = <K extends keyof Values>(key: K, value: Values[K]) =>
     setValues((v) => ({ ...v, [key]: value }));
@@ -120,7 +136,9 @@ export function WaitlistForm() {
   if (status === "success") {
     return (
       <p
+        ref={successRef}
         role="status"
+        tabIndex={-1}
         className="rounded-card border border-line bg-card p-6 text-center"
       >
         You&apos;re on the waitlist. We&apos;ll be in touch about early access
@@ -133,7 +151,7 @@ export function WaitlistForm() {
   const err = (key: keyof WaitlistFieldErrors) => fieldErrors[key]?.[0];
 
   return (
-    <form onSubmit={onSubmit} noValidate className="space-y-5 text-left">
+    <form ref={formRef} onSubmit={onSubmit} noValidate className="space-y-5 text-left">
       <div>
         <label htmlFor={`${id}-name`} className="mb-1.5 block text-sm font-medium">
           Full name <span className="font-normal text-muted">(required)</span>
@@ -275,8 +293,10 @@ export function WaitlistForm() {
 
       <button
         type="submit"
-        disabled={submitting}
-        className="w-full rounded-pill bg-foreground px-5 py-2.5 text-sm font-semibold text-background transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-70"
+        // aria-disabled rather than disabled: a disabled button drops keyboard
+        // focus. onSubmit already ignores repeat submits while sending.
+        aria-disabled={submitting}
+        className="w-full rounded-pill bg-foreground px-5 py-2.5 text-sm font-semibold text-background transition-colors hover:bg-muted aria-disabled:cursor-not-allowed aria-disabled:opacity-70"
       >
         {submitting ? "Joining…" : "Join Waitlist"}
       </button>

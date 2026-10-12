@@ -10,6 +10,8 @@
   --color-foreground: #ffffff;
   --color-muted: #b3b3b3;
   --color-line: #333333;
+  /* Form field borders: lighter than --color-line for 3:1 contrast. */
+  --color-field: #6b6b6b;
 
   --radius-control: 0.5rem;
   --radius-card: 0.75rem;

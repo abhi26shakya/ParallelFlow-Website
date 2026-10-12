@@ -1,6 +1,48 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page) and 8 (remaining pages) built and committed. Phase 9 (SEO) built, awaiting owner browser review and commit.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages) and 9 (SEO) built and committed. Phase 10 (quality gate) done, awaiting owner browser review and commit.
+
+## Phase 10: Quality gate
+
+**Files changed**
+- `src/app/globals.css`: new `--color-field` token (`#6B6B6B`), used for form field borders only
+- `src/components/layout/NavDropdown.tsx`: Escape inside an open dropdown returns focus to its button
+- `src/components/waitlist/WaitlistForm.tsx`: field borders use `border-field` (about 3.4:1 against the field, up from 1.45:1) and turn white when invalid. Focus moves to the first invalid field after a failed submit and to the confirmation after success. The submit button uses `aria-disabled` while sending so it keeps focus.
+- `PROGRESS.md`
+
+**Owner decisions this session**
+- Skip real Supabase testing for now; it moves to Phase 11's live test.
+- Manual checks only; no test runner added.
+- Approved fixes 1–5 (dropdown Escape focus, focus on first invalid field, focus on success, highlighted invalid fields, `#6B6B6B` form field borders). The `aria-disabled` submit fix was found while re-checking and is the same kind of focus fix.
+
+**Checked (local production build, headless Chrome)**
+- Lint, type-check and production build pass.
+- All 7 pages (including the 404) at 1440, 768, 375 and 320px: no sideways scroll, layout shift 0, navbar stays pinned.
+- Links: every internal link returns 200, both anchors exist, no external or placeholder links, missing URLs return a real 404.
+- Keyboard: logical tab order, visible white focus outline everywhere, no traps; dropdowns open with Enter and close on Escape or tab-out; "Tell us more" opens with Enter.
+- Mobile menu: opens on tap, closes on Escape and after a link is tapped.
+- Form: labels, `aria-invalid`/`aria-describedby` errors and a live region; without Supabase a valid submit shows "Signup is temporarily unavailable", keeps the values and shows no success. The success state was checked with a stubbed API response.
+- Contrast: all text passes WCAG AA (lowest is disabled buttons at about 6.4:1); form field borders now pass 3:1.
+- Reduced motion: transitions cut to almost nothing, no running animations, no video.
+- Scripts: client bundles hold only React, Next.js, lucide and Zod (shared form validation). No content images to optimize.
+- Console: no JavaScript errors. Server log shows only the expected missing-env message, with no secrets.
+- Secrets: none in client bundles; `.env*` is git-ignored; the Supabase client is `server-only`; `.env.example` lists all 3 variables.
+- Content: no prices, banned phrases, SSO, compliance or SLA claims; one H1 per page with logical H2/H3 order.
+
+**Setup needed from the owner**
+- None for this phase. No migrations, env vars or dependencies.
+
+**Still incomplete / notes**
+- Real Supabase persistence is still unverified (no `.env.local`, migration not confirmed). Phase 11 needs it: run the migration, add the keys, then submit a signup and a duplicate and check the table.
+- "Verify production env vars before deployment" can only be done at launch: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, and `NEXT_PUBLIC_SITE_URL` (production only).
+- Checked in headless Chrome only. Check on a real iPhone (Safari) and Android phone before launch.
+- No test runner; checks were run by hand with scripts outside the repo.
+- Carried over: `/reference` screenshots missing, Enterprise-lead rule undefined, no About/Careers/Contact/Privacy/Terms pages.
+
+**Open decisions**
+- None new.
+
+**Next session:** "PF Phase 11 - Launch".
 
 ## Phase 9: SEO
 
