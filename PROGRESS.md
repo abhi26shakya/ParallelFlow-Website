@@ -1,6 +1,39 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist) and 5 (home body) built and committed. Phase 6 (SDLC page) built, awaiting owner browser review and commit.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body) and 6 (SDLC page) built and committed. Phase 7 (Pricing page) built, awaiting owner browser review and commit.
+
+## Phase 7: Pricing page
+
+**Files changed**
+- New: `src/content/pricing.ts` (single data file for both plans and the page intro), `src/components/sections/PricingCards.tsx`, `src/app/pricing/page.tsx` (title and meta description from the Part 7 table)
+- Changed: `src/lib/nav.ts` (Pricing in the navbar is now a live link to `/pricing`), `PROGRESS.md`
+
+**Owner decisions this session**
+- No price is shown. Teams reads "Pricing coming soon"; Enterprise reads "Custom pricing". The $25/user price and the Enterprise pilot offer stay unpublished.
+- Both cards carry a "Coming soon" badge and list features under "Designed to include:".
+- Teams features dropped from the brief's list: "supported tools and integrations", "standard usage limits", "standard support".
+- Enterprise scope dropped from the brief's list: "higher or tailored usage limits", "optional onboarding and dedicated support", "custom integrations where technically supported". "Advanced access controls and permissions" shortened to "Access controls and permissions".
+- Enterprise supporting text replaced with "Join the waitlist and tell us about your organization's needs." (the brief's line implied a sales call and tailored deployment). Teams supporting text kept as written.
+- New wording: H1 "Pricing", the intro line, and an Enterprise note pointing to the "Tell us more" organization-interest question.
+- Both CTAs are "Join Waitlist" and link to `/#waitlist`; Enterprise interest is captured by the existing organization-interest question. No checkout, billing, "Contact Sales" or "Most Popular" label.
+
+**Setup needed from the owner**
+- None. No migrations, env vars or dependencies.
+
+**Verified**
+- Lint, type-check and production build pass; `/pricing` is prerendered as static.
+- Renders cleanly in headless Chrome at 1440px (cards side by side) and 500px (stacked). Correct title and description, one H1, no price in the page.
+
+**Still incomplete / notes**
+- Not checked below 500px; check at phone width in a real browser.
+- On desktop the Enterprise button sits slightly higher than the Teams one because of the extra note below it.
+- The Enterprise-lead rule (organization interest plus team size) is still undefined; answers are only stored.
+- Carried over: footer has no link columns, real Supabase persistence unverified, `/reference` screenshots missing, SDLC page not checked at phone width.
+
+**Open decisions**
+- None new. When a Teams price is approved, change only `price` in `src/content/pricing.ts`.
+
+**Next session:** "PF Phase 8 - Remaining pages".
 
 ## Phase 6: SDLC page
 
