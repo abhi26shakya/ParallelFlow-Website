@@ -1,6 +1,53 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages) and 9 (SEO) built and committed. Phase 10 (quality gate) done, awaiting owner browser review and commit.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) started and paused: waiting for real Supabase keys in `.env.local`.
+
+## Phase 11: Launch (paused)
+
+**Owner decisions this session**
+- Stay on localhost. Do not host on Vercel, or anywhere, until the owner says so.
+- Phase 11 is therefore split. On localhost now: test the waitlist against the real Supabase project. After the owner approves hosting: domain, HTTPS, Search Console, analytics and monitoring.
+- Plan approved (see "Next steps"). Test signups will use `@example.com` addresses and are deleted only with the owner's approval.
+
+**Files changed**
+- `PROGRESS.md` only. No code changes.
+- `.env.local` was created as a copy of `.env.example`. It is git-ignored and still holds placeholders only.
+
+**Status**
+- The Supabase project is set up and the owner reports the migration has been run, but `.env.local` still has the placeholder values (byte for byte the same as `.env.example`). No test has run against the real database yet.
+- Phase 11's "done when" condition (a real signup lands in the production database) is not met.
+
+**Setup needed from the owner**
+- Put the real `SUPABASE_URL` (Project URL) and `SUPABASE_SERVICE_ROLE_KEY` (service_role or `sb_secret_` key) in `/Users/abhishek/Desktop/ParallelFlow Website/.env.local`. To check without showing the keys, run `grep -c "your-" .env.local`; it should print `0`.
+- Optional: `SUPABASE_ANON_KEY` (anon or publishable key), only to check that the public key can't read or write the table.
+- Leave `NEXT_PUBLIC_SITE_URL` empty until production.
+
+**Next steps (approved plan, localhost)**
+1. Build and start the production server locally with the real keys.
+2. Through `/api/waitlist`: name and email only; all optional fields; each organization-interest answer and blank; an invalid organization-interest value (expect 400); a duplicate email, including different capitals (expect success, no second row); an invalid email.
+3. Read the rows back with the server key, without printing it. Unanswered fields should be NULL, `source` should be `website`, and there should be one row per email. If `SUPABASE_ANON_KEY` is set, check the public key is refused.
+4. The owner submits one real signup at `localhost:3000` and sees it in the Supabase table editor.
+5. Fix any bugs found, then run lint, type-check and build.
+6. Delete the `@example.com` test rows, with the owner's approval.
+
+**Launch checklist, for when the owner approves hosting**
+- Host on Vercel (or the chosen provider) from the GitHub repo `abhi26shakya/ParallelFlow-Website`.
+- Production env vars: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, and `NEXT_PUBLIC_SITE_URL` (production only, set before the build, never on preview builds).
+- Connect the domain and check HTTPS and the redirect from the bare domain or `www`.
+- Test the deployed waitlist end to end and confirm the row in Supabase.
+- Check `robots.txt`, `sitemap.xml`, canonical URLs and the absence of `noindex` on the live domain, and confirm preview URLs stay `noindex`.
+- Submit the sitemap in Google Search Console and check indexing.
+- Monitoring: watch the hosting logs for `[waitlist]` errors. Analytics choice is still open (none, or a privacy-conscious option).
+- Check on a real iPhone (Safari) and an Android phone.
+
+**Still incomplete / notes**
+- Real Supabase persistence is still unverified (carried over from Phase 4).
+- Carried over: `/reference` screenshots missing, Enterprise-lead rule undefined, no About/Careers/Contact/Privacy/Terms pages.
+
+**Open decisions**
+- At launch: production domain, analytics (none or which), error monitoring beyond hosting logs, and whether to launch with only the privacy note or wait for a Privacy page.
+
+**Next session:** "PF Phase 11 - Launch" (resume at step 1 of "Next steps").
 
 ## Phase 10: Quality gate
 
@@ -42,7 +89,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 **Open decisions**
 - None new.
 
-**Next session:** "PF Phase 11 - Launch".
+**Next session:** "PF Phase 11 - Launch" (Phase 10 committed as `10910be`).
 
 ## Phase 9: SEO
 
