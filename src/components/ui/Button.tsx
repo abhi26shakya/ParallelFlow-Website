@@ -30,3 +30,18 @@ export function LinkButton({
     />
   );
 }
+
+// Not-yet-available action: a real disabled button, no link and no handler.
+export function DisabledButton({
+  className = "",
+  ...props
+}: Omit<ComponentProps<"button">, "disabled" | "type">) {
+  return (
+    <button
+      type="button"
+      disabled
+      className={`${base} ${variants.secondary} cursor-not-allowed text-muted opacity-80 hover:bg-transparent ${className}`}
+      {...props}
+    />
+  );
+}
