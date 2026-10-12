@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { PricingCards } from "@/components/sections/PricingCards";
 import { PRICING_HERO } from "@/content/pricing";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Pricing | ParallelFlow",
   description:
     "Explore ParallelFlow plans for collaborative AI development. Check the website for current availability and pricing details.",
-};
+  path: "/pricing",
+});
 
 export default function PricingPage() {
   return (

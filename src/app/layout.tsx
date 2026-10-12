@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
+import { IS_INDEXABLE, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -16,10 +17,14 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+// Site-wide defaults. Each page sets its own title, description, canonical URL
+// and social tags through pageMetadata() in src/lib/seo.ts.
 export const metadata: Metadata = {
-  title: "ParallelFlow | Collaborative AI Development Workspace",
-  description:
-    "Bring your team, AI agents, tasks, and project context together in one workspace to plan, build, and ship software.",
+  metadataBase: SITE_URL,
+  title: SITE_NAME,
+  robots: IS_INDEXABLE ? undefined : { index: false, follow: false },
+  openGraph: { type: "website", siteName: SITE_NAME, locale: "en_US" },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

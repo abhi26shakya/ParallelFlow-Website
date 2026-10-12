@@ -13,12 +13,14 @@ import {
   SDLC_SOLUTION,
   SDLC_WORKFLOW,
 } from "@/content/sdlc";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "AI Software Development Lifecycle | ParallelFlow",
   description:
     "Connect planning, development, code review, testing, and delivery in a collaborative AI-powered software development workflow.",
-};
+  path: "/solutions/engineering/sdlc",
+});
 
 export default function SdlcPage() {
   return (

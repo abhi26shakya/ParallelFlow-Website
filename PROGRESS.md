@@ -1,6 +1,43 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page) and 7 (pricing page) built and committed. Phase 8 (remaining pages) built, awaiting owner browser review and commit.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page) and 8 (remaining pages) built and committed. Phase 9 (SEO) built, awaiting owner browser review and commit.
+
+## Phase 9: SEO
+
+**Files changed**
+- New: `src/lib/seo.ts` (`pageMetadata()` helper, `PUBLIC_ROUTES` sitemap list, shared social image settings), `src/app/robots.ts`, `src/app/sitemap.ts`, `src/app/opengraph-image.tsx` (generated social preview image), `src/app/not-found.tsx` (404 page), `assets/fonts/Inter-Regular.ttf` and `Inter-Bold.ttf` (Inter font files for the generated image, from Google Fonts, OFL licence)
+- Changed: `src/lib/site.ts` (`SITE_URL`, `IS_INDEXABLE`), `src/app/layout.tsx` (site-wide metadata defaults), `src/app/page.tsx` (home metadata and Organization/WebSite structured data), the pricing, SDLC and three product `page.tsx` files (now use `pageMetadata()`; titles and descriptions unchanged), `.env.example` (`NEXT_PUBLIC_SITE_URL`), `PROGRESS.md`
+
+**Owner decisions this session**
+- Work stays on localhost. There is no production domain yet, so the domain is one setting, `NEXT_PUBLIC_SITE_URL`.
+- Use a generated monochrome social image: the wordmark and the value proposition, white and `#B3B3B3` on `#080808`, in Inter.
+- Add a 404 page in this phase.
+
+**How indexing works**
+- `NEXT_PUBLIC_SITE_URL` unset (localhost, staging, previews): canonical URLs point to `http://localhost:3000`, every page has `noindex, nofollow`, and `robots.txt` blocks everything.
+- `NEXT_PUBLIC_SITE_URL` set (production only): canonical URLs, Open Graph URLs, the sitemap and structured data use that domain. `robots.txt` allows the site, blocks `/api/`, and points to the sitemap. The 404 page stays `noindex`.
+- The variable is read at build time, so set it before the production build.
+
+**Setup needed from the owner**
+- None now. At launch, set `NEXT_PUBLIC_SITE_URL` to the production domain (e.g. `https://example.com`, no trailing path) in the production environment only. Never set it on staging or preview builds.
+
+**Verified**
+- Lint, type-check and production build pass. All pages, `robots.txt` and `sitemap.xml` are prerendered.
+- Local production server, variable unset: each page has its Part 7 title and description, a canonical URL, Open Graph and Twitter tags with one image, and `noindex, nofollow`. `robots.txt` reads `Disallow: /`. The sitemap lists the 6 public routes. Structured data contains only the name, URL and value proposition. The image is a 1200×630 PNG. A missing URL returns status 404 with the new page.
+- Test build with `NEXT_PUBLIC_SITE_URL=https://example.com`: no `noindex` on public pages, canonicals and sitemap use the domain, `robots.txt` allows the site and lists the sitemap, and the 404 stays `noindex`. The build was then rebuilt without the variable.
+- The 404 page renders cleanly in headless Chrome at 1440px.
+
+**Still incomplete / notes**
+- The social image is generated on request (not prerendered) because it reads the font files. That's fine, but it could be cached later.
+- In local mode the 404 page has two `noindex` robots tags (Next adds one, the layout another). Harmless; in production only Next's tag remains.
+- No `lastModified` dates in the sitemap. No accurate dates exist, and reading the current date breaks the build under `cacheComponents`.
+- No content images exist yet, so there is no alt text to check beyond the social image.
+- Carried over: real Supabase persistence unverified, `/reference` screenshots missing, the Enterprise-lead rule undefined, no About/Careers/Contact/Privacy/Terms pages, pages not checked below 500px wide.
+
+**Open decisions**
+- None new. At launch: the production domain, and a designed social image if one is wanted (replace `src/app/opengraph-image.tsx` with an `opengraph-image.png`, then update `SOCIAL_IMAGE` in `src/lib/seo.ts`).
+
+**Next session:** "PF Phase 10 - Quality gate".
 
 ## Phase 8: Remaining pages
 
@@ -37,7 +74,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 **Open decisions**
 - None new. If Solutions or Engineering hub pages are wanted later, the Part 7 metadata for them is ready.
 
-**Next session:** "PF Phase 9 - SEO".
+**Next session:** "PF Phase 9 - SEO" (Phase 8 committed as `5e08d94`).
 
 ## Phase 7: Pricing page
 
