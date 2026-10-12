@@ -1,6 +1,5 @@
 import {
   AUDIENCE,
-  HOME_HEADLINE,
   HOW_IT_WORKS,
   OVERSIGHT,
   PROBLEM,
@@ -16,10 +15,7 @@ export function HomeBody() {
   return (
     <>
       <section className="mx-auto max-w-4xl px-4 py-16 text-center sm:px-6">
-        <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-          {HOME_HEADLINE}
-        </h2>
-        <p className="mx-auto mt-6 max-w-2xl text-lg text-muted">
+        <p className="mx-auto max-w-2xl text-lg text-muted">
           {VALUE_PROPOSITION}
         </p>
       </section>

@@ -1,5 +1,6 @@
-// Home page copy below the hero. Owner-approved in Phase 5; every line comes
-// from PROJECT_BRIEF.md (SDLC sections 2, 3, 5, 6; Parts 2, 6 and 7).
+// Home page copy. Owner-approved in Phase 5; every line below the hero comes
+// from PROJECT_BRIEF.md (SDLC sections 2, 3, 5, 6; Parts 2, 6 and 7). The hero
+// copy is an owner-approved override of the brief's Part 4 hero.
 // Product one-liners live in products.ts.
 // Change wording only with the owner's approval.
 
@@ -8,8 +9,13 @@ import type { SectionItem } from "@/components/sections/Section";
 export const VALUE_PROPOSITION =
   "ParallelFlow brings teams, AI agents, tasks, and project context into a connected workspace to help them plan, build, and ship together.";
 
-export const HOME_HEADLINE =
-  "AI-native development lifecycle enabling human-agent collaboration to build, track, communicate, and ship faster.";
+export const HERO = {
+  status: "Pre-launch · Waitlist open",
+  title: "You imagine. Agents execute.",
+  subtitle:
+    "A shared workspace where humans and AI turn ideas into finished work.",
+  note: "Early access is coming soon. Join the waitlist for updates.",
+};
 
 export const PROBLEM = {
   label: "The problem",

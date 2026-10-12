@@ -1,6 +1,33 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero was redesigned after that, also at the owner's request.
+
+## Change after Phase 11: Home hero redesign
+
+**Owner decision (2026-10-13)**
+- New hero copy, overriding the brief's Part 4 hero copy. H1: "You imagine. Agents execute." Subheading: "A shared workspace where humans and AI turn ideas into finished work."
+- Home page title and meta description changed to match: "ParallelFlow | You imagine. Agents execute." and "A shared workspace where humans and AI turn ideas into finished work." This departs from the Part 7 SEO metadata table.
+- The macOS and Windows download buttons and the "Desktop apps are coming soon" line are removed from the hero. This departs from the brief's decision to show them disabled as "Coming soon". Join Waitlist is the only primary action, with a quiet "How it works" link to `/#how-it-works` and the status line "Early access is coming soon. Join the waitlist for updates."
+- YC-style layout: centred, "Pre-launch · Waitlist open" pill, bold H1 (max 18ch, `text-balance`), muted subheading (max 60ch), smaller and quieter 16:9 "Product preview" frame, fade-in on load that is off under `prefers-reduced-motion`.
+
+**Files changed**
+- `src/components/home/Hero.tsx` (rewritten; the preview frame is inline so the shared `PreviewSlot` used by other pages is unchanged)
+- `src/content/home.ts` (`HOME_HEADLINE` replaced by a `HERO` object holding the hero copy)
+- `src/app/page.tsx` (home page title and meta description)
+- `src/components/home/HomeBody.tsx` (headline removed from the first section below the hero; the value-proposition line stays)
+- `PROGRESS.md`
+
+**Verified**
+- Lint, type-check and production build pass. Screenshots checked at 375px and 1440px.
+
+**Setup needed from the owner**
+- None.
+
+**Notes**
+- `DisabledButton` in `src/components/ui/Button.tsx` is no longer used anywhere. It was left in place.
+- The earlier hero lines "A collaborative workspace where people and AI work together to turn ideas into finished work." and "AI-native development lifecycle enabling human-agent collaboration to build, track, communicate, and ship faster." are no longer on the home page.
+- The "Work moves forward." heading and the "Workspace for teams to plan, build & ship together" tagline are no longer on the home page.
+- The download-button rule in `CLAUDE.md` and the Part 4 hero copy in `PROJECT_BRIEF.md` no longer match the site. Neither file was edited.
 
 ## Change after Phase 11: Pricing page removed
 

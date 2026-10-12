@@ -7,9 +7,9 @@ import { pageMetadata } from "@/lib/seo";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
-  title: "ParallelFlow | Collaborative AI Development Workspace",
+  title: "ParallelFlow | You imagine. Agents execute.",
   description:
-    "Bring your team, AI agents, tasks, and project context together in one workspace to plan, build, and ship software.",
+    "A shared workspace where humans and AI turn ideas into finished work.",
   path: "/",
 });
 
