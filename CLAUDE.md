@@ -64,3 +64,10 @@ If two instructions conflict, or something is listed under "Decisions still open
 ## Ask, Don't Assume
 
 If any part of the task is unclear or missing details, ask me to clarify before you start. Do not assume.
+
+## Phase handoff
+Work one phase per session. At the end of a phase:
+- Update PROGRESS.md with: phase completed, files changed, environment variables or migrations needed, what is still incomplete, and any open decisions.
+- Tell me to commit.
+- Then tell me to end this session, and give me the exact name for the next session in the form "PF Phase N - <phase name>".
+Do not start the next phase in the same session.
