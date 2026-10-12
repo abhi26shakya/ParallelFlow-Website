@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Current state
 
-Next.js 16 (App Router, `src/`), React 19, TypeScript, Tailwind CSS v4, lucide-react. Phase 2 (foundation) is built; the hero, waitlist form, and all other pages are not. This is a new project with no prior code (open decision 9 is closed). Next.js here has breaking changes from older versions, so read `node_modules/next/dist/docs/` (see `AGENTS.md`) before writing Next code.
+Next.js 16 (App Router, `src/`), React 19, TypeScript, Tailwind CSS v4, lucide-react, Zod, Supabase (`@supabase/supabase-js`). Built so far: foundation (tokens, fonts, Logo, sticky navbar, footer), the home hero, and the waitlist form with `POST /api/waitlist`. See `PROGRESS.md` for phase status. Next.js here has breaking changes from older versions, so read `node_modules/next/dist/docs/` (see `AGENTS.md`) before writing Next code.
 
 Use npm. The folder name has a space, so scaffolding tools reject it as a package name.
 
@@ -15,7 +15,7 @@ npm run typecheck   # next typegen && tsc --noEmit (typegen creates the LayoutPr
 npm run build       # production build; run lint, typecheck and build before finishing
 ```
 
-There is no test runner yet. `cacheComponents` is enabled in `next.config.ts`, so reading `new Date()` during prerender fails the build. Do it inside a `"use cache"` component (see `CopyrightYear.tsx`).
+There is no test runner yet. The waitlist needs `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in `.env.local` (names in `.env.example`) and the SQL in `supabase/migrations/` applied by hand in the Supabase SQL editor. `cacheComponents` is enabled in `next.config.ts`, so reading `new Date()` during prerender fails the build. Do it inside a `"use cache"` component (see `CopyrightYear.tsx`).
 
 ## Source of truth
 

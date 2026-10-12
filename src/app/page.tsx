@@ -1,6 +1,7 @@
 import { Hero } from "@/components/home/Hero";
+import { WaitlistForm } from "@/components/waitlist/WaitlistForm";
 
-// The waitlist form arrives in Phase 4; sections below the hero in Phase 5.
+// Sections below the hero arrive in Phase 5.
 export default function Home() {
   return (
     <main>
@@ -13,14 +14,15 @@ export default function Home() {
       </section>
       <section
         id="waitlist"
-        className="mx-auto flex min-h-[50vh] max-w-2xl scroll-mt-(--navbar-height) flex-col items-center justify-center px-4 text-center"
+        className="mx-auto max-w-xl scroll-mt-(--navbar-height) px-4 pb-24 pt-8 sm:px-6"
       >
-        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+        <h2 className="text-center text-3xl font-bold tracking-tight sm:text-4xl">
           Join Waitlist
         </h2>
-        <p className="mt-4 text-muted">
-          The waitlist form is coming in the next build step. Check back soon.
+        <p className="mb-8 mt-3 text-center text-muted">
+          Be among the first to explore ParallelFlow.
         </p>
+        <WaitlistForm />
       </section>
     </main>
   );
