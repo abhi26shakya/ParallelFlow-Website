@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
-import { NAV_GROUPS, NAV_PRICING, type NavItem } from "@/lib/nav";
+import { NAV_GROUPS, type NavItem } from "@/lib/nav";
 import { SITE_NAME, SITE_TAGLINE } from "@/lib/site";
 import { CopyrightYear } from "./CopyrightYear";
 
@@ -11,13 +11,8 @@ type FooterColumn = { label: string; items: NavItem[] };
 // added only once their pages exist.
 const COLUMNS: FooterColumn[] = NAV_GROUPS.map((group) => ({
   label: group.label,
-  items:
-    group.label === "Product" ? [...group.items, NAV_PRICING] : group.items,
+  items: group.items.filter((item) => item.href),
 }))
-  .map((column) => ({
-    ...column,
-    items: column.items.filter((item) => item.href),
-  }))
   .filter((column) => column.items.length > 0);
 
 export function Footer() {

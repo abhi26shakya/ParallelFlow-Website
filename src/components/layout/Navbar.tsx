@@ -1,10 +1,9 @@
 import { Logo } from "@/components/brand/Logo";
 import { LinkButton } from "@/components/ui/Button";
-import { NAV_GROUPS, NAV_PRICING } from "@/lib/nav";
+import { NAV_GROUPS } from "@/lib/nav";
 import { WAITLIST_HREF } from "@/lib/site";
 import { MobileMenu } from "./MobileMenu";
 import { NavDropdown } from "./NavDropdown";
-import { NavItemRow } from "./NavItemRow";
 
 export function Navbar() {
   return (
@@ -19,7 +18,6 @@ export function Navbar() {
             {NAV_GROUPS.map((group) => (
               <NavDropdown key={group.label} group={group} />
             ))}
-            <NavItemRow item={NAV_PRICING} />
           </div>
         </div>
         <div className="hidden md:block">

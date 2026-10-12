@@ -41,6 +41,3 @@ export const NAV_GROUPS: NavGroup[] = [
     ],
   },
 ];
-
-// Top-level link without a dropdown.
-export const NAV_PRICING: NavItem = { label: "Pricing", href: "/pricing" };

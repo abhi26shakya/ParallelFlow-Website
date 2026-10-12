@@ -2,7 +2,7 @@
 
 import { Menu, X } from "lucide-react";
 import { useEffect, useId, useState } from "react";
-import { NAV_GROUPS, NAV_PRICING } from "@/lib/nav";
+import { NAV_GROUPS } from "@/lib/nav";
 import { WAITLIST_HREF } from "@/lib/site";
 import { LinkButton } from "@/components/ui/Button";
 import { NavItemRow } from "./NavItemRow";
@@ -49,9 +49,6 @@ export function MobileMenu() {
               </ul>
             </div>
           ))}
-          <div className="py-2">
-            <NavItemRow item={NAV_PRICING} onSelect={() => setOpen(false)} />
-          </div>
           <LinkButton
             href={WAITLIST_HREF}
             onClick={() => setOpen(false)}

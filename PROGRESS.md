@@ -1,6 +1,25 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request.
+
+## Change after Phase 11: Pricing page removed
+
+**Owner decision (2026-10-12)**
+- Delete the pricing page completely, not just hide it. This departs from the brief (Part 4 pricing spec, Phase 7). Bring it back from git history (commit `513ca58` or earlier) if wanted.
+
+**Files changed**
+- Deleted: `src/app/pricing/page.tsx`, `src/components/sections/PricingCards.tsx`, `src/content/pricing.ts`
+- Changed: `src/lib/nav.ts` (`NAV_PRICING` removed), `src/components/layout/Navbar.tsx`, `MobileMenu.tsx`, `Footer.tsx` (Pricing link removed), `src/lib/seo.ts` (`/pricing` removed from the sitemap), `PROGRESS.md`
+
+**Verified**
+- Lint, type-check and production build pass. `/pricing` returns 404, the home page has no Pricing link, and the sitemap no longer lists it.
+
+**Setup needed from the owner**
+- None.
+
+**Notes**
+- The "Pricing content" rule in `CLAUDE.md` and the pricing parts of `PROJECT_BRIEF.md` no longer match the site. Neither file was edited.
+- The Enterprise interest question in the waitlist form (`organization_interest`) is unchanged.
 
 ## Phase 11: Launch (localhost)
 
