@@ -1,53 +1,59 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) started and paused: waiting for real Supabase keys in `.env.local`.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead.
 
-## Phase 11: Launch (paused)
+## Phase 11: Launch (localhost)
 
 **Owner decisions this session**
 - Stay on localhost. Do not host on Vercel, or anywhere, until the owner says so.
-- Phase 11 is therefore split. On localhost now: test the waitlist against the real Supabase project. After the owner approves hosting: domain, HTTPS, Search Console, analytics and monitoring.
-- Plan approved (see "Next steps"). Test signups will use `@example.com` addresses and are deleted only with the owner's approval.
+- Phase 11 is split. Done now on localhost: the waitlist against the real Supabase project. Later, when the owner approves hosting: domain, HTTPS, Search Console, analytics and monitoring (see the launch checklist below).
+- The owner connected the Supabase plugin and allowed `apply_migration`, so Claude applied the migration.
+- Test rows deleted with the owner's approval.
 
 **Files changed**
 - `PROGRESS.md` only. No code changes.
-- `.env.local` was created as a copy of `.env.example`. It is git-ignored and still holds placeholders only.
+- `.env.local` (git-ignored) now holds `SUPABASE_URL` and a secret key (`sb_secret_`). `NEXT_PUBLIC_SITE_URL` stays empty.
 
-**Status**
-- The Supabase project is set up and the owner reports the migration has been run, but `.env.local` still has the placeholder values (byte for byte the same as `.env.example`). No test has run against the real database yet.
-- Phase 11's "done when" condition (a real signup lands in the production database) is not met.
+**Database (Supabase project "ParallelFlow", ref `iwbyrebxrtmctiispzet`, region ap-southeast-2)**
+- The project was empty. `supabase/migrations/0001_create_waitlist_signups.sql` was applied unchanged as migration `create_waitlist_signups`.
+- Checked: RLS on with no policies, 8 check constraints, a unique index on `lower(email)`, and no table privileges for `anon` or `authenticated`.
+- Both public keys (legacy anon and `sb_publishable_`) get `42501 permission denied` on both read and insert through the REST API.
+- Directly in the database, an invalid `organization_interest`, a non-lowercase email and a duplicate email are all rejected.
+- Security advisor: one INFO note, "RLS enabled, no policy". That is intended, because only the server-side route writes using the secret key.
+
+**Verified (local production build, `next start` on port 3100, real database)**
+- Name and email only: saved, every optional field NULL. All optional fields: saved as sent. Optional fields sent blank: saved as NULL.
+- `organization_interest` yes, maybe and `no_individual_or_team` each saved correctly. An invalid value gets a 400 with a field error.
+- Duplicate email, both the same and in different capitals with spaces: success, no second row.
+- Invalid email or missing name: 400 with a field error. Honeypot or a form sent too fast: rejected. 6th request in 10 minutes from one IP: 429.
+- `source` is `website` on every row.
+- The owner submitted a real signup in the browser and saw it in the table editor (done-when met). The 5 `pf-test-…@example.com` rows were deleted; 1 row (the owner's) remains.
+- Server log has no errors. No secret key appears in the client bundles. Lint, type-check and production build pass.
 
 **Setup needed from the owner**
-- Put the real `SUPABASE_URL` (Project URL) and `SUPABASE_SERVICE_ROLE_KEY` (service_role or `sb_secret_` key) in `/Users/abhishek/Desktop/ParallelFlow Website/.env.local`. To check without showing the keys, run `grep -c "your-" .env.local`; it should print `0`.
-- Optional: `SUPABASE_ANON_KEY` (anon or publishable key), only to check that the public key can't read or write the table.
-- Leave `NEXT_PUBLIC_SITE_URL` empty until production.
-
-**Next steps (approved plan, localhost)**
-1. Build and start the production server locally with the real keys.
-2. Through `/api/waitlist`: name and email only; all optional fields; each organization-interest answer and blank; an invalid organization-interest value (expect 400); a duplicate email, including different capitals (expect success, no second row); an invalid email.
-3. Read the rows back with the server key, without printing it. Unanswered fields should be NULL, `source` should be `website`, and there should be one row per email. If `SUPABASE_ANON_KEY` is set, check the public key is refused.
-4. The owner submits one real signup at `localhost:3000` and sees it in the Supabase table editor.
-5. Fix any bugs found, then run lint, type-check and build.
-6. Delete the `@example.com` test rows, with the owner's approval.
+- None for localhost. The migration is applied and the keys are in `.env.local`.
+- Note: a Next server started at 17:25 was still running on port 3000. Restart it so it picks up the new keys.
 
 **Launch checklist, for when the owner approves hosting**
 - Host on Vercel (or the chosen provider) from the GitHub repo `abhi26shakya/ParallelFlow-Website`.
-- Production env vars: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, and `NEXT_PUBLIC_SITE_URL` (production only, set before the build, never on preview builds).
+- Production env vars: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` (the `sb_secret_` key), and `NEXT_PUBLIC_SITE_URL` (production only, set before the build, never on preview builds).
 - Connect the domain and check HTTPS and the redirect from the bare domain or `www`.
 - Test the deployed waitlist end to end and confirm the row in Supabase.
 - Check `robots.txt`, `sitemap.xml`, canonical URLs and the absence of `noindex` on the live domain, and confirm preview URLs stay `noindex`.
 - Submit the sitemap in Google Search Console and check indexing.
-- Monitoring: watch the hosting logs for `[waitlist]` errors. Analytics choice is still open (none, or a privacy-conscious option).
+- Monitoring: watch the hosting logs for `[waitlist]` errors. Analytics choice is still open.
 - Check on a real iPhone (Safari) and an Android phone.
+- The rate limit is per server instance. On serverless hosting it is weaker; add Cloudflare Turnstile if abuse appears.
 
 **Still incomplete / notes**
-- Real Supabase persistence is still unverified (carried over from Phase 4).
+- Everything that needs a live site (checklist above).
+- No test runner; checks were run by hand with scripts outside the repo.
 - Carried over: `/reference` screenshots missing, Enterprise-lead rule undefined, no About/Careers/Contact/Privacy/Terms pages.
 
 **Open decisions**
 - At launch: production domain, analytics (none or which), error monitoring beyond hosting logs, and whether to launch with only the privacy note or wait for a Privacy page.
 
-**Next session:** "PF Phase 11 - Launch" (resume at step 1 of "Next steps").
+**Next session:** "PF Phase 11 - Hosting", only when the owner says to host. Phase 11 is the last phase in the build order.
 
 ## Phase 10: Quality gate
 

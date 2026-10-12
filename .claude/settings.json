@@ -1,5 +1,6 @@
 {
   "enabledPlugins": {
-    "github@anthropic-plugin-directory": true
+    "github@anthropic-plugin-directory": true,
+    "supabase@anthropic-plugin-directory": true
   }
 }
