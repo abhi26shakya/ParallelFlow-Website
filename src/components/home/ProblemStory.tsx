@@ -167,7 +167,7 @@ function ProblemBlock({
         register(index, el);
       }}
       data-active={active}
-      className={`transition-[opacity,translate] duration-500 ease-out lg:flex lg:min-h-[80svh] lg:items-center lg:data-[active=false]:opacity-35 ${revealClass}`}
+      className={`transition-[opacity,translate] duration-500 ease-out lg:flex lg:min-h-[55svh] lg:items-center lg:data-[active=false]:opacity-35 ${revealClass}`}
     >
       <div className="w-full">
         <p aria-hidden="true" className="font-mono text-sm text-muted">
@@ -289,7 +289,7 @@ export function ProblemStory() {
 
           {/* Its own block on desktop, so the window stays pinned while the
               line lights up. Then the section ends. */}
-          <div className="mt-16 lg:mt-0 lg:flex lg:min-h-[60svh] lg:items-center">
+          <div className="mt-16 lg:mt-0 lg:flex lg:min-h-[45svh] lg:items-center">
             <p
               ref={(el) => {
                 resultRef.current = el;

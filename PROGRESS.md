@@ -6,7 +6,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 
 **Owner decisions (2026-10-13)**
 - The static "The problem" section below the hero is replaced. On desktop (1024px and up) it has two columns:
-  - The left column scrolls normally: a mono "THE PROBLEM" label, the headline, three problem blocks (each 80svh tall) and the result line "Faster tasks ≠ faster shipping." The result line sits in its own 60svh block.
+  - The left column scrolls normally: a mono "THE PROBLEM" label, the headline, three problem blocks (each 55svh tall, shortened from 80svh at the owner's request) and the result line "Faster tasks ≠ faster shipping." The result line sits in its own 45svh block.
   - The right column holds a sticky visual window, styled like the hero video window. It stays vertically centred below the navbar at any viewport height.
 - The block nearest the viewport centre is active. It is white and the others dim to 35%. It also sets the window's visual and the "01 / 03" counter in the window's corner. The result line lights up once its top passes 70% of the viewport height. All of this is worked out from scroll position on every scroll event, so scrolling back reverses it.
 - Visuals crossfade with opacity, a slight scale and blur (0.5s). Each visual's own animation plays when it becomes active and resets once it has faded out:
