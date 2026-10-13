@@ -126,7 +126,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
   - Cleanup: `src/components/home/HomeBody.tsx` (comment), `src/lib/site.ts` (`WAITLIST_HREF` removed), `PROGRESS.md`
 
 **Setup needed from the owner**
-- Run `supabase/migrations/0002_waitlist_modal_fields.sql` in the Supabase SQL editor. It adds the `workflow_notes` column and the new team sizes, and keeps the old ones for existing rows. It is safe to run more than once. **Until it is run, every signup fails with "We couldn't save your signup."** No false success is shown.
+- None. Migration `0002_waitlist_modal_fields.sql` was applied to the ParallelFlow Supabase project (`iwbyrebxrtmctiispzet`) on 2026-10-13 through the Supabase MCP, at the owner's request. It adds the `workflow_notes` column and the new team sizes, and keeps the old ones for existing rows. It is safe to run again.
 
 **Verified**
 - Lint, type-check and production build pass.
@@ -145,7 +145,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
   - The card fits the 375px viewport, and Escape over the mobile menu closes only the modal.
   - `/#waitlist` opens the modal.
   - No transition under reduced motion.
-- **Not yet verified:** a real successful save. That needs migration 0002.
+- After migration 0002 was applied, a real signup through `POST /api/waitlist` returned `{"ok":true}`. The saved row had the right role, team size (`6_10`) and multi-line `workflow_notes`. That test row (`claude-migration-test@example.com`) was then deleted. RLS is still on.
 
 **Notes**
 - Without JavaScript the Join Waitlist buttons do nothing, because there is no inline form left to fall back to.
