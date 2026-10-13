@@ -38,11 +38,12 @@ export function Hero() {
 
       {/* Fixed 16:9 slot for the product video: a wide app-window frame that
           fills the hero container and runs past the first screen. The soft
-          white glow above and dark shadow below lift it off the page. */}
+          white glow above and dark shadow below lift it off the page (a soft
+          drop shadow in the light theme; see --window-shadow). */}
       <div
         role="img"
         aria-label="Product preview video placeholder"
-        className={`relative mt-12 aspect-video w-full overflow-hidden rounded-card border border-line bg-card shadow-[0_-16px_80px_-24px_rgb(255_255_255/0.16),0_40px_80px_-24px_rgb(0_0_0/0.8)] sm:mt-16 ${fadeIn} motion-safe:delay-150`}
+        className={`relative mt-12 aspect-video w-full overflow-hidden rounded-card border border-line bg-card shadow-window sm:mt-16 ${fadeIn} motion-safe:delay-150`}
       >
         <span className="absolute left-4 top-4 rounded-pill border border-line px-3 py-1 text-xs text-muted">
           Product preview

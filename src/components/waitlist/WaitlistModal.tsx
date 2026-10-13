@@ -103,9 +103,9 @@ export function WaitlistModalProvider({ children }: { children: ReactNode }) {
           if (pressedBackdrop.current && e.target === e.currentTarget) close();
           pressedBackdrop.current = false;
         }}
-        className="m-0 size-full max-h-none max-w-none items-center justify-center border-0 bg-black/70 p-4 text-foreground backdrop:bg-transparent open:flex motion-safe:transition-opacity motion-safe:duration-200 motion-safe:ease-out motion-safe:starting:open:opacity-0"
+        className="m-0 size-full max-h-none max-w-none items-center justify-center border-0 bg-scrim p-4 text-foreground backdrop:bg-transparent open:flex motion-safe:transition-opacity motion-safe:duration-200 motion-safe:ease-out motion-safe:starting:open:opacity-0"
       >
-        <div className="relative flex max-h-full w-full max-w-lg flex-col overflow-hidden rounded-card border border-line bg-card shadow-2xl shadow-black/60 motion-safe:transition-[opacity,scale] motion-safe:duration-200 motion-safe:ease-out motion-safe:starting:scale-95 motion-safe:starting:opacity-0">
+        <div className="relative flex max-h-full w-full max-w-lg flex-col overflow-hidden rounded-card border border-line bg-card shadow-2xl shadow-black/60 light:shadow-black/15 motion-safe:transition-[opacity,scale] motion-safe:duration-200 motion-safe:ease-out motion-safe:starting:scale-95 motion-safe:starting:opacity-0">
           <button
             type="button"
             aria-label="Close"

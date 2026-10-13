@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
+import { ThemeScript } from "@/components/layout/ThemeScript";
 import { WaitlistModalProvider } from "@/components/waitlist/WaitlistModal";
 import { IS_INDEXABLE, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
@@ -33,7 +34,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      // THEME_SCRIPT sets data-theme on <html> before hydration.
+      suppressHydrationWarning
     >
+      <head>
+        <ThemeScript />
+      </head>
       <body className="flex min-h-full flex-col">
         <WaitlistModalProvider>
           <Navbar />

@@ -22,7 +22,7 @@ import { PROBLEM_VISUALS } from "@/components/home/ProblemVisuals";
 
 // Same frame as the hero's product video window (Hero.tsx).
 const WINDOW_CLASS =
-  "rounded-card border border-line bg-card shadow-[0_-16px_80px_-24px_rgb(255_255_255/0.16),0_40px_80px_-24px_rgb(0_0_0/0.8)]";
+  "rounded-card border border-line bg-card shadow-window";
 
 // How each visual's `t` plays while its problem is active.
 const PLAY = [
@@ -94,7 +94,7 @@ function useRevealOnView<T extends HTMLElement>() {
 const revealClass =
   "max-lg:data-[reveal=pending]:translate-y-4 max-lg:data-[reveal=pending]:opacity-0";
 
-// Cursor-follow glow, about 5% white. Owner-approved exception to the brief's
+// Cursor-follow glow, about 5% of the text colour. Owner-approved exception to the brief's
 // no-glow rule (2026-10-13). Hover-capable pointers only; off under reduced
 // motion. The parent needs `group` and the onPointerMove handler below.
 function trackSpotlight(event: React.PointerEvent<HTMLElement>) {
@@ -113,7 +113,7 @@ function Spotlight() {
   return (
     <span
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[radial-gradient(18rem_circle_at_var(--spot-x,50%)_var(--spot-y,50%),rgb(255_255_255/0.05),transparent_70%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 motion-reduce:hidden"
+      className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[radial-gradient(18rem_circle_at_var(--spot-x,50%)_var(--spot-y,50%),color-mix(in_srgb,var(--color-foreground)_5%,transparent),transparent_70%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 motion-reduce:hidden"
     />
   );
 }
@@ -123,7 +123,7 @@ function DotGrid() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,rgb(255_255_255/0.07)_1px,transparent_1px)] bg-size-[24px_24px] mask-[radial-gradient(ellipse_at_center,black,transparent_75%)]"
+      className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-foreground)_7%,transparent)_1px,transparent_1px)] bg-size-[24px_24px] mask-[radial-gradient(ellipse_at_center,black,transparent_75%)]"
     />
   );
 }
@@ -167,7 +167,7 @@ function ProblemBlock({
         register(index, el);
       }}
       data-active={active}
-      className={`transition-[opacity,translate] duration-500 ease-out lg:flex lg:min-h-[55svh] lg:items-center lg:data-[active=false]:opacity-35 ${revealClass}`}
+      className={`transition-[opacity,translate] duration-500 ease-out lg:flex lg:min-h-[45svh] lg:items-center lg:data-[active=false]:opacity-35 ${revealClass}`}
     >
       <div className="w-full">
         <p aria-hidden="true" className="font-mono text-sm text-muted">

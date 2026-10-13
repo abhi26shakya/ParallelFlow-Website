@@ -1,12 +1,60 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, and "The problem" got a sticky visual window.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, and the site got a light theme with a footer toggle.
+
+## Change after Phase 11: Light theme and footer theme toggle
+
+**Owner decisions (2026-10-13)**
+- The site now has a light theme next to the existing dark one. A small icon-only button in the bottom-left of the footer, before the copyright, switches between them. It works like the one on x.ai/bot. In the dark theme it shows a sun, and in the light theme a moon, so it always shows the mode you switch to. It is grey and gets brighter on hover. The icons swap with a 0.3s fade and rotate, and the swap is instant under reduced motion.
+- On a first visit the theme follows the system setting (`prefers-color-scheme`), and it keeps following live changes until the visitor picks one. Clicking saves only `"light"` or `"dark"` in `localStorage` under the key `theme`. Without JavaScript the site stays dark.
+- No flash of the wrong theme: an inline script in `<head>` (`THEME_SCRIPT` in `src/lib/theme.ts`, the pattern from Next's "Preventing flash" guide) sets `data-theme` on `<html>` before the first paint. `ThemeScript.tsx` renders it as a client component that outputs `text/plain` on the client, so React doesn't log its "script tag" error in dev. Pages stay statically prerendered.
+- The whole site switches at once. There is no colour crossfade, apart from the usual 150ms `transition-colors` on buttons and links.
+- The light palette overrides the same tokens and stays monochrome: `#ffffff` background, `#f4f4f4` cards, `#e8e8e8` hover, `#0a0a0a` text, `#555555` secondary text (7:1 on white), `#dcdcdc` borders and `#858585` form-field borders (3.3:1 on cards). Primary buttons become black pills with white text.
+- Theme-aware replacements for the few hard-coded colours:
+  - The hero and problem windows use a new `shadow-window` utility. In the dark theme it is the same white glow and dark shadow as before. In the light theme it is a soft drop shadow.
+  - The problem spotlight and dot grid now use the text colour at 5% and 7%, not white.
+  - The modal backdrop is a new `scrim` token: 70% black in the dark theme, 40% in the light theme. The modal's shadow is lighter in the light theme.
+- New `light:` Tailwind variant for light-only styles. Today only the toggle icons and the modal shadow use it. No new dependencies.
+
+**Files changed**
+- `src/app/globals.css`
+- `src/app/layout.tsx`
+- `src/lib/theme.ts` (new)
+- `src/components/layout/ThemeToggle.tsx` (new)
+- `src/components/layout/ThemeScript.tsx` (new)
+- `src/components/layout/Footer.tsx`
+- `src/components/home/Hero.tsx`
+- `src/components/home/ProblemStory.tsx`
+- `src/components/waitlist/WaitlistModal.tsx`
+- `PROGRESS.md`
+
+**Verified**
+- Lint, type-check and production build pass. All pages are still static.
+- Tested in Chrome with Playwright against the production build:
+  - Toggling works both ways. The label switches between "Switch to light mode" and "Switch to dark mode", and the choice survives a refresh.
+  - With no saved choice, a dark system setting gives dark and a light one gives light. The theme was already correct when `<body>` was first parsed, so there is no flash.
+  - The toggle is reachable with Tab and works with Enter and Space. The focus ring is white in the dark theme and near-black in the light theme.
+  - Under reduced motion the icon transition is effectively 0s.
+  - No console errors or hydration warnings.
+- Screenshots of both themes at 1440×900 and 390×844 covered:
+  - the navbar, its dropdown and the mobile menu
+  - the hero and "Talk to us"
+  - the video window
+  - all three problem visuals
+  - the rest of the home page
+  - the footer lanes and doodles
+  - the waitlist modal, with validation errors showing
+  - the SDLC, Arena and 404 pages
+
+**Notes**
+- If the toggle changes the button label but not the colours under `npm run dev`, the dev server is serving stale CSS. It missed the `globals.css` edit once. Restart it, or save `globals.css` again.
+- The social share image (`opengraph-image.tsx`) stays dark. It is a static image, not a themed page.
 
 ## Change after Phase 11: "The problem" with a sticky visual window
 
 **Owner decisions (2026-10-13)**
 - The static "The problem" section below the hero is replaced. On desktop (1024px and up) it has two columns:
-  - The left column scrolls normally: a mono "THE PROBLEM" label, the headline, three problem blocks (each 55svh tall, shortened from 80svh at the owner's request) and the result line "Faster tasks ≠ faster shipping." The result line sits in its own 45svh block.
+  - The left column scrolls normally: a mono "THE PROBLEM" label, the headline, three problem blocks (each 45svh tall, shortened from 80svh at the owner's request) and the result line "Faster tasks ≠ faster shipping." The result line sits in its own 45svh block.
   - The right column holds a sticky visual window, styled like the hero video window. It stays vertically centred below the navbar at any viewport height.
 - The block nearest the viewport centre is active. It is white and the others dim to 35%. It also sets the window's visual and the "01 / 03" counter in the window's corner. The result line lights up once its top passes 70% of the viewport height. All of this is worked out from scroll position on every scroll event, so scrolling back reverses it.
 - Visuals crossfade with opacity, a slight scale and blur (0.5s). Each visual's own animation plays when it becomes active and resets once it has faded out:

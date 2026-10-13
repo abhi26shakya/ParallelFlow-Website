@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
-/* Design tokens: monochrome dark theme (PROJECT_BRIEF.md Part 3).
-   Components use these utilities (bg-card, text-muted, border-line,
-   rounded-card, rounded-pill) instead of raw values. */
+/* Styles only the light theme, e.g. light:opacity-0. Most components need
+   nothing: the colour tokens below switch with the theme. */
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
+
+/* Design tokens: monochrome dark theme (PROJECT_BRIEF.md Part 3), with a
+   light theme override further down. Components use these utilities
+   (bg-card, text-muted, border-line, rounded-card, rounded-pill) instead of
+   raw values. */
 @theme {
   --color-background: #080808;
   --color-card: #151515;
@@ -12,6 +17,8 @@
   --color-line: #333333;
   /* Form field borders: lighter than --color-line for 3:1 contrast. */
   --color-field: #6b6b6b;
+  /* Dim layer behind the waitlist modal. */
+  --color-scrim: rgb(0 0 0 / 0.7);
 
   --radius-control: 0.5rem;
   --radius-card: 0.75rem;
@@ -103,6 +110,30 @@
 
 :root {
   color-scheme: dark;
+  /* Hero video and problem windows: white glow above, dark shadow below. */
+  --window-shadow: 0 -16px 80px -24px rgb(255 255 255 / 0.16),
+    0 40px 80px -24px rgb(0 0 0 / 0.8);
+}
+
+/* Light theme. Set on <html> before first paint by the inline script in
+   layout.tsx and switched by ThemeToggle. Same monochrome system, inverted. */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-background: #ffffff;
+  --color-card: #f4f4f4;
+  --color-hover: #e8e8e8;
+  --color-foreground: #0a0a0a;
+  /* 7:1 on white, 6.4:1 on cards. */
+  --color-muted: #555555;
+  --color-line: #dcdcdc;
+  /* 3.3:1 on cards. */
+  --color-field: #858585;
+  --color-scrim: rgb(0 0 0 / 0.4);
+  --window-shadow: 0 24px 64px -24px rgb(0 0 0 / 0.18);
+}
+
+@utility shadow-window {
+  box-shadow: var(--window-shadow);
 }
 
 html {

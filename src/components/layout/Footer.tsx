@@ -13,6 +13,7 @@ import {
 } from "@/lib/site";
 import { CopyrightYear } from "./CopyrightYear";
 import { HighFive, IdeaToDone, TinyAgent, TinyHuman } from "./FooterDoodles";
+import { ThemeToggle } from "./ThemeToggle";
 
 type FooterLinkItem = {
   label: string;
@@ -71,7 +72,7 @@ const CONNECT: FooterColumn = {
 
 const COLUMNS = [...NAV_COLUMNS, CONNECT];
 
-// "parallelflow" in white, ".ai" in grey.
+// "parallelflow" in the text colour, ".ai" in grey.
 const TLD_START = SITE_DOMAIN.lastIndexOf(".");
 const DOMAIN_NAME = SITE_DOMAIN.slice(0, TLD_START);
 const DOMAIN_TLD = SITE_DOMAIN.slice(TLD_START);
@@ -208,9 +209,12 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col gap-2 border-t border-line py-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            &copy; <CopyrightYear /> {SITE_NAME}
-          </p>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <p>
+              &copy; <CopyrightYear /> {SITE_NAME}
+            </p>
+          </div>
           <p className="inline-flex items-center gap-2">
             <span aria-hidden="true" className="size-1.5 rounded-pill bg-foreground" />
             {HERO.status}
