@@ -1,6 +1,51 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, and the "Why now" section was removed.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, and "The solution" became the scroll-built "The Solution" diagram.
+
+## Change after Phase 11: "The Solution" rebuilt as a scroll-built diagram
+
+**Owner decisions (2026-10-13)**
+- "The solution" section below "The Problems" is replaced by "The Solution", with owner-supplied copy (`SOLUTION` in `src/content/home.ts`). Four steps have a title, a hook and a support line. The finale is "Plan together. / Execute with AI. / Move forward as a team." The Phase 5 solution paragraphs, label and headline are gone from the home page. The SDLC page's own solution copy (`SDLC_SOLUTION`) is unchanged.
+- Same brand as "The Problems" (heading size, mono "0N / 05" pill, rounded dark card with hairline border, mono pills, monochrome), but flipped: the canvas is on the left and the text on the right.
+- Pinned scroll model, on screens at least 1024px wide and 768px tall (the `pin-tall` variant in `globals.css`), with motion allowed: a 500svh wrapper pins a full-viewport stage. Scroll progress (smoothed with `useSpring`) drives one diagram that builds itself. Each step owns a fifth of the scroll: the first 70% builds its part, and the rest holds.
+  1. The scattered, dashed Plan / Chat / Code / Test / Ship pills from "The Problems" drift into one row. The dashes fade, a solid line draws itself between them, the pills light up, and a light pulse travels along it.
+  2. People, AI, Tasks and Context spiral in and a glowing core ring draws around the flow, with a core dot at its centre.
+  3. Seven context dots leave the Context node and trail the head almost a full lap around the ring, then park on the bottom arc. Nothing fades.
+  4. A connector drops from the flow to a lane, and Plan / Assign / Track cards snap in (slight overshoot), then tick off in sequence.
+  5. The system shrinks, blurs and fades while three parallel flowing lines draw in with a glow and pulses.
+- Text column, owner request: it replaces the first version's masked reveal, stacking recaps and vertical rail. It uses exactly the format of the rows in "The Problems": "The Solution" heading, then a list with a top border. Each row has a lucide line icon, a `text-lg font-semibold` title, and the hook and support as `mt-1 text-muted` lines (16px), with a hairline divider below. Font sizes are the same as the problem rows (owner request). Icons (owner approved): Workflow, Boxes, History, ListChecks, Rocket (finale). The finale's three lines use the title style.
+- While scrolling, all five rows stay visible. The active row is bright and the others dim to 40%. The active row's divider fills left to right as its share of the scroll passes, as in "The Problems". Scrolling up reverses everything.
+- The Solution rows have three lines each, more than the problem rows, so this section pins only on screens at least 768px tall (`pin-tall`), not 672px. Between 768px and 800px tall its rows use `py-3` instead of `py-4` to fit.
+- Creative touches: four parallax depth layers (pointer and scroll), a faint dot grid that bends towards the core (rings of dots scale towards the centre, no per-dot animation), a cursor spotlight at about 5% of the text colour, and an idle shimmer on the pulses. The pulses pause while the card is off screen.
+- The glowing ring, lines and pulse are an owner-requested exception to the brief's "no unnecessary glow" rule, like the spotlight. In the light theme the glows drop to 30% so they read as a soft shadow, not a smudge.
+- Everywhere else (mobile, tablet, screens under 768px tall) there is no pinning. The rows stack in the same format as the stacked problem rows: icon, text, then the row's own smaller canvas (counter included) below it, with a divider. Each row fades in on view, and its canvas builds its part once half visible. While scrolling, the row crossing the middle of the screen is highlighted and the other rows' text dims to 40% (owner request); the canvases never dim. Before any row reaches the middle, all are bright, and the last one stays lit once the list has passed. No dimming under reduced motion.
+- Reduced motion, at any size: the finished connected system (steps 1 to 4) in one still canvas, with the five rows beside it (below it on narrow screens), all at full brightness. No scroll-linked motion, no pulses.
+- Only opacity, transform, stroke-dashoffset (`pathLength`) and blur animate. No images, logos, stats or new dependencies.
+
+**Files changed**
+- New: `src/components/home/SolutionStory.tsx` (section, pinned stage, stacked and reduced layouts)
+- New: `src/components/home/SolutionDiagram.tsx` (the diagram, driven by one `stage` value from 0 to 5)
+- `src/components/home/HomeBody.tsx` (renders `SolutionStory`)
+- `src/content/home.ts` (`SOLUTION` only)
+- `src/app/globals.css` (`pin-tall` variant, `flow-pulse` and `shimmer` keyframes)
+- `PROGRESS.md`
+
+**Verified**
+- Lint, type-check and production build pass.
+- Tested in headless Chrome against the production build:
+  - Pinned: 1440×900 (dark and light, all five steps forward and in reverse), 1024×768 (light), 1280×768, 1440×790, 1440×800 and 1920×1080. At each step the counter, the highlighted row and the diagram match, scrolling down and back up. The heading and list fit inside the pinned panel at every size; the tightest is 1024×768, with 31px to spare. There is no horizontal overflow.
+  - 1024×767 and 1280×680 fall back to the stacked layout as intended.
+  - Handoffs: "The Problems" releases into the Solution's scattered pills, and the finale releases into "How it works".
+  - Stacked: 375×812 (dark, light), 1280×680 and 1366×650. The rows reveal and build on view. At 375×812 and 1280×680, centring each row in turn, down and back up, lights exactly that row and dims the other four. Under reduced motion all five stay bright.
+  - Reduced motion: 1440×900 (light) and 375×812. Still canvas and all five steps, no CSS animations running.
+- Layout shift is 0 while scrolling the whole section down and back up at 375, 1280 and 1440 widths. The 99th-percentile frame is 19–21ms. A single long frame appeared twice but did not repeat in four re-runs.
+- Pointer parallax moves the layers, and the spotlight follows the pointer.
+- Headings: h2 "The Solution", then five h3s (row icons are `aria-hidden`), between "The Problems" and "How it works". No text inside SVGs, and every canvas is `aria-hidden`. The finale's lines have spaces between them for screen readers.
+
+**Notes**
+- "The Problems" is untouched. The spotlight, the card classes and the reveal-on-view hook are small copies in `SolutionStory.tsx`, not shared imports, so that file did not need to change. If both sections should share them, moving them to a shared module is a follow-up.
+- The pinned and stacked layouts are two DOM trees, and CSS shows one. The h2 used for `aria-labelledby` lives in the pinned tree. A label still resolves when its element is hidden.
+- Not checked in Safari or on a real phone; headless Chrome only.
 
 ## Change after Phase 11: "Why now" section removed from the home page
 
