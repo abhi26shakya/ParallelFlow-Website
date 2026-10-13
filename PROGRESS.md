@@ -1,6 +1,21 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, and the site got a light theme with a footer toggle.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, and the "Why now" section was removed.
+
+## Change after Phase 11: "Why now" section removed from the home page
+
+**Owner decision (2026-10-13)**
+- The "Why now" section is removed from the home page. It sat between "The Problems" and "The solution", so "The Problems" now leads straight into "The solution".
+- This changes the section order approved in Phase 5, which followed the brief's "Product page key points for YC" table.
+- `WHY_NOW` is deleted from `src/content/home.ts`. Nothing else used it.
+
+**Files changed**
+- `src/components/home/HomeBody.tsx`
+- `src/content/home.ts`
+- `PROGRESS.md`
+
+**Verified**
+- Lint, type-check and production build pass.
 
 ## Change after Phase 11: "The Problems" restyled as a pinned list
 
