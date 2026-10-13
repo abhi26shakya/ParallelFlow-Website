@@ -2,6 +2,45 @@
 
 Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, and the site got a light theme with a footer toggle.
 
+## Change after Phase 11: "The Problems" restyled as a pinned list
+
+**Owner decisions (2026-10-13)**
+- The problem section is restyled after the "Replies drafted in seconds" section on slashy.com (layout only, no imagery). The heading is now "The Problems", and the mono "THE PROBLEM" label is gone.
+- Five equal rows replace the old headline, three blocks and result line:
+  1. "Coding is getting faster." / "Shipping software is still complicated."
+  2. Fragmented workflows, with its two lines.
+  3. Lost context, with its two lines.
+  4. Coordination overhead, with its two lines.
+  5. "Faster tasks ≠ faster shipping." (title only).
+- Each row has a lucide line icon (fast-forward, waypoints, chat, users, not-equal), a title and its support lines, with a hairline divider below.
+- Pinned scroll model: on screens at least 1024px wide and 672px tall (the `pin` variant in `globals.css`), a 400svh wrapper pins the heading, the list and the visual card. Each row owns a fifth of the scroll. The active row is full opacity and the others dim to 40%. The active row's divider fills left to right with scroll, then the next row starts from empty. Scrolling back reverses all of it.
+- Visual card: about 58% of the 72rem container, 24px corners, hairline border, the window shadow and a faint dot grid. Each visual sits in a smaller inner "app card". The "0N / 05" counter, the spotlight, the crossfade and the play-on-active behaviour are kept.
+- Two new visuals for the new rows:
+  - Row 1: a "Coding" bar fills fast while the "Shipping" stages light up slowly; two of four never do.
+  - Row 5: a grid of 12 tasks ticks off, a "≠" appears, and the "Shipped" slot stays empty.
+- Everywhere else (mobile, tablet, short screens) each row stacks with its own visual and fades in on view, as before.
+
+**Files changed**
+- `src/components/home/ProblemStory.tsx`
+- `src/components/home/ProblemVisuals.tsx`
+- `src/content/home.ts` (`PROBLEM` only)
+- `src/app/globals.css` (`pin` and `unpinned` variants)
+- `PROGRESS.md`
+
+**Verified**
+- Lint, type-check and production build pass.
+- Tested in headless Chrome against the production build:
+  - Pinned: 1440×900 (dark, light, reduced motion), 1440×700, 1280×680, 1024×768 (light) and 1920×1080.
+  - Stacked: 1366×650, 768×1024, and 375×812 (dark, light, reduced motion) and 320×640.
+- Pinned: at every row's midpoint, forward and back, the active row, counter and card visual match, and the progress line is at 50% (80% later in the row). Heading, list and card fit inside the pinned panel at every size; the tightest is 1280×680, with 8px to spare. The card is centred in the panel.
+- Light theme: the page background is white and the tokens switch.
+- Reduced motion: the card swaps instantly with no blur.
+- Stacked: rows fade in on view, never dim, and show no progress line.
+- Layout shift is 0, the worst frame was 17ms, and there is no horizontal overflow. Headings are one `h2` and five `h3`s, with no text inside SVGs. The spotlight follows the pointer.
+
+**Notes**
+- Tailwind's `not-*` does not negate a custom media variant, so `unpinned` is a separate variant with the inverted query. Keep the two in step if the pin size changes.
+
 ## Change after Phase 11: Light theme and footer theme toggle
 
 **Owner decisions (2026-10-13)**

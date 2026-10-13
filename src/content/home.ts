@@ -11,25 +11,27 @@ export const VALUE_PROPOSITION =
 
 export const HERO = {
   status: "Pre-launch · Waitlist open",
-  title: "Let agents flow with your team.",
+  title: "Let agents flow with your team",
   subtitle:
     "AI-native development lifecycle enabling human-agent collaboration to build, track, communicate, and ship faster.",
 };
 
-// Scroll story below the hero (ProblemStory.tsx). Owner-supplied copy,
+// Pinned problem list below the hero (ProblemStory.tsx). Owner-supplied copy,
 // 2026-10-13; it replaces the brief's longer SDLC section 2 wording here.
+// Five equal rows, each with its own visual.
 export type ProblemItem = {
-  number: string;
   title: string;
-  lines: [string, string];
+  lines: string[];
 };
 
 export const PROBLEM = {
-  label: "The problem",
-  title: "Coding is getting faster. Shipping software is still complicated.",
+  title: "The Problems",
   items: [
     {
-      number: "01",
+      title: "Coding is getting faster.",
+      lines: ["Shipping software is still complicated."],
+    },
+    {
       title: "Fragmented workflows",
       lines: [
         "Plan here. Code there. Ship somewhere else.",
@@ -37,7 +39,6 @@ export const PROBLEM = {
       ],
     },
     {
-      number: "02",
       title: "Lost context",
       lines: [
         "Decisions get buried in old chats.",
@@ -45,15 +46,17 @@ export const PROBLEM = {
       ],
     },
     {
-      number: "03",
       title: "Coordination overhead",
       lines: [
         "People are the glue.",
         "Assigning, tracking, unblocking, all by hand.",
       ],
     },
+    {
+      title: "Faster tasks ≠ faster shipping.",
+      lines: [],
+    },
   ] satisfies ProblemItem[],
-  result: "Faster tasks ≠ faster shipping.",
 };
 
 export const WHY_NOW = {

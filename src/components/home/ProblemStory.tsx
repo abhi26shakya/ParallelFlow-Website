@@ -1,6 +1,15 @@
 "use client";
 
 import {
+  EqualNot,
+  FastForward,
+  MessagesSquare,
+  Users,
+  Waypoints,
+  type LucideIcon,
+} from "lucide-react";
+import {
+  type MotionValue,
   animate,
   motion,
   useInView,
@@ -8,34 +17,45 @@ import {
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
+  useTransform,
 } from "motion/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PROBLEM, type ProblemItem } from "@/content/home";
 import { PROBLEM_VISUALS } from "@/components/home/ProblemVisuals";
 
-// "The problem" with a sticky visual. On large screens the text column
-// scrolls past a window that stays centred in the viewport. The block nearest
-// the viewport centre is active: it sets the window's visual and the counter,
-// and the others dim. Everything comes from scroll position, so scrolling back
-// reverses it. Below `lg` each problem stacks with its own window and fades in
-// on view. Only opacity, transform and blur animate.
+// "The Problems" as a pinned list beside a visual card. On screens wide and
+// tall enough (the `pin` variant in globals.css) a tall wrapper pins the
+// heading, the five rows and the card while the visitor scrolls. Scroll
+// position picks the active row: it lights up, its divider fills left to
+// right, and the card shows its visual. Scrolling back reverses it. Elsewhere
+// each row stacks with its own visual and fades in on view. Only opacity,
+// transform and blur animate.
 
-// Same frame as the hero's product video window (Hero.tsx).
-const WINDOW_CLASS =
-  "rounded-card border border-line bg-card shadow-window";
+// One icon per row, in PROBLEM.items order.
+const ICONS: LucideIcon[] = [
+  FastForward,
+  Waypoints,
+  MessagesSquare,
+  Users,
+  EqualNot,
+];
 
-// How each visual's `t` plays while its problem is active.
+// How each visual's `t` plays while its row is active.
 const PLAY = [
+  { to: 1, duration: 3, delay: 0.2, ease: "linear" },
   { to: 1, duration: 1.6, delay: 0.1, ease: "easeOut" },
   { to: 0.7, duration: 3, delay: 0.5, ease: "linear" },
   { to: 1, duration: 3, delay: 0.3, ease: "linear" },
+  { to: 1, duration: 2.4, delay: 0.2, ease: "linear" },
 ] as const;
 
 // Fixed frame of each visual under reduced motion.
-const STILL = [1, 0.6, 1];
+const STILL = [1, 1, 0.6, 1, 1];
 
-// Matches the window's crossfade, so a visual resets only once hidden.
+// Matches the card's crossfade, so a visual resets only once hidden.
 const CROSSFADE = 0.5;
+
+const ROWS = PROBLEM.items.length;
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -60,7 +80,7 @@ function usePlayback(index: number, playing: boolean) {
 
 // Hides an element that starts below the viewport, then reveals it once it
 // scrolls into view. Elements already on screen, or with no JS, never hide.
-// The CSS that hides it (revealClass) applies below `lg` only.
+// The CSS that hides it (revealClass) applies only when not pinned.
 function useRevealOnView<T extends HTMLElement>() {
   const ref = useRef<T>(null);
   useEffect(() => {
@@ -92,11 +112,12 @@ function useRevealOnView<T extends HTMLElement>() {
 }
 
 const revealClass =
-  "max-lg:data-[reveal=pending]:translate-y-4 max-lg:data-[reveal=pending]:opacity-0";
+  "unpinned:data-[reveal=pending]:translate-y-4 unpinned:data-[reveal=pending]:opacity-0";
 
-// Cursor-follow glow, about 5% of the text colour. Owner-approved exception to the brief's
-// no-glow rule (2026-10-13). Hover-capable pointers only; off under reduced
-// motion. The parent needs `group` and the onPointerMove handler below.
+// Cursor-follow glow, about 5% of the text colour. Owner-approved exception
+// to the brief's no-glow rule (2026-10-13). Hover-capable pointers only; off
+// under reduced motion. The parent needs `group/spot` and the onPointerMove
+// handler below.
 function trackSpotlight(event: React.PointerEvent<HTMLElement>) {
   const box = event.currentTarget.getBoundingClientRect();
   event.currentTarget.style.setProperty(
@@ -113,7 +134,7 @@ function Spotlight() {
   return (
     <span
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[radial-gradient(18rem_circle_at_var(--spot-x,50%)_var(--spot-y,50%),color-mix(in_srgb,var(--color-foreground)_5%,transparent),transparent_70%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 motion-reduce:hidden"
+      className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[radial-gradient(18rem_circle_at_var(--spot-x,50%)_var(--spot-y,50%),color-mix(in_srgb,var(--color-foreground)_5%,transparent),transparent_70%)] opacity-0 transition-opacity duration-300 group-hover/spot:opacity-100 motion-reduce:hidden"
     />
   );
 }
@@ -128,7 +149,13 @@ function DotGrid() {
   );
 }
 
-// A problem's own window in the stacked layout, playing while in view.
+// The large backdrop card and the smaller "app card" a visual sits in.
+const BACKDROP_CLASS =
+  "relative overflow-hidden rounded-3xl border border-line bg-background shadow-window";
+const APP_CARD_CLASS =
+  "relative rounded-card border border-line bg-card shadow-window";
+
+// A row's own visual in the stacked layout, playing while in view.
 function InlineVisual({ index }: { index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount: 0.5 });
@@ -138,54 +165,71 @@ function InlineVisual({ index }: { index: number }) {
     <div
       ref={ref}
       aria-hidden="true"
-      className={`relative mt-6 flex justify-center overflow-hidden p-4 sm:p-8 lg:hidden ${WINDOW_CLASS}`}
+      className={`mt-6 flex justify-center p-4 sm:p-8 pin:hidden ${BACKDROP_CLASS}`}
     >
       <DotGrid />
-      <div className="relative flex w-full justify-center">
+      <div
+        className={`flex w-full max-w-md justify-center p-4 sm:p-6 ${APP_CARD_CLASS}`}
+      >
         <Visual t={t} />
       </div>
     </div>
   );
 }
 
-function ProblemBlock({
+function ProblemRow({
   item,
   index,
   active,
-  register,
+  progress,
 }: {
   item: ProblemItem;
   index: number;
   active: boolean;
-  register: (index: number, el: HTMLLIElement | null) => void;
+  progress: MotionValue<number>;
 }) {
   const revealRef = useRevealOnView<HTMLLIElement>();
+  // Fills while this row's share of the scroll passes. Only the active
+  // row's line shows, so the next row starts from empty.
+  const fill = useTransform(
+    progress,
+    [index / ROWS, (index + 1) / ROWS],
+    [0, 1],
+  );
+  const Icon = ICONS[index];
   return (
     <li
-      ref={(el) => {
-        revealRef.current = el;
-        register(index, el);
-      }}
+      ref={revealRef}
       data-active={active}
-      className={`transition-[opacity,translate] duration-500 ease-out lg:flex lg:min-h-[45svh] lg:items-center lg:data-[active=false]:opacity-35 ${revealClass}`}
+      className={`group relative border-b border-line py-6 transition-[opacity,translate] duration-500 ease-out pin:py-4 pin:data-[active=false]:opacity-40 ${revealClass}`}
     >
-      <div className="w-full">
-        <p aria-hidden="true" className="font-mono text-sm text-muted">
-          {item.number}
-        </p>
-        <h3 className="mt-2 text-2xl font-semibold tracking-tight">
-          {item.title}
-        </h3>
-        <p className="mt-3 text-lg">{item.lines[0]}</p>
-        <p className="mt-1 text-muted">{item.lines[1]}</p>
-        <InlineVisual index={index} />
+      <div className="flex gap-3">
+        <Icon
+          aria-hidden="true"
+          strokeWidth={1.5}
+          className="mt-0.5 size-5 shrink-0"
+        />
+        <div className="min-w-0">
+          <h3 className="text-lg font-semibold tracking-tight">{item.title}</h3>
+          {item.lines.map((line) => (
+            <p key={line} className="mt-1 text-muted">
+              {line}
+            </p>
+          ))}
+        </div>
       </div>
+      <motion.span
+        aria-hidden="true"
+        style={{ scaleX: fill }}
+        className="absolute inset-x-0 -bottom-px hidden h-px origin-left bg-foreground opacity-0 transition-opacity duration-300 group-data-[active=true]:opacity-100 pin:block"
+      />
+      <InlineVisual index={index} />
     </li>
   );
 }
 
-// One visual in the sticky window, shown while its problem is active.
-function WindowLayer({ index, active }: { index: number; active: boolean }) {
+// One visual in the pinned card, shown while its row is active.
+function CardLayer({ index, active }: { index: number; active: boolean }) {
   const reduced = useReducedMotion();
   const t = usePlayback(index, active);
   const Visual = PROBLEM_VISUALS[index];
@@ -209,117 +253,74 @@ function WindowLayer({ index, active }: { index: number; active: boolean }) {
       }
       className="absolute inset-0 flex items-center justify-center p-10"
     >
-      <Visual t={t} />
+      <div
+        className={`flex w-full max-w-md justify-center px-6 py-8 ${APP_CARD_CLASS}`}
+      >
+        <Visual t={t} />
+      </div>
     </motion.div>
   );
 }
 
 export function ProblemStory() {
-  const blocks = useRef<(HTMLLIElement | null)[]>([]);
-  const resultRef = useRef<HTMLParagraphElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
-  const [lit, setLit] = useState(false);
+  // 0 to 1 across the pinned stretch; each row owns an equal share.
+  const { scrollYProgress: progress } = useScroll({
+    target: ref,
+    offset: ["start start", "end end"],
+  });
 
-  const register = useCallback((index: number, el: HTMLLIElement | null) => {
-    blocks.current[index] = el;
-  }, []);
-
-  // The active block is the one whose centre is nearest the viewport centre.
-  // The result line lights once its top passes 70% of the viewport height.
-  const update = useCallback(() => {
-    const middle = window.innerHeight / 2;
-    let nearest = 0;
-    let distance = Infinity;
-    blocks.current.forEach((el, index) => {
-      if (!el) return;
-      const box = el.getBoundingClientRect();
-      const d = Math.abs(box.top + box.height / 2 - middle);
-      if (d < distance) {
-        distance = d;
-        nearest = index;
-      }
-    });
-    setActive(nearest);
-    const result = resultRef.current?.getBoundingClientRect();
-    setLit(!!result && result.top < window.innerHeight * 0.7);
-  }, []);
-
-  const { scrollY } = useScroll();
-  useMotionValueEvent(scrollY, "change", update);
+  const update = (value: number) =>
+    setActive(Math.min(ROWS - 1, Math.max(0, Math.floor(value * ROWS))));
+  useMotionValueEvent(progress, "change", update);
   useEffect(() => {
-    const frame = requestAnimationFrame(update);
-    window.addEventListener("resize", update);
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("resize", update);
-    };
-  }, [update]);
-
-  const revealResultRef = useRevealOnView<HTMLParagraphElement>();
+    const frame = requestAnimationFrame(() => update(progress.get()));
+    return () => cancelAnimationFrame(frame);
+  }, [progress]);
 
   return (
     <section
       aria-labelledby="problem-title"
       className="relative border-t border-line"
     >
-      <DotGrid />
-      <div className="relative mx-auto max-w-5xl px-4 py-20 sm:px-6 sm:py-24 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-16">
-        <div>
-          <p className="font-mono text-xs uppercase tracking-widest text-muted">
-            {PROBLEM.label}
-          </p>
-          <h2
-            id="problem-title"
-            className="mt-3 text-3xl font-semibold tracking-tight text-balance sm:text-4xl"
-          >
-            {PROBLEM.title}
-          </h2>
+      <div ref={ref} className="relative pin:h-[400svh]">
+        <div className="pin:sticky pin:top-(--navbar-height) pin:flex pin:h-[calc(100svh-var(--navbar-height))] pin:items-center">
+          <div className="mx-auto w-full max-w-6xl px-4 py-20 sm:px-6 sm:py-24 pin:grid pin:grid-cols-[minmax(0,0.72fr)_minmax(0,1fr)] pin:items-center pin:gap-12 pin:py-6">
+            <div>
+              <h2
+                id="problem-title"
+                className="text-4xl font-semibold tracking-tight sm:text-5xl"
+              >
+                {PROBLEM.title}
+              </h2>
+              <ol className="mt-8 border-t border-line pin:mt-6">
+                {PROBLEM.items.map((item, index) => (
+                  <ProblemRow
+                    key={item.title}
+                    item={item}
+                    index={index}
+                    active={index === active}
+                    progress={progress}
+                  />
+                ))}
+              </ol>
+            </div>
 
-          <ol className="mt-12 space-y-16 lg:mt-0 lg:space-y-0">
-            {PROBLEM.items.map((item, index) => (
-              <ProblemBlock
-                key={item.number}
-                item={item}
-                index={index}
-                active={index === active}
-                register={register}
-              />
-            ))}
-          </ol>
-
-          {/* Its own block on desktop, so the window stays pinned while the
-              line lights up. Then the section ends. */}
-          <div className="mt-16 lg:mt-0 lg:flex lg:min-h-[45svh] lg:items-center">
-            <p
-              ref={(el) => {
-                resultRef.current = el;
-                revealResultRef.current = el;
-              }}
-              data-lit={lit}
-              className={`w-full border-t border-line pt-6 text-2xl font-semibold tracking-tight transition-[opacity,translate] duration-500 ease-out sm:text-3xl lg:data-[lit=false]:opacity-20 ${revealClass}`}
-            >
-              {PROBLEM.result}
-            </p>
-          </div>
-        </div>
-
-        {/* Stays centred in the space below the navbar for the whole column. */}
-        <div className="hidden lg:block">
-          <div className="sticky top-(--navbar-height) flex h-[calc(100svh-var(--navbar-height))] items-center">
             <div
               aria-hidden="true"
               onPointerMove={trackSpotlight}
-              className={`group relative h-[min(30rem,calc(100svh-var(--navbar-height)-4rem))] w-full overflow-hidden ${WINDOW_CLASS}`}
+              className={`group/spot hidden h-[min(36rem,calc(100svh-var(--navbar-height)-3rem))] pin:block ${BACKDROP_CLASS}`}
             >
               <DotGrid />
               <Spotlight />
-              <p className="absolute left-4 top-4 z-10 rounded-pill border border-line px-3 py-1 font-mono text-xs text-muted">
+              <p className="absolute left-5 top-5 z-10 rounded-pill border border-line bg-background px-3 py-1 font-mono text-xs text-muted">
                 <span className="text-foreground">{pad(active + 1)}</span>
                 {" / "}
-                {pad(PROBLEM.items.length)}
+                {pad(ROWS)}
               </p>
               {PROBLEM_VISUALS.map((_, index) => (
-                <WindowLayer
+                <CardLayer
                   key={index}
                   index={index}
                   active={index === active}

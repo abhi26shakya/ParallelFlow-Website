@@ -9,12 +9,12 @@ import {
 
 // Decorative mini visuals for the problem section. Each one is driven by `t`,
 // its own 0 to 1 progress, which ProblemStory plays while the visual is
-// active and holds at a fixed value under reduced motion. Callers mark them aria-hidden. Only opacity,
-// transform and blur change.
+// active and holds at a fixed value under reduced motion. Callers mark them
+// aria-hidden. Only opacity, transform and blur change.
 
 type VisualProps = { t: MotionValue<number> };
 
-// 01 Fragmented workflows: five tools, joined by dashed lines that stop short.
+// Fragmented workflows: five tools, joined by dashed lines that stop short.
 // Coordinates are in the 400×280 SVG viewBox; pills use the same box.
 const PILLS = [
   { label: "Plan", x: 70, y: 56, dx: -8, dy: -6 },
@@ -94,7 +94,7 @@ export function FragmentedVisual({ t }: VisualProps) {
   );
 }
 
-// 02 Lost context: an old decision dissolves, last words first, and the next
+// Lost context: an old decision dissolves, last words first, and the next
 // session has to ask again.
 const WORDS =
   "We agreed to ship the API first, keep the v1 schema, and revisit auth after review.".split(
@@ -149,7 +149,7 @@ export function LostContextVisual({ t }: VisualProps) {
   );
 }
 
-// 03 Coordination overhead: manual chips pile up on every task while a counter
+// Coordination overhead: manual chips pile up on every task while a counter
 // ticks upward.
 const CHIPS = ["assign", "track", "unblock"] as const;
 const ROWS = 3;
@@ -236,8 +236,108 @@ export function CoordinationVisual({ t }: VisualProps) {
   );
 }
 
+// Coding is getting faster: the coding bar fills at once, while the shipping
+// stages light up slowly and most never do.
+const STAGES = [
+  { label: "Plan", at: 0.35 },
+  { label: "Review", at: 0.75 },
+  { label: "Test", at: null },
+  { label: "Deploy", at: null },
+];
+
+function Stage({
+  stage,
+  t,
+}: {
+  stage: (typeof STAGES)[number];
+  t: MotionValue<number>;
+}) {
+  const at = stage.at ?? 1;
+  const opacity = useTransform(
+    t,
+    [at, Math.min(1, at + 0.15)],
+    [0.35, stage.at === null ? 0.35 : 1],
+  );
+  return (
+    <motion.span
+      style={{ opacity }}
+      className="rounded-pill border border-line bg-background px-2.5 py-1 text-muted"
+    >
+      {stage.label}
+    </motion.span>
+  );
+}
+
+export function SpeedVisual({ t }: VisualProps) {
+  const scaleX = useTransform(t, [0, 0.25], [0.04, 1]);
+  return (
+    <div className="w-full max-w-sm space-y-8 font-mono text-xs">
+      <div>
+        <p className="text-muted">Coding</p>
+        <div className="mt-2 h-2 overflow-hidden rounded-pill bg-hover">
+          <motion.div
+            style={{ scaleX }}
+            className="h-full origin-left rounded-pill bg-foreground"
+          />
+        </div>
+      </div>
+      <div>
+        <p className="text-muted">Shipping</p>
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          {STAGES.map((stage) => (
+            <Stage key={stage.label} stage={stage} t={t} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Faster tasks ≠ faster shipping: tasks tick off quickly, the shipped slot
+// stays empty.
+const TASKS = 12;
+
+function Task({ index, t }: { index: number; t: MotionValue<number> }) {
+  const start = (index / TASKS) * 0.5;
+  const opacity = useTransform(t, [start, start + 0.06], [0, 1]);
+  return (
+    <span className="relative size-4 rounded-[3px] border border-line">
+      <motion.span
+        style={{ opacity }}
+        className="absolute inset-0.5 rounded-[2px] bg-foreground"
+      />
+    </span>
+  );
+}
+
+export function NotEqualVisual({ t }: VisualProps) {
+  const opacity = useTransform(t, [0.55, 0.8], [0, 1]);
+  return (
+    <div className="flex w-full max-w-sm items-center justify-center gap-6 font-mono text-xs text-muted">
+      <div>
+        <p>Tasks done</p>
+        <div className="mt-2 grid grid-cols-4 gap-1.5">
+          {Array.from({ length: TASKS }, (_, index) => (
+            <Task key={index} index={index} t={t} />
+          ))}
+        </div>
+      </div>
+      <motion.span style={{ opacity }} className="text-4xl text-foreground">
+        ≠
+      </motion.span>
+      <div>
+        <p>Shipped</p>
+        <span className="mt-2 block size-14 rounded-control border border-dashed border-field" />
+      </div>
+    </div>
+  );
+}
+
+// In row order (content/home.ts PROBLEM.items).
 export const PROBLEM_VISUALS = [
+  SpeedVisual,
   FragmentedVisual,
   LostContextVisual,
   CoordinationVisual,
+  NotEqualVisual,
 ];

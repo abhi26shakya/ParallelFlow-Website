@@ -4,6 +4,12 @@
    nothing: the colour tokens below switch with the theme. */
 @custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
 
+/* Pinned problem list (ProblemStory.tsx): screens wide and tall enough to
+   show the heading, all five rows and the visual card at once. `unpinned`
+   is everything else. */
+@custom-variant pin (@media (width >= 64rem) and (height >= 42rem));
+@custom-variant unpinned (@media not all and (width >= 64rem) and (height >= 42rem));
+
 /* Design tokens: monochrome dark theme (PROJECT_BRIEF.md Part 3), with a
    light theme override further down. Components use these utilities
    (bg-card, text-muted, border-line, rounded-card, rounded-pill) instead of
