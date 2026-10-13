@@ -3,7 +3,6 @@ import {
   HOW_IT_WORKS,
   OVERSIGHT,
   SOLUTION,
-  WHY_NOW,
 } from "@/content/home";
 import { ProblemStory } from "@/components/home/ProblemStory";
 import { ProductCards } from "@/components/sections/ProductCards";
@@ -14,10 +13,6 @@ export function HomeBody() {
   return (
     <>
       <ProblemStory />
-
-      <Section label={WHY_NOW.label} title={WHY_NOW.title}>
-        <p className="mt-6 max-w-3xl text-lg text-muted">{WHY_NOW.body}</p>
-      </Section>
 
       <Section label={SOLUTION.label} title={SOLUTION.title}>
         <div className="mt-6 max-w-3xl space-y-4 text-lg text-muted">

@@ -59,13 +59,6 @@ export const PROBLEM = {
   ] satisfies ProblemItem[],
 };
 
-export const WHY_NOW = {
-  label: "Why now",
-  title:
-    "AI has made code generation faster, but the surrounding development lifecycle has not evolved at the same pace.",
-  body: "Planning, approvals, reviews, testing, deployment, and handoffs limit the speed of AI-assisted development.",
-};
-
 export const SOLUTION = {
   label: "The solution",
   title: "One connected workflow from idea to delivery.",
