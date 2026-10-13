@@ -1,8 +1,7 @@
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
-import { LinkButton } from "@/components/ui/Button";
+import { MessageCircle } from "lucide-react";
+import { buttonClass } from "@/components/ui/Button";
 import { HERO } from "@/content/home";
-import { WAITLIST_HREF } from "@/lib/site";
+import { TALK_TO_US_URL } from "@/lib/site";
 
 // Fades content in on first paint via @starting-style. Motion-safe only, and
 // globals.css also disables transitions under prefers-reduced-motion.
@@ -11,7 +10,7 @@ const fadeIn =
 
 export function Hero() {
   return (
-    <section className="mx-auto max-w-5xl px-4 pb-20 pt-16 text-center sm:px-6 sm:pb-24 sm:pt-28">
+    <section className="mx-auto max-w-7xl px-4 pb-20 pt-16 text-center sm:px-6 sm:pb-24 sm:pt-28">
       <div className={fadeIn}>
         <p className="inline-flex rounded-pill border border-line px-3 py-1 text-xs font-medium text-muted">
           {HERO.status}
@@ -23,27 +22,27 @@ export function Hero() {
           {HERO.subtitle}
         </p>
 
-        <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-center sm:gap-6">
-          <LinkButton href={WAITLIST_HREF} className="w-full sm:w-auto">
-            Join Waitlist
-          </LinkButton>
-          <Link
-            href="/#how-it-works"
-            className="inline-flex items-center justify-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-foreground"
+        <div className="mt-10 flex justify-center">
+          <a
+            href={TALK_TO_US_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={buttonClass("secondary", "w-full gap-2 sm:w-auto")}
           >
-            How it works
-            <ArrowRight aria-hidden="true" className="size-4" />
-          </Link>
+            <MessageCircle aria-hidden="true" className="size-4" />
+            Talk to us
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>
         </div>
-        <p className="mt-4 text-sm text-muted">{HERO.note}</p>
       </div>
 
-      {/* Fixed 16:9 slot for the product video, kept smaller and quieter
-          than the shared PreviewSlot so the headline leads. */}
+      {/* Fixed 16:9 slot for the product video: a wide app-window frame that
+          fills the hero container and runs past the first screen. The soft
+          white glow above and dark shadow below lift it off the page. */}
       <div
         role="img"
         aria-label="Product preview video placeholder"
-        className={`relative mx-auto mt-16 aspect-video w-full max-w-3xl overflow-hidden rounded-card border border-line sm:mt-20 ${fadeIn} motion-safe:delay-150`}
+        className={`relative mt-12 aspect-video w-full overflow-hidden rounded-card border border-line bg-card shadow-[0_-16px_80px_-24px_rgb(255_255_255/0.16),0_40px_80px_-24px_rgb(0_0_0/0.8)] sm:mt-16 ${fadeIn} motion-safe:delay-150`}
       >
         <span className="absolute left-4 top-4 rounded-pill border border-line px-3 py-1 text-xs text-muted">
           Product preview

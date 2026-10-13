@@ -1,6 +1,155 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal.
+
+## Change after Phase 11: Value-proposition line removed from the home page
+
+**Owner decision (2026-10-13)**
+- The line "ParallelFlow brings teams, AI agents, tasks, and project context into a connected workspace to help them plan, build, and ship together." is removed from the home page. It sat in a short section between the hero and "The problem". The hero now leads straight into "The problem" section.
+- This departs from the CLAUDE.md rule to reuse the core value proposition word for word.
+- **Visible page only.** `VALUE_PROPOSITION` in `src/content/home.ts` is kept and still used off-page:
+  - the social share image (`src/app/opengraph-image.tsx`)
+  - its alt text (`src/lib/seo.ts`)
+  - the home page's structured data (`src/app/page.tsx`)
+
+**Files changed**
+- `src/components/home/HomeBody.tsx`
+- `PROGRESS.md`
+
+**Verified**
+- Lint, type-check and production build pass. The sentence is no longer in the page's visible text. A screenshot shows the hero's bottom padding running into "The problem" section's top border, with no extra gap.
+
+## Change after Phase 11: Large hero video window
+
+**Owner decision (2026-10-13)**
+- The hero's "Product preview" window is now a wide app-window frame that dominates the hero, styled after boxes.dev. It fills the hero container: the section went from `max-w-5xl` to `max-w-7xl`, so the window is 1232×693 at 1440px and above. It stays 16:9 with the same border and rounded corners. The "Product preview" badge and placeholder text are kept.
+- The window may run past the first screen, so its top peeks in and invites scrolling. At 1440×900 about 300px of it shows. This replaces the earlier "fit everything in one viewport" goal, for the video only.
+- App-window look: `bg-card` fill, a soft white glow above it (16% white, lifting the strip just above to about `#161616`) and a dark drop shadow below. It is monochrome, with no gradients or colour.
+- The gap from the button to the window went from `mt-16 sm:mt-20` to `mt-12 sm:mt-16`, so more of the window shows on the first screen.
+
+**Files changed**
+- `src/components/home/Hero.tsx`
+- `PROGRESS.md`
+
+**Verified**
+- Lint, type-check and production build pass.
+- Measured at 1920px, 1440px, 768px and 375px. The pill, H1, subheading and button keep their exact sizes and positions, because their own `ch` limits keep them unchanged in the wider section. The window is 1232px wide on desktop, 720px on tablet and 343px on mobile (full width with the existing 16–24px side margins).
+- Sampled pixels confirm the page background stays `#080808` away from the window.
+
+## Change after Phase 11: Hero copy update
+
+**Owner decisions (2026-10-13)**
+- H1 is now "Let agents flow with your team." It replaces "You imagine. Agents execute."
+- The subheading is now "AI-native development lifecycle enabling human-agent collaboration to build, track, communicate, and ship faster."
+- The "How it works →" link and the "Early access is coming soon. Join the waitlist for updates." line are removed from the hero. "Talk to us" is now the only hero action, centred on its own. The `HERO.note` copy is deleted.
+- **Hero only.** The home page title ("ParallelFlow | You imagine. Agents execute.") and meta description still use the old headline and subheading. So does the footer line under parallelflow.ai (`SITE_TAGLINE`). The owner chose to leave them for now.
+
+**Files changed**
+- `src/content/home.ts`
+- `src/components/home/Hero.tsx`
+- `PROGRESS.md`
+
+**Verified**
+- Lint, type-check and production build pass.
+- Screenshots and measurements at 1440px, 768px and 375px. Content is centred, and the spacing between the pill, H1, subheading, button and video is the same as before. The longer subheading wraps to 2 lines on desktop and 4 on mobile.
+
+**Notes**
+- The hero is still taller than one 1440×900 screen. The video's lower part needs a scroll, as before this change.
+- The `#how-it-works` section id stays on the home page, though the hero no longer links to it.
+
+## Change after Phase 11: Wider hero video window
+
+**Owner decision (2026-10-13)**
+- The hero's "Product preview" window is a bit wider on desktop: `max-w-3xl` became `max-w-4xl`, so 768×432 is now 896×504 at 1440px. It stays 16:9 with the same border and rounded corners. Nothing else in the hero changed. An earlier ask to fit the whole hero on one screen was dropped by the owner in favour of this.
+
+**Files changed**
+- `src/components/home/Hero.tsx`
+- `PROGRESS.md`
+
+**Verified**
+- Lint and production build pass.
+- Measured in headless Chrome. At 1440px the video is 896×504 and the other hero elements keep their exact positions. At 768px and 375px the video already filled the available width, so nothing changed there.
+
+## Change after Phase 11: Hero "Talk to us" button
+
+**Owner decision (2026-10-13)**
+- The hero's Join Waitlist button is replaced by a "Talk to us" button. It opens a Calendly booking page in a new tab (`rel="noopener noreferrer"`). All other Join Waitlist buttons (navbar, mobile menu, footer, product pages) still open the waitlist modal.
+- Style: the shared secondary button (outlined, `#333333` border, white text, pill, same size as other buttons), with a lucide `MessageCircle` icon on the left. Full width on mobile, as before.
+
+**Files changed**
+- `src/components/home/Hero.tsx`
+- `src/lib/site.ts` (`TALK_TO_US_URL` added)
+- `PROGRESS.md`
+
+**Setup needed from the owner**
+- `TALK_TO_US_URL` in `src/lib/site.ts` is a **placeholder** (`https://calendly.com/parallelflow/30min`). Replace it with the real Calendly link before the site goes public.
+
+**Verified**
+- Lint, type-check and production build pass.
+- Headless Chrome at 1440px and 375px:
+  - The link has the right URL, `target` and `rel`, and the icon is hidden from screen readers. Screen readers hear "(opens in a new tab)".
+  - The border and text colours are right.
+  - Tab reaches it with the `:focus-visible` ring, and Enter opens a new tab while the page stays put.
+  - The hero has no Join Waitlist button, and the navbar and footer ones still open the modal.
+
+**Notes**
+- The placeholder link departs from the CLAUDE.md rule "no broken or placeholder links". The owner asked for it, as with `SOCIAL_LINKS`.
+- The hero note "Early access is coming soon. Join the waitlist for updates." is unchanged. The nearest Join Waitlist button is now the one in the navbar.
+
+## Change after Phase 11: Waitlist modal
+
+**Owner decisions (2026-10-13)**
+- Every Join Waitlist button opens one shared, centred modal. Nothing navigates away.
+- The modal has the heading "Join the Waitlist" and the subtitle "Get early access to ParallelFlow and help shape the future of team collaboration."
+- Five fields:
+  - Full name and Work email are required.
+  - Role (Founder, Software Engineer, Product Manager, Designer, Student, Other) is optional.
+  - Team size (Just me, 2–5, 6–10, 11–50, 50+) is optional.
+  - "Tell us about your company's workflow and any suggestions you have" is an optional multi-line text box, up to 2,000 characters, stored in `workflow_notes`. It replaced an earlier "What are you interested in?" (Arena, Workspace, Developer Space) multi-select the same day, at the owner's request.
+- The brief's Part 5 extra questions (AI tools, workflow challenge, early-access testing, organization interest) and the "Tell us more (optional)" section are dropped from the form. Their DB columns stay and are left empty for new signups. This departs from Part 5 and from the CLAUDE.md waitlist notes.
+- Success text: "You're on the list! We'll be in touch when ParallelFlow is ready."
+- The home page `#waitlist` section with the inline form is removed. Loading `/#waitlist` opens the modal so old links still work.
+
+**How it works**
+- `WaitlistModalProvider` (in `layout.tsx`) renders one native `<dialog>` opened with `showModal()`. The page behind is inert, so focus stays inside the dialog.
+- Close with the x button, a click outside the card, or Escape. Focus moves to the name field on open and returns to the trigger on close. Page scroll is locked while it is open.
+- Fade and scale-in on open through `@starting-style`, which is off under `prefers-reduced-motion`.
+- The form remounts on each open. The honeypot, minimum fill time, rate limit, and the "success only after the DB confirms" rule are unchanged.
+- `WaitlistButton` is the one button component every Join Waitlist uses. `buttonClass()` is now exported from `Button.tsx` so it shares the pill styles.
+
+**Files changed**
+- New: `src/components/waitlist/WaitlistModal.tsx`, `src/components/waitlist/WaitlistButton.tsx`, `supabase/migrations/0002_waitlist_modal_fields.sql`
+- Changed:
+  - Form and backend: `src/components/waitlist/WaitlistForm.tsx`, `src/lib/waitlist/schema.ts`, `src/app/api/waitlist/route.ts`
+  - Wiring: `src/app/layout.tsx`, `src/app/page.tsx` (section removed)
+  - Buttons: `src/components/layout/Navbar.tsx`, `MobileMenu.tsx`, `Footer.tsx`, `src/components/home/Hero.tsx`, `src/components/sections/ProductPage.tsx`, `src/components/ui/Button.tsx`
+  - Cleanup: `src/components/home/HomeBody.tsx` (comment), `src/lib/site.ts` (`WAITLIST_HREF` removed), `PROGRESS.md`
+
+**Setup needed from the owner**
+- Run `supabase/migrations/0002_waitlist_modal_fields.sql` in the Supabase SQL editor. It adds the `workflow_notes` column and the new team sizes, and keeps the old ones for existing rows. It is safe to run more than once. **Until it is run, every signup fails with "We couldn't save your signup."** No false success is shown.
+
+**Verified**
+- Lint, type-check and production build pass.
+- Headless Chrome, driven by a script in the session scratchpad, not added to the project. Checked at 1440px and 375px:
+  - The modal opens from the navbar, mobile menu, hero, footer, each product page's closing CTA, and the SDLC navbar.
+  - x, backdrop click and Escape all close it. Focus returns to the trigger each time.
+  - A click inside the card does not close it.
+  - Scroll is locked while it is open.
+  - Tab and Shift+Tab never reach the page behind.
+  - An empty submit shows both inline errors and focuses name. A bad email shows the email error.
+  - "Joining…" shows while submitting.
+  - A real submit before the migration shows the error and no success.
+  - The success text was checked with a mocked 200 only.
+  - The workflow text box takes multi-line text and is sent as `workflow_notes`. The interests checkboxes are gone.
+  - The form resets on reopen. Nothing is written to local or session storage.
+  - The card fits the 375px viewport, and Escape over the mobile menu closes only the modal.
+  - `/#waitlist` opens the modal.
+  - No transition under reduced motion.
+- **Not yet verified:** a real successful save. That needs migration 0002.
+
+**Notes**
+- Without JavaScript the Join Waitlist buttons do nothing, because there is no inline form left to fall back to.
+- Old `team_size` values (`2_10`, `51_200`, `200_plus`) can still be in existing rows.
 
 ## Change after Phase 11: Footer redesign
 

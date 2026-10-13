@@ -2,7 +2,7 @@ import { Mail } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Logo } from "@/components/brand/Logo";
-import { LinkButton } from "@/components/ui/Button";
+import { WaitlistButton } from "@/components/waitlist/WaitlistButton";
 import { HERO } from "@/content/home";
 import { NAV_GROUPS } from "@/lib/nav";
 import {
@@ -10,7 +10,6 @@ import {
   SITE_NAME,
   SITE_TAGLINE,
   SOCIAL_LINKS,
-  WAITLIST_HREF,
 } from "@/lib/site";
 import { CopyrightYear } from "./CopyrightYear";
 import { HighFive, IdeaToDone, TinyAgent, TinyHuman } from "./FooterDoodles";
@@ -183,9 +182,7 @@ export function Footer() {
               {SITE_TAGLINE}
             </p>
             <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-center">
-              <LinkButton href={WAITLIST_HREF} className="w-full sm:w-auto">
-                Join Waitlist
-              </LinkButton>
+              <WaitlistButton className="w-full sm:w-auto" />
               <div aria-hidden="true">
                 <IdeaToDone />
               </div>

@@ -1,7 +1,6 @@
 import { Logo } from "@/components/brand/Logo";
-import { LinkButton } from "@/components/ui/Button";
+import { WaitlistButton } from "@/components/waitlist/WaitlistButton";
 import { NAV_GROUPS } from "@/lib/nav";
-import { WAITLIST_HREF } from "@/lib/site";
 import { MobileMenu } from "./MobileMenu";
 import { NavDropdown } from "./NavDropdown";
 
@@ -21,7 +20,7 @@ export function Navbar() {
           </div>
         </div>
         <div className="hidden md:block">
-          <LinkButton href={WAITLIST_HREF}>Join Waitlist</LinkButton>
+          <WaitlistButton />
         </div>
         <MobileMenu />
       </nav>

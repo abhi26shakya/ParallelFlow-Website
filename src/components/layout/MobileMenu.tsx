@@ -3,8 +3,7 @@
 import { Menu, X } from "lucide-react";
 import { useEffect, useId, useState } from "react";
 import { NAV_GROUPS } from "@/lib/nav";
-import { WAITLIST_HREF } from "@/lib/site";
-import { LinkButton } from "@/components/ui/Button";
+import { WaitlistButton } from "@/components/waitlist/WaitlistButton";
 import { NavItemRow } from "./NavItemRow";
 
 export function MobileMenu() {
@@ -13,7 +12,13 @@ export function MobileMenu() {
 
   useEffect(() => {
     if (!open) return;
-    const onKeyDown = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onKeyDown = (e: KeyboardEvent) => {
+      // Escape over the waitlist modal closes only the modal, so focus can
+      // return to the menu's Join Waitlist button.
+      if (e.key === "Escape" && !document.querySelector("dialog[open]")) {
+        setOpen(false);
+      }
+    };
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open]);
@@ -49,13 +54,7 @@ export function MobileMenu() {
               </ul>
             </div>
           ))}
-          <LinkButton
-            href={WAITLIST_HREF}
-            onClick={() => setOpen(false)}
-            className="mt-3 w-full"
-          >
-            Join Waitlist
-          </LinkButton>
+          <WaitlistButton className="mt-3 w-full" />
         </div>
       )}
     </div>

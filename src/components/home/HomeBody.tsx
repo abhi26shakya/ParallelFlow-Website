@@ -4,22 +4,15 @@ import {
   OVERSIGHT,
   PROBLEM,
   SOLUTION,
-  VALUE_PROPOSITION,
   WHY_NOW,
 } from "@/content/home";
 import { ProductCards } from "@/components/sections/ProductCards";
 import { ItemGrid, Section } from "@/components/sections/Section";
 
-// Home page sections between the hero and the waitlist form.
+// Home page sections below the hero.
 export function HomeBody() {
   return (
     <>
-      <section className="mx-auto max-w-4xl px-4 py-16 text-center sm:px-6">
-        <p className="mx-auto max-w-2xl text-lg text-muted">
-          {VALUE_PROPOSITION}
-        </p>
-      </section>
-
       <Section label={PROBLEM.label} title={PROBLEM.title}>
         <div className="mt-6 max-w-3xl space-y-4 text-lg text-muted">
           {PROBLEM.paragraphs.map((text) => (

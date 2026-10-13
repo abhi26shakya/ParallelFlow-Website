@@ -1,14 +1,13 @@
 import { PreviewSlot } from "@/components/sections/PreviewSlot";
 import { ProductCards } from "@/components/sections/ProductCards";
 import { ItemGrid, Section } from "@/components/sections/Section";
-import { LinkButton } from "@/components/ui/Button";
+import { WaitlistButton } from "@/components/waitlist/WaitlistButton";
 import {
   PRODUCT_PAGE_LABELS,
   PRODUCT_PAGES,
   closingLine,
 } from "@/content/product-pages";
 import { PRODUCTS, type ProductSlug } from "@/content/products";
-import { WAITLIST_HREF } from "@/lib/site";
 
 // Shared layout for the Arena, Workspace and Developer Space pages. Every
 // product is pre-launch, so the page carries a "Coming soon" badge and the
@@ -60,9 +59,9 @@ export function ProductPage({ slug }: { slug: ProductSlug }) {
       <section className="border-t border-line">
         <div className="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6 sm:py-24">
           <p className="text-lg text-muted">{closingLine(product.name)}</p>
-          <LinkButton href={WAITLIST_HREF} className="mt-8">
+          <WaitlistButton className="mt-8">
             {PRODUCT_PAGE_LABELS.closingCta}
-          </LinkButton>
+          </WaitlistButton>
         </div>
       </section>
     </main>

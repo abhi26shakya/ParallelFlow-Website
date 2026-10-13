@@ -6,8 +6,6 @@ export const SITE_DOMAIN = "parallelflow.ai";
 export const SITE_TAGLINE =
   "A shared workspace where humans and AI turn ideas into finished work.";
 
-export const WAITLIST_HREF = "/#waitlist";
-
 // Footer social links. These are dummy values until the real accounts exist;
 // replace them before the site goes public.
 export const SOCIAL_LINKS = {
@@ -15,6 +13,10 @@ export const SOCIAL_LINKS = {
   x: "https://x.com/parallelflow",
   linkedin: "https://www.linkedin.com/company/parallelflow",
 };
+
+// Hero "Talk to us" booking page. Placeholder until the real Calendly link
+// exists; replace it before the site goes public.
+export const TALK_TO_US_URL = "https://calendly.com/parallelflow/30min";
 
 // Set NEXT_PUBLIC_SITE_URL only on the production domain. While it is unset
 // (localhost, staging, previews) the site falls back to localhost and every

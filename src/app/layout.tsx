@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
+import { WaitlistModalProvider } from "@/components/waitlist/WaitlistModal";
 import { IS_INDEXABLE, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -34,9 +35,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <Navbar />
-        <div className="flex-1">{children}</div>
-        <Footer />
+        <WaitlistModalProvider>
+          <Navbar />
+          <div className="flex-1">{children}</div>
+          <Footer />
+        </WaitlistModalProvider>
       </body>
     </html>
   );

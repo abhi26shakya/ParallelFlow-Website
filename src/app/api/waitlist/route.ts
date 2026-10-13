@@ -69,18 +69,12 @@ export async function POST(request: Request) {
     );
   }
 
-  const nonEmpty = <T>(list: T[] | undefined) =>
-    list && list.length > 0 ? list : null;
-
   const { error } = await supabase.from("waitlist_signups").insert({
     full_name: signup.full_name,
     email: signup.email,
     role: signup.role ?? null,
     team_size: signup.team_size ?? null,
-    current_ai_tools: nonEmpty(signup.current_ai_tools),
-    workflow_challenges: nonEmpty(signup.workflow_challenges),
-    early_access_interest: signup.early_access_interest ?? null,
-    organization_interest: signup.organization_interest ?? null,
+    workflow_notes: signup.workflow_notes ?? null,
     source: "website",
   });
 

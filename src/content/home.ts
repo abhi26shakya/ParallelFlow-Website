@@ -11,10 +11,9 @@ export const VALUE_PROPOSITION =
 
 export const HERO = {
   status: "Pre-launch · Waitlist open",
-  title: "You imagine. Agents execute.",
+  title: "Let agents flow with your team.",
   subtitle:
-    "A shared workspace where humans and AI turn ideas into finished work.",
-  note: "Early access is coming soon. Join the waitlist for updates.",
+    "AI-native development lifecycle enabling human-agent collaboration to build, track, communicate, and ship faster.",
 };
 
 export const PROBLEM = {

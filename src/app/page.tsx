@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { HomeBody } from "@/components/home/HomeBody";
 import { Hero } from "@/components/home/Hero";
-import { WaitlistForm } from "@/components/waitlist/WaitlistForm";
 import { VALUE_PROPOSITION } from "@/content/home";
 import { pageMetadata } from "@/lib/seo";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
@@ -47,20 +46,6 @@ export default function Home() {
       />
       <Hero />
       <HomeBody />
-      <div className="border-t border-line">
-        <section
-          id="waitlist"
-          className="mx-auto max-w-xl scroll-mt-(--navbar-height) px-4 py-20 sm:px-6 sm:py-24"
-        >
-          <h2 className="text-center text-3xl font-bold tracking-tight sm:text-4xl">
-            Join Waitlist
-          </h2>
-          <p className="mb-8 mt-3 text-center text-muted">
-            Be among the first to explore ParallelFlow.
-          </p>
-          <WaitlistForm />
-        </section>
-      </div>
     </main>
   );
 }

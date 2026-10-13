@@ -4,9 +4,9 @@ import { z } from "zod";
 // Values are the stored slugs; labels are what the form shows.
 
 export const ROLES = [
-  { value: "developer", label: "Developer / Engineer" },
   { value: "founder", label: "Founder" },
-  { value: "product_manager", label: "Product / Project Manager" },
+  { value: "developer", label: "Software Engineer" },
+  { value: "product_manager", label: "Product Manager" },
   { value: "designer", label: "Designer" },
   { value: "student", label: "Student" },
   { value: "other", label: "Other" },
@@ -14,52 +14,14 @@ export const ROLES = [
 
 export const TEAM_SIZES = [
   { value: "just_me", label: "Just me" },
-  { value: "2_10", label: "2–10" },
+  { value: "2_5", label: "2–5" },
+  { value: "6_10", label: "6–10" },
   { value: "11_50", label: "11–50" },
-  { value: "51_200", label: "51–200" },
-  { value: "200_plus", label: "200+" },
+  { value: "50_plus", label: "50+" },
 ] as const;
 
-export const AI_TOOLS = [
-  { value: "claude_code", label: "Claude Code" },
-  { value: "openai_codex", label: "OpenAI Codex" },
-  { value: "cursor", label: "Cursor" },
-  { value: "github_copilot", label: "GitHub Copilot" },
-  { value: "chatgpt", label: "ChatGPT" },
-  { value: "other", label: "Other" },
-  { value: "none", label: "None" },
-] as const;
-
-export const WORKFLOW_CHALLENGES = [
-  { value: "tool_switching", label: "Switching between different tools" },
-  {
-    value: "coordinating_humans_agents",
-    label: "Coordinating humans and AI agents",
-  },
-  { value: "repetitive_tasks", label: "Repetitive manual tasks" },
-  { value: "tracking_progress", label: "Tracking tasks and project progress" },
-  {
-    value: "sharing_context",
-    label: "Sharing project knowledge and context",
-  },
-  {
-    value: "connecting_tools",
-    label: "Connecting tools and automating workflows",
-  },
-  { value: "other", label: "Other" },
-] as const;
-
-export const EARLY_ACCESS_OPTIONS = [
-  { value: "yes", label: "Yes" },
-  { value: "maybe", label: "Maybe" },
-  { value: "no", label: "No" },
-] as const;
-
-export const ORGANIZATION_INTEREST_OPTIONS = [
-  { value: "yes", label: "Yes" },
-  { value: "maybe", label: "Maybe" },
-  { value: "no_individual_or_team", label: "No, individual or team use" },
-] as const;
+// Longest free-text answer accepted; matches the DB check.
+export const WORKFLOW_NOTES_MAX = 2000;
 
 type Option = { readonly value: string };
 const values = <T extends readonly [Option, ...Option[]]>(options: T) =>
@@ -76,9 +38,6 @@ const optionalEnum = <T extends readonly [Option, ...Option[]]>(options: T) =>
     z.enum(values(options)).optional(),
   );
 
-const optionalMulti = <T extends readonly [Option, ...Option[]]>(options: T) =>
-  z.array(z.enum(values(options))).max(options.length).optional();
-
 export const waitlistFormSchema = z.object({
   full_name: z
     .string({ error: "Enter your full name." })
@@ -93,10 +52,14 @@ export const waitlistFormSchema = z.object({
     .pipe(z.email("Enter a valid email address.")),
   role: optionalEnum(ROLES),
   team_size: optionalEnum(TEAM_SIZES),
-  current_ai_tools: optionalMulti(AI_TOOLS),
-  workflow_challenges: optionalMulti(WORKFLOW_CHALLENGES),
-  early_access_interest: optionalEnum(EARLY_ACCESS_OPTIONS),
-  organization_interest: optionalEnum(ORGANIZATION_INTEREST_OPTIONS),
+  workflow_notes: z.preprocess(
+    (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+    z
+      .string()
+      .trim()
+      .max(WORKFLOW_NOTES_MAX, `Keep this under ${WORKFLOW_NOTES_MAX} characters.`)
+      .optional(),
+  ),
 });
 
 export type WaitlistFormValues = z.input<typeof waitlistFormSchema>;
