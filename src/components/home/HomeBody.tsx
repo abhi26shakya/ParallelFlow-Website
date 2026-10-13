@@ -2,10 +2,10 @@ import {
   AUDIENCE,
   HOW_IT_WORKS,
   OVERSIGHT,
-  PROBLEM,
   SOLUTION,
   WHY_NOW,
 } from "@/content/home";
+import { ProblemStory } from "@/components/home/ProblemStory";
 import { ProductCards } from "@/components/sections/ProductCards";
 import { ItemGrid, Section } from "@/components/sections/Section";
 
@@ -13,18 +13,7 @@ import { ItemGrid, Section } from "@/components/sections/Section";
 export function HomeBody() {
   return (
     <>
-      <Section label={PROBLEM.label} title={PROBLEM.title}>
-        <div className="mt-6 max-w-3xl space-y-4 text-lg text-muted">
-          {PROBLEM.paragraphs.map((text) => (
-            <p key={text}>{text}</p>
-          ))}
-        </div>
-        <ItemGrid items={PROBLEM.items} />
-        <p className="mt-12 max-w-3xl text-lg">
-          <span className="font-semibold">The result:</span>{" "}
-          <span className="text-muted">{PROBLEM.result}</span>
-        </p>
-      </Section>
+      <ProblemStory />
 
       <Section label={WHY_NOW.label} title={WHY_NOW.title}>
         <p className="mt-6 max-w-3xl text-lg text-muted">{WHY_NOW.body}</p>

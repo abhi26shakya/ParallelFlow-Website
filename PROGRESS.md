@@ -1,6 +1,43 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, and "The problem" got a sticky visual window.
+
+## Change after Phase 11: "The problem" with a sticky visual window
+
+**Owner decisions (2026-10-13)**
+- The static "The problem" section below the hero is replaced. On desktop (1024px and up) it has two columns:
+  - The left column scrolls normally: a mono "THE PROBLEM" label, the headline, three problem blocks (each 80svh tall) and the result line "Faster tasks ≠ faster shipping." The result line sits in its own 60svh block.
+  - The right column holds a sticky visual window, styled like the hero video window. It stays vertically centred below the navbar at any viewport height.
+- The block nearest the viewport centre is active. It is white and the others dim to 35%. It also sets the window's visual and the "01 / 03" counter in the window's corner. The result line lights up once its top passes 70% of the viewport height. All of this is worked out from scroll position on every scroll event, so scrolling back reverses it.
+- Visuals crossfade with opacity, a slight scale and blur (0.5s). Each visual's own animation plays when it becomes active and resets once it has faded out:
+  - 01: scattered tool pills drift apart, joined by broken dashed lines.
+  - 02: a chat message dissolves, last words first, then "What did we decide?" appears.
+  - 03: assign, track and unblock chips pile onto three tasks while "Manual steps" ticks from 00 to 09.
+  - All visuals are CSS and SVG only and `aria-hidden`.
+- Reduced motion: visuals swap instantly with no blur or scale, and each shows a fixed frame. The text dims without a transition.
+- Mobile and tablet (under 1024px): no sticky. Each problem is text followed by its own window. Blocks fade in once on view, and each visual plays while on screen.
+- New owner-supplied copy, used exactly. The brief's three intro paragraphs and the longer result line ("Faster individual tasks do not always translate…") are off the home page. The SDLC page keeps its own copy (`SDLC_PROBLEM`), unchanged.
+- Cursor-follow spotlight on the visual window (white at 5%). This is an owner-approved exception to the brief's "no unnecessary glow" rule. It works on hover-capable pointers only and is off under reduced motion. There is also a faint dot grid behind the section and in the windows.
+- New dependency: `motion` (Framer Motion) 14.1.0, the one allowed. Only opacity, transform and blur animate.
+
+**Files changed**
+- `src/components/home/ProblemStory.tsx` (new)
+- `src/components/home/ProblemVisuals.tsx` (new)
+- `src/components/home/HomeBody.tsx`
+- `src/content/home.ts`
+- `package.json`, `package-lock.json`
+- `PROGRESS.md`
+
+**Verified**
+- Lint, type-check and production build pass.
+- Tested in headless Chrome against the production build. Desktop at 1440×900, 1440×700, 1920×1080, 1280×1200 and 1024×768; reduced motion at 1440×900; tablet at 768×1024; mobile at 375×812 and 320×640.
+- At every desktop size the window is exactly centred below the navbar while each of the three blocks is centred. Scrolling down then back up gives the same active block, counter and visual at each point. The coordination counter reaches 09 while active and resets to 00 after it leaves.
+- The result line goes from 20% to full opacity, then the window scrolls away with the end of the section.
+- Layout shift is 0 everywhere, and a frame-by-frame scroll through the section had no frame over 17ms. There is no horizontal overflow at 320, 375 or 1440px. The three problem titles are real `h3` headings under the `h2`, and the spotlight follows the pointer.
+
+**Notes**
+- Not tested with JavaScript off. The server-rendered HTML starts with problem 01 active, the others dimmed and visual 01 in the window. All the text is in the HTML.
+- `npm audit` reports 5 high-severity issues in `braces`, from the existing lint and build tooling, not from `motion`.
 
 ## Change after Phase 11: Value-proposition line removed from the home page
 

@@ -16,30 +16,44 @@ export const HERO = {
     "AI-native development lifecycle enabling human-agent collaboration to build, track, communicate, and ship faster.",
 };
 
+// Scroll story below the hero (ProblemStory.tsx). Owner-supplied copy,
+// 2026-10-13; it replaces the brief's longer SDLC section 2 wording here.
+export type ProblemItem = {
+  number: string;
+  title: string;
+  lines: [string, string];
+};
+
 export const PROBLEM = {
   label: "The problem",
   title: "Coding is getting faster. Shipping software is still complicated.",
-  paragraphs: [
-    "AI can generate code, explain errors, and automate individual tasks. But software development involves much more than writing code.",
-    "Engineering teams still need to coordinate work, manage dependencies, review changes, test features, share decisions, and keep everyone aligned.",
-    "When these activities happen across disconnected tools and isolated AI sessions, teams lose context and spend more time coordinating the work than moving it forward.",
-  ],
   items: [
     {
+      number: "01",
       title: "Fragmented workflows",
-      body: "Planning, communication, development, testing, and delivery often happen in separate tools.",
+      lines: [
+        "Plan here. Code there. Ship somewhere else.",
+        "Every stage lives in a different tool.",
+      ],
     },
     {
+      number: "02",
       title: "Lost context",
-      body: "Decisions, project knowledge, and previous AI interactions are difficult to carry across sessions and teammates.",
+      lines: [
+        "Decisions get buried in old chats.",
+        "Knowledge doesn't carry across sessions or teammates.",
+      ],
     },
     {
+      number: "03",
       title: "Coordination overhead",
-      body: "People must manually assign tasks, track progress, resolve blockers, and connect the outputs of different tools.",
+      lines: [
+        "People are the glue.",
+        "Assigning, tracking, unblocking, all by hand.",
+      ],
     },
-  ] satisfies SectionItem[],
-  result:
-    "Faster individual tasks do not always translate into faster software delivery.",
+  ] satisfies ProblemItem[],
+  result: "Faster tasks ≠ faster shipping.",
 };
 
 export const WHY_NOW = {
