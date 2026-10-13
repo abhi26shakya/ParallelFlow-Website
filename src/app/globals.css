@@ -10,6 +10,11 @@
 @custom-variant pin (@media (width >= 64rem) and (height >= 42rem));
 @custom-variant unpinned (@media not all and (width >= 64rem) and (height >= 42rem));
 
+/* Pinned solution (SolutionStory.tsx). Its rows have three lines each, so it
+   needs a taller screen than the problem list to fit them beside the card.
+   Below 50rem tall its rows tighten slightly to fit. */
+@custom-variant pin-tall (@media (width >= 64rem) and (height >= 48rem));
+
 /* Design tokens: monochrome dark theme (PROJECT_BRIEF.md Part 3), with a
    light theme override further down. Components use these utilities
    (bg-card, text-muted, border-line, rounded-card, rounded-pill) instead of
@@ -49,6 +54,31 @@
   --animate-spark: spark 3.2s ease-in-out infinite;
   --animate-dash-flow: dash-flow 0.8s linear infinite;
   --animate-draw-check: draw-check 3.2s ease-in-out infinite;
+
+  /* Solution diagram (SolutionDiagram.tsx): a light pulse travelling along a
+     path with pathLength="1", and its idle shimmer. Used with motion-safe:
+     only. */
+  --animate-flow-pulse: flow-pulse 2.6s linear infinite;
+  --animate-shimmer: shimmer 2.4s ease-in-out infinite;
+
+  @keyframes flow-pulse {
+    from {
+      stroke-dashoffset: 0.08;
+    }
+    to {
+      stroke-dashoffset: -1;
+    }
+  }
+
+  @keyframes shimmer {
+    0%,
+    100% {
+      opacity: 0.55;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
 
   @keyframes bob {
     to {

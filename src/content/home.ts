@@ -59,14 +59,41 @@ export const PROBLEM = {
   ] satisfies ProblemItem[],
 };
 
+// "The Solution" below the problems (SolutionStory.tsx). Owner-supplied copy,
+// 2026-10-13; it replaces the Phase 5 solution paragraphs on the home page.
+// Steps 1 to 4 have a title, a hook and a support line. The finale is three
+// short lines with no support text.
+export type SolutionStep = {
+  title: string;
+  hook: string;
+  support: string;
+};
+
 export const SOLUTION = {
-  label: "The solution",
-  title: "One connected workflow from idea to delivery.",
-  paragraphs: [
-    "ParallelFlow is designed to connect the people, AI capabilities, tasks, and project context involved in software development.",
-    "Instead of treating every AI interaction as a separate conversation, ParallelFlow brings work into a shared project environment where teams can coordinate tasks, execute work, and maintain continuity.",
-  ],
-  emphasis: "Plan together. Execute with AI. Move forward as a team.",
+  title: "The Solution",
+  steps: [
+    {
+      title: "One connected workflow.",
+      hook: "From idea to delivery.",
+      support: "Every stage lives in one place.",
+    },
+    {
+      title: "Shared project environment.",
+      hook: "People, AI, tasks, and context together.",
+      support: "No more scattered tools.",
+    },
+    {
+      title: "Continuity built in.",
+      hook: "Decisions stay with the project.",
+      support: "Knowledge carries across sessions and teammates.",
+    },
+    {
+      title: "Coordinated by design.",
+      hook: "Plan, assign, and track in one flow.",
+      support: "Less manual glue work.",
+    },
+  ] satisfies SolutionStep[],
+  finale: ["Plan together.", "Execute with AI.", "Move forward as a team."],
 };
 
 export const HOW_IT_WORKS = {

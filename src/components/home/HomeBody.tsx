@@ -1,10 +1,6 @@
-import {
-  AUDIENCE,
-  HOW_IT_WORKS,
-  OVERSIGHT,
-  SOLUTION,
-} from "@/content/home";
+import { AUDIENCE, HOW_IT_WORKS, OVERSIGHT } from "@/content/home";
 import { ProblemStory } from "@/components/home/ProblemStory";
+import { SolutionStory } from "@/components/home/SolutionStory";
 import { ProductCards } from "@/components/sections/ProductCards";
 import { ItemGrid, Section } from "@/components/sections/Section";
 
@@ -14,16 +10,7 @@ export function HomeBody() {
     <>
       <ProblemStory />
 
-      <Section label={SOLUTION.label} title={SOLUTION.title}>
-        <div className="mt-6 max-w-3xl space-y-4 text-lg text-muted">
-          {SOLUTION.paragraphs.map((text) => (
-            <p key={text}>{text}</p>
-          ))}
-        </div>
-        <p className="mt-10 text-xl font-semibold sm:text-2xl">
-          {SOLUTION.emphasis}
-        </p>
-      </Section>
+      <SolutionStory />
 
       <Section
         id="how-it-works"
