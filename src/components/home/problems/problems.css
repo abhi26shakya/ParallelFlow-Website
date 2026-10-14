@@ -1,0 +1,223 @@
+/* "The Problems", imported by ProblemStory.tsx. A plain stylesheet, not a
+   CSS module (the Tailwind Turbopack loader drops module scoping), so every
+   class starts with pf-problems-. Row colours follow the theme; the visual
+   card stays dark in both themes, like a device screen. */
+
+.pf-problems-root {
+  --pf-problems-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --pf-problems-border: #262626;
+  --pf-problems-title: #bdbdbd;
+  --pf-problems-text: #9a9a9a;
+  --pf-problems-active-bg: linear-gradient(
+    90deg,
+    #0b0c0f,
+    #16181c 60%,
+    #0b0c0f
+  );
+  --pf-problems-highlight: rgb(255 255 255 / 0.04);
+}
+
+[data-theme="light"] .pf-problems-root {
+  --pf-problems-border: var(--color-line);
+  --pf-problems-title: var(--color-muted);
+  --pf-problems-text: var(--color-muted);
+  --pf-problems-active-bg: linear-gradient(
+    90deg,
+    #ffffff,
+    #f1f2f4 60%,
+    #ffffff
+  );
+  --pf-problems-highlight: rgb(0 0 0 / 0.04);
+}
+
+.pf-problems-subtitle {
+  color: var(--pf-problems-text);
+}
+
+/* Accordion */
+
+.pf-problems-list {
+  border: 1px solid var(--pf-problems-border);
+}
+
+.pf-problems-row {
+  position: relative;
+}
+
+.pf-problems-row + .pf-problems-row {
+  border-top: 1px solid var(--pf-problems-border);
+}
+
+.pf-problems-row[data-active="true"] {
+  background: var(--pf-problems-active-bg);
+  box-shadow: inset 0 1px 0 var(--pf-problems-highlight);
+}
+
+.pf-problems-title {
+  color: var(--pf-problems-title);
+  font-weight: 400;
+  transition: color 400ms var(--pf-problems-ease);
+}
+
+.pf-problems-row[data-active="true"] .pf-problems-title {
+  color: var(--color-foreground);
+  font-weight: 500;
+}
+
+/* A thin "+" that becomes "–" by flattening its vertical stroke. */
+.pf-problems-icon {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--pf-problems-title);
+}
+
+.pf-problems-icon::before,
+.pf-problems-icon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  background: currentColor;
+  transition: transform 400ms var(--pf-problems-ease);
+}
+
+.pf-problems-icon::before {
+  width: 100%;
+  height: 1px;
+}
+
+.pf-problems-icon::after {
+  width: 1px;
+  height: 100%;
+}
+
+.pf-problems-row[data-active="true"] .pf-problems-icon {
+  color: var(--color-foreground);
+}
+
+.pf-problems-row[data-active="true"] .pf-problems-icon::after {
+  transform: scaleY(0);
+}
+
+/* Expands without measuring: the grid row grows from 0fr to 1fr. */
+.pf-problems-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 400ms var(--pf-problems-ease),
+    opacity 400ms var(--pf-problems-ease);
+}
+
+.pf-problems-panel[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.pf-problems-panel > div {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.pf-problems-text {
+  color: var(--pf-problems-text);
+}
+
+.pf-problems-progress {
+  position: absolute;
+  inset-inline: 0;
+  bottom: -1px;
+  height: 1px;
+  transform-origin: left;
+  background: var(--color-foreground);
+}
+
+/* Auto-advance: the line fills over 6s and its animationend moves to the
+   next row, so pausing the animation pauses the advance too. */
+@keyframes pf-problems-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.pf-problems-progress-auto {
+  animation: pf-problems-fill 6s linear both;
+}
+
+.pf-problems-root[data-paused="true"] .pf-problems-progress-auto,
+.pf-problems-list:focus-within .pf-problems-progress-auto {
+  animation-play-state: paused;
+}
+
+@media (hover: hover) {
+  .pf-problems-list:hover .pf-problems-progress-auto {
+    animation-play-state: paused;
+  }
+}
+
+/* Visual card */
+
+.pf-problems-card {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #000000;
+  color: #e5e5e5;
+  /* The card is dark in both themes. */
+  color-scheme: dark;
+}
+
+.pf-problems-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+
+.pf-problems-frame {
+  /* Centred vertically: (100% - 55%) / 2 above and below. */
+  position: absolute;
+  top: 22.5%;
+  left: 8%;
+  right: 8%;
+  height: 55%;
+  padding: 10px;
+  border-radius: 14px;
+  background: rgb(200 180 255 / 0.22);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@media (width >= 40rem) {
+  .pf-problems-frame {
+    padding: 18px;
+  }
+}
+
+.pf-problems-screen {
+  position: relative;
+  height: 100%;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #050506;
+}
+
+.pf-problems-scene {
+  position: absolute;
+  inset: 0;
+}
+
+.pf-problems-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-mono);
+}

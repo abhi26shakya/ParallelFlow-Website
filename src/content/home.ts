@@ -26,6 +26,8 @@ export type ProblemItem = {
 
 export const PROBLEM = {
   title: "The Problems",
+  // Owner-supplied, 2026-10-15.
+  subtitle: "Coding got faster. Everything around it didn't.",
   items: [
     {
       title: "Coding is getting faster.",
