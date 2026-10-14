@@ -1,6 +1,31 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, and the three product pages were merged into one Product page.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, and the home hero got animated monochrome light beams behind its heading.
+
+## Change after Phase 11: Hero light beams
+
+**Owner decisions (2026-10-14)**
+- Animated monochrome light beams sit behind the hero heading and subheading. A red (crimson) version and a two-strip silver version were tried first and rejected.
+- Six diagonal beams (-41.5°), each with one sharp edge and one grainy, feathered edge, fade in and out at staggered times, slide along the diagonal, and carry a travelling bright wave. A soft white glow pulses behind them (4.6s). A radial mask fades everything to black before the navbar and the Product preview.
+- The beams peak at mid silver-grey (`#8C8C98`, 85% opacity) rather than white, and the glow is at 0.12, so the white heading stays readable.
+- Dark theme only; hidden in the light theme. Under prefers-reduced-motion the beams show one still frame and the glow does not pulse.
+
+**Files changed**
+- New: `src/components/home/HeroBeams.tsx` (WebGL shader with a 2D canvas fallback)
+- Changed: `src/components/home/Hero.tsx` (mounts `<HeroBeams />`; section is `relative`, content wrapper is `relative z-10`), `src/app/globals.css` (`.hero-beams` rules and keyframes, added at the end), `PROGRESS.md`
+
+**Setup needed from the owner**
+- None. No migrations, env vars or dependencies.
+
+**Verified**
+- Lint, type-check and production build pass. Committed and pushed as `45f8c3a`.
+- Headless Chrome screenshots at 1440px (2x), 1024px and 500px (2x) wide, and in the light theme: beams centre behind the heading, fade before the navbar and the preview, and are hidden in the light theme. No copy, spacing, buttons or other sections changed.
+
+**Still incomplete / notes**
+- The shader works in CSS pixels and scales the beams to the box width (`beamScale`), so they look the same on 2x screens. Below 640px the box is 440px tall instead of 550px, so the beams stay clear of the "Talk to us" button.
+- Drawing pauses while the hero is off screen or hidden.
+- Where a beam is brightest, the grey subheading (`#B3B3B3`) has only about 2:1 contrast (readable body text needs 4.5:1). Left as is for now. If it needs fixing, fade the beams out before the subheading rather than brightening the text.
+- Not checked: phone widths below 500px, the no-WebGL fallback, and a frame at a beam's exact peak (headless screenshots barely advance the animation).
 
 ## Change after Phase 11: One Product page
 
