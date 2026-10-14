@@ -2,8 +2,7 @@
 // An item with no `href` is not live yet and renders as a non-clickable
 // "Coming soon" label in the navbar and is left out of the footer. Add `href`
 // only once the destination page exists.
-
-import { PRODUCTS } from "@/content/products";
+// A group with an `href` and no items is a plain link with no dropdown.
 
 export type NavItem = {
   label: string;
@@ -14,13 +13,15 @@ export type NavItem = {
 
 export type NavGroup = {
   label: string;
+  href?: string;
   items: NavItem[];
 };
 
 export const NAV_GROUPS: NavGroup[] = [
   {
     label: "Product",
-    items: PRODUCTS.map(({ name, href }) => ({ label: name, href })),
+    href: "/product",
+    items: [],
   },
   {
     label: "Solutions",

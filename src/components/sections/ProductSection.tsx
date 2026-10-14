@@ -9,15 +9,15 @@ import {
 } from "@/content/product-pages";
 import { PRODUCTS, type ProductSlug } from "@/content/products";
 
-// Shared layout for the Arena, Workspace and Developer Space pages. Every
-// product is pre-launch, so the page carries a "Coming soon" badge and the
-// only action is the waitlist.
-export function ProductPage({ slug }: { slug: ProductSlug }) {
+// One product's section on the Product page (Workspace, Arena, Developer
+// Space). Every product is pre-launch, so the section carries a "Coming soon"
+// badge and the only action is the waitlist. `slug` is the section's anchor.
+export function ProductSection({ slug }: { slug: ProductSlug }) {
   const product = PRODUCTS.find((p) => p.slug === slug)!;
   const page = PRODUCT_PAGES[slug];
 
   return (
-    <main>
+    <div id={slug} className="scroll-mt-(--navbar-height) border-t border-line">
       <section className="mx-auto max-w-5xl px-4 pb-16 pt-16 text-center sm:px-6 sm:pt-24">
         <div className="flex items-center justify-center gap-3">
           <p className="font-mono text-xs tracking-widest text-muted">
@@ -27,9 +27,9 @@ export function ProductPage({ slug }: { slug: ProductSlug }) {
             Coming soon
           </span>
         </div>
-        <h1 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+        <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
           {product.name}
-        </h1>
+        </h2>
         <p className="mx-auto mt-6 max-w-2xl text-xl">{product.body}</p>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-muted">{page.intro}</p>
         {page.emphasis && (
@@ -64,6 +64,6 @@ export function ProductPage({ slug }: { slug: ProductSlug }) {
           </WaitlistButton>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

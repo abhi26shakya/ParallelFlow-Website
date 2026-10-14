@@ -40,20 +40,29 @@ export function MobileMenu() {
           id={panelId}
           className="absolute inset-x-0 top-full max-h-[calc(100dvh-var(--navbar-height))] overflow-y-auto border-b border-line bg-background px-4 pb-6 pt-2"
         >
-          {NAV_GROUPS.map((group) => (
-            <div key={group.label} className="py-2">
-              <p className="px-3 py-1 text-xs font-medium uppercase tracking-wide text-muted">
-                {group.label}
-              </p>
-              <ul>
-                {group.items.map((item) => (
-                  <li key={item.label}>
-                    <NavItemRow item={item} onSelect={() => setOpen(false)} />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {NAV_GROUPS.map((group) =>
+            group.href ? (
+              <div key={group.label} className="py-2">
+                <NavItemRow
+                  item={{ label: group.label, href: group.href }}
+                  onSelect={() => setOpen(false)}
+                />
+              </div>
+            ) : (
+              <div key={group.label} className="py-2">
+                <p className="px-3 py-1 text-xs font-medium uppercase tracking-wide text-muted">
+                  {group.label}
+                </p>
+                <ul>
+                  {group.items.map((item) => (
+                    <li key={item.label}>
+                      <NavItemRow item={item} onSelect={() => setOpen(false)} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ),
+          )}
           <WaitlistButton className="mt-3 w-full" />
         </div>
       )}

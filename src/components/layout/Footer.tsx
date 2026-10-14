@@ -45,11 +45,13 @@ function LinkedInIcon() {
 // only once their pages exist.
 const NAV_COLUMNS: FooterColumn[] = NAV_GROUPS.map((group) => ({
   label: group.label,
-  items: group.items.flatMap((item) =>
-    item.href
-      ? [{ label: item.footerLabel ?? item.label, href: item.href }]
-      : [],
-  ),
+  items: group.href
+    ? [{ label: group.label, href: group.href }]
+    : group.items.flatMap((item) =>
+        item.href
+          ? [{ label: item.footerLabel ?? item.label, href: item.href }]
+          : [],
+      ),
 })).filter((column) => column.items.length > 0);
 
 const CONNECT: FooterColumn = {

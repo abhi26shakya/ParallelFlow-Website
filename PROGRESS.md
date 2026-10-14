@@ -1,6 +1,32 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, and the "How it works" and "Trust" sections were removed from the home page.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, and the three product pages were merged into one Product page.
+
+## Change after Phase 11: One Product page
+
+**Owner decisions (2026-10-14)**
+- "Product" in the navbar is now a plain link to `/product`, with no dropdown, on desktop and mobile. The footer's Product column has one "Product" link.
+- `/product` shows Workspace, Arena and Developer Space as sections, in that order. Each section reuses the old product page layout and copy unchanged ("How it connects" cards and the closing Join Waitlist line included). Product names are now H2s.
+- Page copy adds nothing new: title "Product | ParallelFlow", H1 "Product", a "Coming soon" badge, and the core value proposition as the subline and meta description.
+- The product cards (SDLC page and inside each section) link to `/product#workspace`, `/product#arena` and `/product#developer-space`. The cards keep their old order.
+- The old URLs `/product/arena`, `/product/workspace` and `/product/developer-space` are removed and permanently redirect (308) to the matching anchor.
+
+**Files changed**
+- New: `src/app/product/page.tsx`
+- Removed: `src/app/product/arena/page.tsx`, `src/app/product/workspace/page.tsx`, `src/app/product/developer-space/page.tsx`
+- Renamed: `src/components/sections/ProductPage.tsx` to `ProductSection.tsx` (wrapper `<main>` became a `<div>` with the anchor id, H1 became H2)
+- Changed: `src/content/products.ts` (hrefs), `src/lib/nav.ts` (groups can be a plain link), `src/components/layout/Navbar.tsx`, `MobileMenu.tsx`, `Footer.tsx`, `src/components/sections/ProductCards.tsx` (comment), `src/lib/seo.ts` (sitemap lists `/product`), `next.config.ts` (redirects), `PROGRESS.md`
+
+**Setup needed from the owner**
+- None. No migrations, env vars or dependencies.
+
+**Verified**
+- Lint, type-check and production build pass. `/product` is prerendered as static.
+- With `next start`: the old URLs return 308 to the anchors, `/product` has one H1 and the three section ids, and the sitemap lists `/product` instead of the three old URLs.
+
+**Still incomplete / notes**
+- Not checked visually in a browser. Check the page at desktop and phone width, and that the navbar link and anchor jumps land below the sticky navbar.
+- `/product` has no row in the brief's Part 7 metadata table. The per-product titles and descriptions there are no longer used.
 
 ## Change after Phase 11: "How it works" and "Trust" sections removed from the home page
 

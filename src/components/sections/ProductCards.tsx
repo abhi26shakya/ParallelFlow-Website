@@ -2,7 +2,7 @@ import Link from "next/link";
 import { PRODUCTS, type ProductSlug } from "@/content/products";
 
 // Arena, Workspace and Developer Space, each still marked "Coming soon" and
-// linking to its product page. `exclude` hides the current product.
+// linking to its section on the Product page. `exclude` hides the current product.
 export function ProductCards({ exclude }: { exclude?: ProductSlug }) {
   const products = PRODUCTS.filter((product) => product.slug !== exclude);
   return (
