@@ -1,6 +1,39 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, and the home hero got animated monochrome light beams behind its heading.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, and "The Problems" became an accordion beside a pinned, dithered visual card.
+
+## Change after Phase 11: "The Problems" accordion and dithered card
+
+**Owner decisions (2026-10-15)**
+- Layout and motion modelled on memorable.sh's "One Memory For Every Agent Type" section (pattern only; no text, marks or images copied). The left column has a light-weight heading, a new subtitle and a bordered accordion. The right column has a square card with a dithered background, a frosted frame and a black screen showing one coded scene per item.
+- **Colour exception (owner approved):** the card's dither uses indigo, violet and sunset colours, and the scenes use indigo `#6B6BFF`, orange `#FF7A45` and green `#3DDC84` accents. This applies to the Problems card only; the rest of the site stays monochrome.
+- New subtitle copy: "Coding got faster. Everything around it didn't." (`PROBLEM.subtitle`). Item copy is unchanged. Item 05 opens with its title only, because it has no description.
+- Rows follow the light and dark theme. The card stays dark in both themes.
+- The frame sits in the vertical centre of the card (22.5% above and below), with the indigo above it and the sunset below (owner request).
+
+**Behaviour**
+- Pinned (`pin` variant: at least 1024px wide and 672px tall): a 350svh wrapper. Scroll position picks the open row, and the row's 1px progress line fills with scroll. Clicking a row opens it and smooth-scrolls to its stretch, without flashing the rows it passes.
+- Elsewhere: one column with the card above the rows. Rows auto-advance every 6s; the advance pauses on hover, on focus and off screen, and stops once a row is tapped.
+- Reduced motion: the dither is a still frame, nothing advances on its own, and scene swaps are instant and show a fixed final frame.
+- Rows are buttons with `aria-expanded` and `aria-controls`; closed panels are `inert`. Arrow keys, Home and End move focus between rows. The card announces the active title through `aria-live="polite"`.
+- The dither runs on a canvas: 5px cells, a 4x4 Bayer ordered dither, about 20fps. It pauses off screen and in a hidden tab, and sizes itself with ResizeObserver and devicePixelRatio. Scenes are SVGs animated with `motion` (opacity, transform and pathLength only), and they unmount once faded out.
+
+**Files changed**
+- New: `src/components/home/problems/` (`ProblemCard.tsx`, `DitherBackground.tsx`, `ProblemScene01.tsx` to `ProblemScene05.tsx`, `sceneKit.tsx`, `problems.css`)
+- Changed: `src/components/home/ProblemStory.tsx` (rewritten), `src/content/home.ts` (`PROBLEM.subtitle`), `PROGRESS.md`
+- `src/components/home/ProblemVisuals.tsx` is now unused but kept, because a comment in `SolutionDiagram.tsx` refers to it. It can be deleted later along with that comment.
+
+**Setup needed from the owner**
+- None. No migrations, env vars or dependencies.
+
+**Verified**
+- Lint, type-check and production build pass.
+- Headless Chrome screenshots of the production build at 1440x900 (all five rows by scroll, each with the right scene, counter and `aria-live` text), in the light theme, under reduced motion, at 1280x650 (unpinned fallback) and at 390x844 (auto-advance moved to row 2). No console errors.
+
+**Still incomplete / notes**
+- `problems.css` is a plain stylesheet, not a CSS module: the Tailwind Turbopack loader drops CSS-module scoping (and `:global`), and it polyfills `light-dark()` into variables that never get set. Every class is prefixed `pf-problems-` instead.
+- On phones, scene labels scale down to about 6 to 7px, because each scene is one SVG scaled to the screen. At 1440px they are about 10 to 11px.
+- Not checked by hand: real trackpad scrolling feel, click-to-scroll smoothness, keyboard focus rings, and Safari (`backdrop-filter`, `inert`).
 
 ## Change after Phase 11: Hero light beams
 
