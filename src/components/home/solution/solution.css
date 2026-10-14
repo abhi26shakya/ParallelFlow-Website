@@ -1,0 +1,209 @@
+/* "The Solution", imported by SolutionStory.tsx. A copy of
+   ../problems/problems.css with every class renamed to pf-solution-, so the
+   two sections share a look but no selectors. The dither canvas and scene
+   SVGs come from ../problems unchanged and keep their pf-problems- classes
+   (problems.css is imported alongside this file). */
+
+.pf-solution-root {
+  --pf-solution-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --pf-solution-border: #262626;
+  --pf-solution-title: #bdbdbd;
+  --pf-solution-text: #9a9a9a;
+  --pf-solution-active-bg: linear-gradient(
+    90deg,
+    #0b0c0f,
+    #16181c 60%,
+    #0b0c0f
+  );
+  --pf-solution-highlight: rgb(255 255 255 / 0.04);
+}
+
+[data-theme="light"] .pf-solution-root {
+  --pf-solution-border: var(--color-line);
+  --pf-solution-title: var(--color-muted);
+  --pf-solution-text: var(--color-muted);
+  --pf-solution-active-bg: linear-gradient(
+    90deg,
+    #ffffff,
+    #f1f2f4 60%,
+    #ffffff
+  );
+  --pf-solution-highlight: rgb(0 0 0 / 0.04);
+}
+
+.pf-solution-subtitle {
+  color: var(--pf-solution-text);
+}
+
+/* Accordion */
+
+.pf-solution-list {
+  border: 1px solid var(--pf-solution-border);
+}
+
+.pf-solution-row {
+  position: relative;
+}
+
+.pf-solution-row + .pf-solution-row {
+  border-top: 1px solid var(--pf-solution-border);
+}
+
+.pf-solution-row[data-active="true"] {
+  background: var(--pf-solution-active-bg);
+  box-shadow: inset 0 1px 0 var(--pf-solution-highlight);
+}
+
+.pf-solution-title {
+  color: var(--pf-solution-title);
+  font-weight: 400;
+  transition: color 400ms var(--pf-solution-ease);
+}
+
+.pf-solution-row[data-active="true"] .pf-solution-title {
+  color: var(--color-foreground);
+  font-weight: 500;
+}
+
+/* A thin "+" that becomes "–" by flattening its vertical stroke. */
+.pf-solution-icon {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--pf-solution-title);
+}
+
+.pf-solution-icon::before,
+.pf-solution-icon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  background: currentColor;
+  transition: transform 400ms var(--pf-solution-ease);
+}
+
+.pf-solution-icon::before {
+  width: 100%;
+  height: 1px;
+}
+
+.pf-solution-icon::after {
+  width: 1px;
+  height: 100%;
+}
+
+.pf-solution-row[data-active="true"] .pf-solution-icon {
+  color: var(--color-foreground);
+}
+
+.pf-solution-row[data-active="true"] .pf-solution-icon::after {
+  transform: scaleY(0);
+}
+
+/* Expands without measuring: the grid row grows from 0fr to 1fr. */
+.pf-solution-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 400ms var(--pf-solution-ease),
+    opacity 400ms var(--pf-solution-ease);
+}
+
+.pf-solution-panel[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.pf-solution-panel > div {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.pf-solution-text {
+  color: var(--pf-solution-text);
+}
+
+.pf-solution-progress {
+  position: absolute;
+  inset-inline: 0;
+  bottom: -1px;
+  height: 1px;
+  transform-origin: left;
+  background: var(--color-foreground);
+}
+
+/* Auto-advance: the line fills over 6s and its animationend moves to the
+   next row, so pausing the animation pauses the advance too. */
+@keyframes pf-solution-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.pf-solution-progress-auto {
+  animation: pf-solution-fill 6s linear both;
+}
+
+.pf-solution-root[data-paused="true"] .pf-solution-progress-auto,
+.pf-solution-list:focus-within .pf-solution-progress-auto {
+  animation-play-state: paused;
+}
+
+@media (hover: hover) {
+  .pf-solution-list:hover .pf-solution-progress-auto {
+    animation-play-state: paused;
+  }
+}
+
+/* Visual card */
+
+.pf-solution-card {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #000000;
+  color: #e5e5e5;
+  /* The card is dark in both themes. */
+  color-scheme: dark;
+}
+
+
+.pf-solution-frame {
+  /* Centred vertically: (100% - 55%) / 2 above and below. */
+  position: absolute;
+  top: 22.5%;
+  left: 8%;
+  right: 8%;
+  height: 55%;
+  padding: 10px;
+  border-radius: 14px;
+  background: rgb(200 180 255 / 0.22);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@media (width >= 40rem) {
+  .pf-solution-frame {
+    padding: 18px;
+  }
+}
+
+.pf-solution-screen {
+  position: relative;
+  height: 100%;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #050506;
+}
+
+.pf-solution-scene {
+  position: absolute;
+  inset: 0;
+}

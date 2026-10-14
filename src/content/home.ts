@@ -73,6 +73,8 @@ export type SolutionStep = {
 
 export const SOLUTION = {
   title: "The Solution",
+  // Owner-supplied, 2026-10-15.
+  subtitle: "One place where humans and agents build, track, and ship together.",
   steps: [
     {
       title: "One connected workflow.",
