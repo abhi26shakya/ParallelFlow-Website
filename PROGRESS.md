@@ -1,6 +1,26 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, and "The solution" became the scroll-built "The Solution" diagram.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, and the "How it works" and "Trust" sections were removed from the home page.
+
+## Change after Phase 11: "How it works" and "Trust" sections removed from the home page
+
+**Owner decision (2026-10-14)**
+- The "How it works" section (product cards) and the "Trust" / "Human oversight" section are removed from the home page. "The Solution" now leads straight into "Who it's for".
+- This changes the section order approved in Phase 5, which followed the brief's "Product page key points for YC" table.
+- `HOW_IT_WORKS` and `OVERSIGHT` are deleted from `src/content/home.ts`. `ProductCards` stays, since the SDLC and product pages still use it.
+- The owner chose to change only the home page. The SDLC page is unchanged.
+
+**Files changed**
+- `src/components/home/HomeBody.tsx`
+- `src/content/home.ts`
+- `PROGRESS.md`
+
+**Verified**
+- Lint, type-check and production build pass.
+
+**Still incomplete / open decision**
+- The SDLC hero's "Explore the Platform" button (`SDLC_HERO.secondaryCta` in `src/content/sdlc.ts`) still links to `/#how-it-works`, an anchor that no longer exists. It now just opens the top of the home page. The owner needs to decide whether to repoint it or remove it.
+- The Solution finale's scroll handoff was built to release into "How it works". It now releases into "Who it's for". Check it in a browser.
 
 ## Change after Phase 11: "The Solution" rebuilt as a scroll-built diagram
 

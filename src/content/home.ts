@@ -96,38 +96,6 @@ export const SOLUTION = {
   finale: ["Plan together.", "Execute with AI.", "Move forward as a team."],
 };
 
-export const HOW_IT_WORKS = {
-  label: "How it works",
-  title: "From isolated tools to coordinated work.",
-  intro:
-    "Arena determines what the team needs to accomplish. Workspace is where the work is performed. Developer Space provides the reusable capabilities agents use.",
-};
-
-export const OVERSIGHT = {
-  label: "Trust",
-  title: "Human oversight",
-  intro:
-    "Keep people involved in important decisions and require approval for sensitive operations when appropriate.",
-  items: [
-    {
-      title: "Clear ownership",
-      body: "Every task has a clear owner, and agent status stays visible.",
-    },
-    {
-      title: "Approval for consequential actions",
-      body: "Sensitive code changes, merges, permission changes, and production actions require human approval.",
-    },
-    {
-      title: "Permissions",
-      body: "Agents cannot bypass permissions or approvals.",
-    },
-    {
-      title: "Private personal assistants",
-      body: "Personal assistants are optional and member-controlled. Private conversations are never automatically exposed.",
-    },
-  ] satisfies SectionItem[],
-};
-
 export const AUDIENCE = {
   label: "Who it's for",
   title: "Software engineering teams using AI to build and ship software.",
