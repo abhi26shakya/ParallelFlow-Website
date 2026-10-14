@@ -1,5 +1,6 @@
 import { MessageCircle } from "lucide-react";
 import { buttonClass } from "@/components/ui/Button";
+import { HeroBeams } from "@/components/home/HeroBeams";
 import { HERO } from "@/content/home";
 import { TALK_TO_US_URL } from "@/lib/site";
 
@@ -10,8 +11,9 @@ const fadeIn =
 
 export function Hero() {
   return (
-    <section className="mx-auto max-w-7xl px-4 pb-20 pt-16 text-center sm:px-6 sm:pb-24 sm:pt-28">
-      <div className={fadeIn}>
+    <section className="relative mx-auto max-w-7xl px-4 pb-20 pt-16 text-center sm:px-6 sm:pb-24 sm:pt-28">
+      <HeroBeams />
+      <div className={`relative z-10 ${fadeIn}`}>
         <p className="inline-flex rounded-pill border border-line px-3 py-1 text-xs font-medium text-muted">
           {HERO.status}
         </p>
