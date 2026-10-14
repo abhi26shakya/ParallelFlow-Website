@@ -1,6 +1,56 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, and "The Problems" became an accordion beside a pinned, dithered visual card.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, and "The Solution" was rebuilt to match it, mirrored.
+
+## Change after Phase 11: "The Solution" matches "The Problems"
+
+**Owner decisions (2026-10-15)**
+- "The Solution" uses the same design system and behaviour as "The Problems", mirrored: the dithered visual card on the left (about 52%) and the heading, subtitle and accordion on the right (about 45%).
+- **Colour exception extended (owner request):** the Solution card uses the same dither and the same scene accents (indigo, orange, green). The rest of the site stays monochrome.
+- New subtitle copy: "One place where humans and agents build, track, and ship together." (`SOLUTION.subtitle`). Item copy is unchanged. For items 01 to 04, the description is the hook and support line joined. Item 05's three sentences form one title with no description.
+- Each scene resolves its matching problem scene and ends in a green "resolved" state:
+  - 01: the Plan → Ship flow turns solid and ships
+  - 02: one project window links people, agents, tasks and context
+  - 03: the decision is pinned and restored in session #2
+  - 04: agents move cards across the board, and the person only approves
+  - 05: shipped rises with tasks, and "=" replaces "≠"
+
+**Behaviour**
+- Same as "The Problems", with its own scroll, observers and state:
+  - pinned 350svh wrapper (`pin` variant), with scroll picking the row
+  - clicking a row scrolls to its stretch
+  - outside the `pin` variant, 6s auto-advance until a tap
+  - reduced motion: no shimmer, no advance and instant swaps
+  - accessibility: `aria-expanded`/`aria-controls`, arrow keys, `aria-live` title
+- The section keeps `aria-labelledby="solution-title"` (it had no anchor id).
+
+**Files changed**
+- New in `src/components/home/solution/`:
+  - `SolutionCard.tsx`, a copy of `ProblemCard.tsx` with the solution scenes
+  - `SolutionScene01.tsx` to `SolutionScene05.tsx`
+  - `solution.css`, a `pf-solution-` copy of the accordion and card rules
+- Changed:
+  - `src/components/home/SolutionStory.tsx` (rewritten)
+  - `src/content/home.ts` (`SOLUTION.subtitle` only)
+  - `PROGRESS.md`
+- Reused unchanged from `src/components/home/problems/`: `DitherBackground.tsx`, `sceneKit.tsx` and `problems.css` (for the canvas and scene SVG classes). No Problems file was edited.
+- `src/components/home/SolutionDiagram.tsx` is now unused but kept, as is the `pin-tall` variant in `globals.css`. Both can be removed later.
+
+**Setup needed from the owner**
+- None. No migrations, env vars or dependencies.
+
+**Verified**
+- Lint, type-check and production build pass.
+- Headless Chrome on the production build:
+  - at 1440x900, scroll opens rows 1 to 5 with the matching scene, counter and `aria-live` text, and both cards are 549px square at the same height
+  - clicking row 4 opens it, ArrowDown moves focus to row 5, and "The Problems" keeps its own open row
+  - under reduced motion, final frames show
+  - at 390x844, the card sits above the rows and auto-advance moved to row 2 after 6s
+  - no console errors
+
+**Still incomplete / notes**
+- Not checked by hand: the light theme, real trackpad scrolling feel, Safari, and keyboard focus rings.
+- In scene 01, the pulse briefly covers each node's label as it passes.
 
 ## Change after Phase 11: "The Problems" accordion and dithered card
 
