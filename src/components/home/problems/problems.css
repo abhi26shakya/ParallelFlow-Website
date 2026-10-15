@@ -221,3 +221,42 @@
   height: 100%;
   font-family: var(--font-mono);
 }
+
+/* Hover: the frame tilts toward the pointer and lifts a little, and a faint
+   sheen follows it across the glass. useCardHover.ts sets data-hover and
+   --pf-hover-x / --pf-hover-y on the card; the dots glow in
+   DitherBackground.tsx. */
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .pf-problems-frame {
+    transition: transform 700ms var(--pf-problems-ease);
+  }
+
+  .pf-problems-card[data-hover="true"] .pf-problems-frame {
+    transform: perspective(900px)
+      rotateX(calc((0.5 - var(--pf-hover-y, 0.5)) * 6deg))
+      rotateY(calc((var(--pf-hover-x, 0.5) - 0.5) * 6deg))
+      translateY(-3px);
+    transition-duration: 250ms;
+  }
+
+  .pf-problems-frame::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      circle at calc(var(--pf-hover-x, 0.5) * 100%)
+        calc(var(--pf-hover-y, 0.5) * 100%),
+      rgb(255 255 255 / 0.1),
+      transparent 55%
+    );
+    opacity: 0;
+    transition: opacity 500ms var(--pf-problems-ease);
+  }
+
+  .pf-problems-card[data-hover="true"] .pf-problems-frame::before {
+    opacity: 1;
+  }
+}

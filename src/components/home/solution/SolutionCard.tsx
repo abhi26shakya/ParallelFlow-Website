@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { type ComponentType, useEffect, useRef, useState } from "react";
 import { DitherBackground } from "../problems/DitherBackground";
 import type { SceneProps } from "../problems/sceneKit";
+import { useCardHover } from "../problems/useCardHover";
 import { SolutionScene01 } from "./SolutionScene01";
 import { SolutionScene02 } from "./SolutionScene02";
 import { SolutionScene03 } from "./SolutionScene03";
@@ -66,6 +67,8 @@ export function SolutionCard({
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
+
+  useCardHover(ref, reduced);
 
   const play = inView && !reduced;
 

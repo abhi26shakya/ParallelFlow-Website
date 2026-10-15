@@ -7,11 +7,19 @@ import { useEffect, useRef } from "react";
 // the sides of the frame and a sunset glow under it. While `play` is on it
 // shimmers at about 20fps; it also stops while the tab is hidden. Otherwise
 // it holds one still frame. Owner-approved colour exception (2026-10-15).
+// While a mouse hovers the card (and `play` is on) a soft lavender glow
+// follows the pointer through the dots, eased in and out.
 
 // CSS px per dot cell, and the dark gap between dots.
 const CELL = 5;
 const GAP = 1;
 const FRAME_MS = 50;
+// Faster frames while hovered, so the glow follows the pointer smoothly.
+const HOVER_FRAME_MS = 33;
+// Glow radius (as a card fraction) and easing time constants in seconds.
+const GLOW_SIGMA = 0.11;
+const GLOW_TAU = 0.15;
+const FOLLOW_TAU = 0.09;
 // Brightness levels a dot can take, including off.
 const LEVELS = 4;
 
@@ -46,6 +54,7 @@ const ORANGE = hex("#e98a5a");
 const GOLD = hex("#f5c27a");
 const MAGENTA = hex("#6e2448");
 const BROWN = hex("#3a1c12");
+const GLOW = mix(LAVENDER, [1, 1, 1], 0.3);
 
 // The frame's box as card fractions (matches .pf-problems-frame).
 const LEFT = 0.08;
@@ -110,6 +119,17 @@ export function DitherBackground({ play }: { play: boolean }) {
     let last = 0;
     const born = performance.now();
 
+    // Hover glow: the pointer target, its eased position and strength.
+    const host = canvas.parentElement;
+    const hoverable =
+      play && !!host && window.matchMedia("(hover: hover)").matches;
+    let target = 0;
+    let amount = 0;
+    let tx = 0.5;
+    let ty = 0.5;
+    let hx = 0.5;
+    let hy = 0.5;
+
     const draw = (now: number) => {
       if (!image || !gaps) return;
       const t = (now - born) / 1000;
@@ -120,9 +140,21 @@ export function DitherBackground({ play }: { play: boolean }) {
         const v = ((j + 0.5) * cellPx) / h;
         for (let i = 0; i < cols; i++) {
           const u = ((i + 0.5) * cellPx) / w;
-          const [r, g, b] = field(u, v, t);
+          let [r, g, b] = field(u, v, t);
+          let glow = 0;
+          if (amount > 0.001) {
+            const dx = ((u - hx) * w) / h;
+            const dy = v - hy;
+            glow = amount * Math.exp(-(dx * dx + dy * dy) / (2 * GLOW_SIGMA * GLOW_SIGMA));
+            r += GLOW[0] * glow * 0.55;
+            g += GLOW[1] * glow * 0.55;
+            b += GLOW[2] * glow * 0.55;
+          }
           const shimmer =
-            0.06 * Math.sin(i * 1.7 + j * 2.3 + t * 1.6) * Math.sin(i * 0.9 - j * 1.3 + t * 1.1);
+            0.06 *
+            (1 + 1.5 * glow) *
+            Math.sin(i * 1.7 + j * 2.3 + t * 1.6) *
+            Math.sin(i * 0.9 - j * 1.3 + t * 1.1);
           const peak = Math.max(r, g, b, 1e-4);
           const level =
             Math.floor(clamp(peak + shimmer) * (LEVELS - 1) + BAYER[(j % 4) * 4 + (i % 4)]) /
@@ -170,10 +202,48 @@ export function DitherBackground({ play }: { play: boolean }) {
 
     const tick = (now: number) => {
       raf = requestAnimationFrame(tick);
-      if (now - last < FRAME_MS) return;
+      const hovering = target > 0 || amount > 0.001;
+      const dt = now - last;
+      if (dt < (hovering ? HOVER_FRAME_MS : FRAME_MS)) return;
       last = now;
+      if (hovering) {
+        const s = Math.min(dt, 100) / 1000;
+        amount += (target - amount) * (1 - Math.exp(-s / GLOW_TAU));
+        const follow = 1 - Math.exp(-s / FOLLOW_TAU);
+        hx += (tx - hx) * follow;
+        hy += (ty - hy) * follow;
+        if (target === 0 && amount < 0.001) amount = 0;
+      }
       draw(now);
     };
+
+    const point = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse" || !host) return false;
+      const box = host.getBoundingClientRect();
+      tx = (event.clientX - box.left) / box.width;
+      ty = (event.clientY - box.top) / box.height;
+      return true;
+    };
+    const enter = (event: PointerEvent) => {
+      if (!point(event)) return;
+      // Start from the pointer when the glow was fully out.
+      if (amount === 0) {
+        hx = tx;
+        hy = ty;
+      }
+      target = 1;
+    };
+    const move = (event: PointerEvent) => {
+      point(event);
+    };
+    const leave = () => {
+      target = 0;
+    };
+    if (hoverable && host) {
+      host.addEventListener("pointerenter", enter);
+      host.addEventListener("pointermove", move);
+      host.addEventListener("pointerleave", leave);
+    }
 
     const sync = () => {
       cancelAnimationFrame(raf);
@@ -190,6 +260,11 @@ export function DitherBackground({ play }: { play: boolean }) {
       cancelAnimationFrame(raf);
       observer.disconnect();
       document.removeEventListener("visibilitychange", sync);
+      if (hoverable && host) {
+        host.removeEventListener("pointerenter", enter);
+        host.removeEventListener("pointermove", move);
+        host.removeEventListener("pointerleave", leave);
+      }
     };
   }, [play]);
 

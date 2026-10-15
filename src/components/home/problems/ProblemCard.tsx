@@ -10,6 +10,7 @@ import { ProblemScene03 } from "./ProblemScene03";
 import { ProblemScene04 } from "./ProblemScene04";
 import { ProblemScene05 } from "./ProblemScene05";
 import type { SceneProps } from "./sceneKit";
+import { useCardHover } from "./useCardHover";
 
 // The visual card for "The Problems": a dithered background, a frosted frame
 // and a black screen showing the active item's scene. Scenes crossfade; the
@@ -65,6 +66,8 @@ export function ProblemCard({
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
+
+  useCardHover(ref, reduced);
 
   const play = inView && !reduced;
 
