@@ -269,7 +269,7 @@ export function WaitlistForm() {
         // aria-disabled rather than disabled: a disabled button drops keyboard
         // focus. onSubmit already ignores repeat submits while sending.
         aria-disabled={submitting}
-        className="w-full rounded-pill bg-foreground px-5 py-2.5 text-sm font-semibold text-background transition-colors hover:bg-muted aria-disabled:cursor-not-allowed aria-disabled:opacity-70"
+        className="w-full rounded-pill bg-foreground px-5 py-2.5 text-sm font-semibold text-background transition-[color,background-color,box-shadow] duration-200 hover:shadow-glow focus-visible:shadow-glow aria-disabled:cursor-not-allowed aria-disabled:opacity-70 aria-disabled:shadow-none"
       >
         {submitting ? "Joining…" : "Join Waitlist"}
       </button>

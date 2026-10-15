@@ -1,6 +1,320 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, and both visual cards got a hover effect.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos.
+
+## Change after Phase 11: Buttons glow on hover
+
+**Owner request (2026-10-15)**
+- Every pill button on the site now glows on hover instead of fading. Before, the white primary pill faded to grey (`hover:bg-muted`).
+- **Owner override:** this goes against the brief's design rule to avoid "unnecessary glow", like the earlier approved glow exceptions.
+
+**Behaviour**
+- **Primary (white pill):** keeps its colour. On hover and on keyboard focus it gets a thin ring and a soft white halo (`--button-glow`).
+- **Secondary and soft:** keep their hover fill, plus a fainter halo (`--button-glow-soft`).
+- **Waitlist form submit:** glows like the primary, but not while it is sending.
+- **Light theme:** the halo is dark, because a white glow is invisible on white.
+- **Transition:** 200ms on colour, background and shadow. Under reduced motion the glow appears instantly.
+- **`DisabledButton`:** never glows. No page uses it today.
+- **Unchanged:** icon buttons (menu, theme toggle, modal close) and plain-text nav items.
+
+**Files changed**
+- `src/app/globals.css` (`--button-glow` and `--button-glow-soft` for both themes; `shadow-glow` and `shadow-glow-soft` utilities)
+- `src/components/ui/Button.tsx`
+- `src/components/waitlist/WaitlistForm.tsx`
+- `PROGRESS.md`
+
+**Verified**
+- Lint, type-check and production build pass.
+- In headless Chrome, in dark and light, hovering each of these changes `box-shadow` from none to the glow:
+  - the navbar's Join Waitlist
+  - the `/product` hero's "Get early access" and "Explore the modes"
+  - the closing band's Join Waitlist
+  - the Home hero's "Talk to us"
+  - the SDLC page's "Explore the Platform"
+  - the waitlist modal's submit
+- The white pill's background stays white on hover. No console errors.
+
+## Change after Phase 11: /product hero button label
+
+**Owner decision (2026-10-15)**
+- The owner asked for "Try ParallelFlow" in place of the hero's "Join Waitlist >". That wording implies the product can be used today, which conflicts with CLAUDE.md (waitlist-first, avoid "try it free"-style wording), so the owner chose the brief's own "early access" wording instead.
+- The hero's primary button now reads **"Get early access >"** (`PRODUCT_PAGE.hero.primaryCta`). It is the same white pill and still opens the waitlist modal.
+- The closing band at the bottom of `/product` keeps "Join Waitlist" (owner choice), as does the navbar.
+
+**Files changed**
+- `src/content/product-modes.ts`
+- `src/app/product/page.tsx`
+- `PROGRESS.md`
+
+**Verified**
+- Lint, type-check and production build pass.
+- In headless Chrome, `/product` shows "Get early access", "Explore the modes" and the closing "Join Waitlist", and clicking "Get early access" opens the waitlist modal.
+
+## Change after Phase 11: Product navbar menu after x.ai
+
+**Owner decision (2026-10-15)**
+- "Product" in the navbar is a dropdown again. This **reverses the 2026-10-14 decision** (in "One Product page" below) that made it a plain link.
+- It follows the list half of x.ai's Products menu (pattern only, nothing copied), inside the existing OpenAI-style full-width panel:
+  - Workspace, Arena and Developer Space as rows, each with its name above its one-liner from `products.ts` (no new copy) and a soft `bg-hover` highlight on hover and focus
+  - an "Overview →" link to `/product` was added, then removed at the owner's request; `/product` is still reachable from any row
+- Rows link to `/product#workspace`, `#arena` and `#developer-space`.
+- Solutions and Resources are unchanged. The footer still shows one "Product" link, because it uses the group's `href`.
+- Mobile menu: Product is a section heading with Workspace, Arena and Developer Space under it.
+
+**Follow-up (when the mode videos exist)**
+- Add x.ai's right-hand preview pane: a `PreviewWindow` beside the rows that switches on hover. It is left out for now because a blank pane in a menu looks broken.
+
+**Files changed**
+- `src/lib/nav.ts` (optional `description` on items; the Product group gets its items)
+- `src/components/layout/Navbar.tsx` and `MobileMenu.tsx` (a group is a plain link only when it has an `href` and no items)
+- `src/components/layout/NavItemRow.tsx` (the rich row)
+- `src/components/layout/NavDropdown.tsx` (the rich list and the Overview link)
+- `PROGRESS.md`
+
+**Setup needed from the owner**
+- None.
+
+**Verified**
+- Lint, type-check and production build pass.
+- Headless Chrome on the production build, at 1440x900 in dark and light:
+  - **Hover:** hovering Product opens the panel with the 3 rows. Hovering Arena highlights it.
+  - **Links:** clicking Arena lands on `/product#arena` at the navbar edge with the panel closed.
+  - **Keyboard:** Enter opens the menu, Tab focuses Workspace, and Escape closes it and returns focus to Product.
+  - **Footer:** shows a single "Product" link.
+- At 390x844, the mobile menu lists the three modes, and tapping Developer Space goes to `/product#developer-space`.
+- No horizontal overflow and no console errors.
+
+## Change after Phase 11: /product hero in the x.ai/grok style
+
+**Owner request (2026-10-15)**
+- **Eyebrow:** a placeholder logo mark, "ParallelFlow", a thin 12px divider, then "Desktop apps are coming soon" in dimmer grey (75% of `text-muted` in the dark theme; full `text-muted` in light, for contrast).
+- **Headline (owner-supplied):** "Where teams and AI agents / ship together." It replaces "Product". The style is `clamp(44px, 7vw, 80px)`, weight 500, line-height 1, tracking -0.04em.
+- **Subtext (owner-supplied):** "Plan, build, and ship in one connected workspace. / Your team, your agents, your context, all in sync." It is near-white (`text-foreground/90`) and replaces the value proposition in the hero. The value proposition stays as the page's meta description.
+- **Buttons:** "Join Waitlist >" is unchanged. "Explore the modes" is now a filled pill with no border, using a new `soft` button variant (`bg-hover`, hover `bg-line`).
+- **Spacing:** centred, with 20px between eyebrow, headline and subtext, and 112 to 160px above and 112 to 144px below the hero.
+- **Preview card:** the dots, mode title and "Product preview" pill are removed. What remains is a rounded card with a border and the existing glow, around the blank 16:9 screen.
+
+**Owner decisions**
+- **`LogoMark`** (two parallel slanted bars, from the brief's logo description) is a placeholder until real logo assets exist. It is used only in this eyebrow. The navbar and footer still use the text wordmark.
+- **"Product preview" label:** removed while the card is blank. **When videos are added, a visible "Product preview" label must come back** (CLAUDE.md rule). Screen readers still hear "<Mode> product preview, video coming soon".
+
+**Files changed**
+- `src/app/product/page.tsx` (hero only)
+- `src/components/brand/Logo.tsx` (adds `LogoMark`)
+- `src/components/ui/Button.tsx` (adds the `soft` variant)
+- `src/components/product/PreviewWindow.tsx`
+- `src/content/product-modes.ts` (`PRODUCT_PAGE.hero.title` and `.subtitle`)
+- `PROGRESS.md`
+
+**Setup needed from the owner**
+- None.
+
+**Verified**
+- Lint, type-check and production build pass. `/product` is still static.
+- Headless Chrome on the production build:
+  - **1440x900:** the H1 is 80px with an 80px line-height, -3.2px letter-spacing and weight 500. The subtext is white at 90%. The soft button has a filled background and a 0px border.
+  - **390x844:** the H1 is 44px.
+  - **Card and showcase:** the card has no chrome or text, and the showcase still follows the active mode.
+  - **Themes and stability:** dark and light both checked. No horizontal overflow and no console errors.
+
+## Change after Phase 11: Navbar restyled after openai.com
+
+**Owner request (2026-10-15)**
+- The line under the navbar is removed, and the bar now follows openai.com's (pattern only; nothing copied). Measured in headless Chrome:
+  - **openai.com's bar:** 64px tall, solid page background and no border. It spans the full width with 32px gutters, and the plain-text items sit right after the logo.
+  - **Hover:** hovering one item dims the others to 60%.
+  - **Buttons:** 36px pills.
+  - **Dropdowns:** a full-width panel in the page colour (a muted label above large links), with the page behind blurred and dimmed.
+- **Owner choices:** the bar spans the full width, and dropdowns open as a full-width panel.
+
+**Behaviour**
+- **Bar:**
+  - no bottom border
+  - full width, with 16, 24 and 32px gutters by screen size
+  - Product, Solutions and Resources as plain `text-sm` items 28px apart, with no hover background and no chevrons
+  - Join Waitlist is the only action, as a 36px pill
+- **Hover:** hovering an item dims the others to `text-muted`. An open dropdown's trigger stays bright.
+- **Solutions and Resources:** each opens a full-width panel under the bar, with the group label in muted text above `text-2xl` links. Resources items stay non-clickable with "Coming soon".
+  - The page below is blurred and dimmed (`bg-background/40 backdrop-blur-md`). Moving the pointer onto it, clicking it, Escape, an outside click, or focus leaving closes the panel.
+  - It still opens on click and keyboard, with `aria-expanded` and `aria-controls`.
+  - It fades in with `motion-safe:animate-fade-in`.
+- **Mobile menu:** fills the screen below the bar, with no border, muted `text-sm` group labels and `text-lg` links. Behaviour is unchanged.
+
+**Files changed**
+- `src/components/layout/Navbar.tsx`
+- `src/components/layout/NavDropdown.tsx` (rewritten)
+- `src/components/layout/NavItemRow.tsx` (adds `NAV_ITEM_CLASS` and a `size` prop)
+- `src/components/layout/MobileMenu.tsx`
+- `PROGRESS.md`
+
+**Setup needed from the owner**
+- None.
+
+**Verified**
+- Lint, type-check and production build pass.
+- Headless Chrome on the production build, at 1440x900 in dark and light:
+  - **Bar measurements:** the bottom border is 0px, the logo is 32px from the left, and Join Waitlist is 32px from the right and 36px tall.
+  - **Hover:** hovering Solutions dims Product and Resources and opens the panel. Moving onto the dimmed page closes it.
+  - **Resources:** shows three "Coming soon" labels and no links.
+  - **Keyboard:** Enter opens Solutions, Tab reaches "Engineering: SDLC", and Escape closes the panel and returns focus to Solutions.
+  - **Navigation:** clicking "Engineering: SDLC" goes to the SDLC page with the panel closed.
+- At 390x844, the menu fills the screen and tapping Product navigates and closes it.
+- No horizontal overflow and no console errors.
+
+**Still incomplete / notes**
+- Not checked by hand: Safari (`backdrop-filter`), real touch devices, and tablets between 768 and 1024px wide.
+
+## Change after Phase 11: Product page showcase tweaks
+
+**Owner request (2026-10-15)**
+- The "Coming soon" pills beside Workspace, Arena and Developer Space are removed. The page still marks the products as coming soon in the hero eyebrow ("Desktop apps are coming soon"), the "What it's designed to do" subline and the closing band.
+- Each mode's text now lines up with the preview window. At lg and up, each block is as tall as the window's sticky box (`100svh` minus the navbar) and centres its text. The section is about 3 screens tall instead of 1.5.
+- The window is a little larger: the grid is now `minmax(0,1fr)_minmax(0,1.6fr)` with `gap-12` (was `1fr_1.3fr`, `gap-16`). At 1280px wide and up it is about 650x406 (was about 588 wide). The text column is about 406px.
+
+**Files changed**
+- `src/components/product/ModeShowcase.tsx`
+- `PROGRESS.md`
+
+**Verified**
+- Lint, type-check and production build pass.
+- In headless Chrome on the production build:
+  - **Alignment:** at 1280x720, 1440x900 and 1920x1080, with each mode centred on screen, the vertical centre of the text and of the window match to the pixel. The opacity and window title follow the active mode. `/product#arena` also lands aligned.
+  - **Other checks:** 390x844 is unchanged apart from the pills. There is no horizontal overflow.
+
+## Change after Phase 11: Product page in the style of x.ai/grok
+
+**Owner decisions (2026-10-15)**
+- `/product` is restyled after the product page on x.ai/grok (layout, spacing, typography and motion only; no text, marks or images copied). It replaces the split sections from "Product page work modes" below, in the same session.
+- The three modes are the scroll-linked "features", beside one sticky "Product preview" window. The window is still blank for the owner's videos.
+- The sticky mode switcher is removed. The `#workspace`, `#arena` and `#developer-space` anchors still work.
+- Headings on this page are medium weight with tight tracking, as on Grok, instead of the brief's bold.
+
+**What x.ai/grok does** (measured in headless Chrome at 1440x900)
+- **Hero:** centred. An eyebrow ("Grok ∣ Available on…"), an H1 at 60px and weight 450 with -1% tracking, an 18px subline, and a primary pill with a chevron plus a soft secondary pill.
+- **Feature section:** `grid-cols-[1fr_1.3fr] gap-16`. Each feature block is `min-h-[50vh]` and centred, with an icon, a 30px/500 H3, a 16/26 paragraph and 3 check bullets.
+  - A single sticky demo card (`top: calc(50vh - 220px)`) swaps its contents to match the active feature.
+  - The block crossing the middle of the screen is at opacity 1, and the others at 0.2, with a 500ms fade.
+- **Below it:**
+  - an "And much more" 3-column grid (16px muted icon, 14px title, 12px muted line, no cards)
+  - "Get started", with 3 bordered cards numbered 01 to 03
+  - a soft-filled closing CTA band
+  - contained hairline dividers between sections
+
+**The page now**
+1. **Hero:**
+   - an eyebrow, "ParallelFlow ∣ Desktop apps are coming soon"
+   - H1 "Product"
+   - the value proposition, verbatim
+   - Join Waitlist (with a chevron) and a secondary "Explore the modes" link to `#workspace`
+2. **Mode showcase** (`ModeShowcase.tsx`):
+   - Left: Workspace, Arena and Developer Space, each with an icon, the name (H2), "Coming soon", the `products.ts` one-liner and 3 check bullets.
+   - Right (at lg and up): one sticky window, centred in the screen below the navbar. Its title bar shows the active mode and fades in on change (`motion-safe` only).
+   - The active block comes from an IntersectionObserver on the line across the middle of the screen. Inactive blocks dim to 20% at lg and up.
+   - Below lg: no dimming, and each block shows its own blank window.
+3. **"What it's designed to do"** (`FeatureGrid.tsx`): all 15 features, one column per mode.
+4. **"How it connects":** 01 Arena, 02 Workspace, 03 Developer Space cards, using the brief's sentences.
+5. **Closing band:** "Join the waitlist", the closing line and Join Waitlist.
+
+**Copy for the owner to review** (`src/content/product-modes.ts`)
+- **Check bullets:** from the brief's Part 1 "Lead with" column, lightly trimmed:
+  - Workspace:
+    - "Sessions tied to projects"
+    - "Roles, tools, skills, and MCP connections managed in one place"
+    - "Interactive or autonomous mode within granted permissions"
+  - Arena:
+    - "One shared feed for people and a shared project agent"
+    - "One clear project goal, with task owners, status, and blockers"
+    - "Human approval for consequential actions"
+  - Developer Space:
+    - "Visual, low-code builder for roles and skills"
+    - "Personal and team libraries with versioning"
+    - "Secure sharing, with credentials never embedded"
+- **New lines, marked "Draft":**
+  - "Explore the modes"
+  - "Across Workspace, Arena, and Developer Space. All coming soon."
+  - "Join the waitlist"
+- The six draft features listed in the entry below are still awaiting review.
+
+**Files changed**
+- New: `src/components/product/ModeShowcase.tsx`, `src/components/product/FeatureGrid.tsx`
+- Changed:
+  - `src/app/product/page.tsx` (rewritten; same metadata)
+  - `src/components/product/PreviewWindow.tsx` (title and screen fade in on change)
+  - `src/components/product/modes.ts` (adds `MODE_ICON`)
+  - `src/content/product-modes.ts` (adds `highlights`, drops `number`, new `PRODUCT_PAGE` strings)
+  - `src/app/globals.css` (removes `--mode-nav-height`, adds `--animate-fade-in`)
+  - `PROGRESS.md`
+- Removed: `src/components/product/ModeNav.tsx`, `ModeSection.tsx`, `useMedia.ts`
+
+**Setup needed from the owner**
+- None. No migrations, env vars or dependencies.
+
+**Verified**
+- Lint, type-check and production build pass. `/product` is still prerendered as static.
+- Headless Chrome on the production build:
+  - **Scroll state:** at 1440x900 (dark and light) and 1920x1080, scrolling makes exactly one block opaque (opacity 1, others 0.2), and the sticky window's label matches it: Workspace, then Arena, then Developer Space. The window sits centred below the navbar and releases after the last block.
+  - **Anchors:** `/product#arena`, the old `/product/arena` redirect and "Explore the modes" all land at the top of the right block, below the navbar.
+  - **Other sizes and motion:** 390x844 and 768x1024 (with reduced motion) stack with inline windows.
+  - **Stability:** no horizontal overflow, a CLS of 0 at every size, and no console errors.
+
+**Still incomplete / notes**
+- The motion graphic videos are needed. They go in the screen in `PreviewWindow.tsx`, one per mode. The sticky window then swaps videos as the active mode changes.
+- Lighthouse was not run, because it is not installed here.
+- Not checked by hand: Safari, real phones, and trackpad scrolling feel.
+
+## Change after Phase 11: Product page work modes
+
+**Owner decisions (2026-10-15)**
+- `/product` shows the three work modes one at a time, in the order Workspace, Arena, Developer Space. Each mode has a split section: a framed "Product preview" window on one side, and its heading and feature list on the other. The window is on the left for Workspace and Developer Space and on the right for Arena. On phones the heading comes first, then the window, then the features.
+- **Windows left blank for motion graphic videos (owner request).** Coded scene animations were built first in this session, then deleted at the owner's request before any commit, so they are not in git history. Each window is a fixed 16:9 dark screen under a title bar with the mode name and a "Product preview" pill, so adding a video later causes no layout shift.
+- The feature list is static until the videos exist: no auto-cycling highlight, no click-to-scene sync. Syncing features to video timestamps can be added with the videos.
+- Accent: indigo `#6B6BFF`, now used only for the active dot in the mode switcher. Everything else stays monochrome.
+- Navbar: unchanged. Product stays a plain link. Instead, the page has a sticky mode switcher below the navbar.
+- The per-product "How it connects" blocks and closing lines are removed. They are replaced by one "How it connects" strip (the brief's three sentences) and one closing CTA.
+
+**Copy for the owner to review** (`src/content/product-modes.ts`)
+- Headlines are each product's `role` from `products.ts`, and value props are its `body`. Both are unchanged.
+- Each mode has five features. These are new drafts written from PROJECT_BRIEF.md Part 6 and marked `// Draft.` in the file:
+  - Workspace: "Project context, attached", "Deliverables to review"
+  - Arena: "A shared project agent", "Private personal assistants"
+  - Developer Space: "Distinct extension types", "Preview and test before sharing"
+- Approved Phase 8 text is reused for the other features, with two trims:
+  - "One shared feed" drops "Private conversations are never automatically exposed", which "Private personal assistants" now covers.
+  - "Visual, low-code builder" now reads "Create roles and skills step by step, without building every tool from scratch."
+- Closing line: "Workspace, Arena, and Developer Space are coming soon. Join the waitlist for early access and product updates."
+
+**Behaviour**
+- **Mode switcher:** sticky below the navbar while the three modes are on screen. The mode crossing the middle of the screen gets `aria-current`, and links smooth-scroll (instant under reduced motion). Anchors land just below the switcher.
+- **Preview windows:** each is `role="img"` with the label "<Mode> product preview, video coming soon".
+- **Anchors:** ids `#workspace`, `#arena` and `#developer-space` are unchanged, so the product cards and the old `/product/*` redirects still work.
+
+**Adding the videos later**
+- Put each video inside the 16:9 screen `div` in `src/components/product/PreviewWindow.tsx`, for example by passing a `src` per mode. Keep it muted, with no autoplay audio, and pause it under `prefers-reduced-motion`. Drop `role="img"` once a real video with its own label is there.
+- To add or reorder a feature, change the feature in `product-modes.ts` and its icon in `components/product/modes.ts` together.
+
+**Files changed**
+- New:
+  - `src/content/product-modes.ts`
+  - `src/components/product/`: `ModeNav.tsx`, `ModeSection.tsx`, `PreviewWindow.tsx`, `modes.ts` (feature icons), `useMedia.ts`
+- Changed:
+  - `src/app/product/page.tsx` (rewritten; same metadata)
+  - `src/app/globals.css` (`--mode-nav-height` only)
+  - `PROGRESS.md`
+- Removed: `src/components/sections/ProductSection.tsx` and `src/content/product-pages.ts`, which nothing else used. `PreviewSlot` and `ProductCards` stay, because the SDLC page uses them.
+- No new dependencies.
+
+**Setup needed from the owner**
+- None. No migrations, env vars or dependencies.
+
+**Verified**
+- Lint, type-check and production build pass. `/product` is still prerendered as static.
+- Headless Chrome on the production build, before the windows were blanked: the switcher marks the current mode, anchor jumps land at the switcher's bottom edge, `/product/arena` redirects to `/product#arena`, and there is no horizontal overflow and a CLS of 0 at 390, 768, 1440 and 1920 wide.
+- After blanking: screenshots at 1440x900 and 390x844 show the empty 16:9 windows, the switcher marks Arena as current, there is no horizontal overflow and there are no console errors.
+
+**Still incomplete / notes**
+- The motion graphic videos are needed for all three modes.
+- Lighthouse was not run, because it is not installed here.
+- Not checked by hand: Safari, real phones, and keyboard focus rings in the light theme.
 
 ## Change after Phase 11: Hover effect on the Problems and Solution cards
 

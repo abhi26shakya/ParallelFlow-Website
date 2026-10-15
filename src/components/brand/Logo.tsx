@@ -14,3 +14,20 @@ export function Logo({ className = "" }: { className?: string }) {
     </Link>
   );
 }
+
+// Placeholder symbol: two parallel slanted bars, after the brief's logo
+// description ("parallel paths"). Decorative; replace with the real mark once
+// logo assets exist. Not used in the navbar or footer yet.
+export function LogoMark({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      fill="currentColor"
+      className={className}
+    >
+      <path d="M6.2 2h2.6L5.4 14H2.8z" />
+      <path d="M11.2 2h2.6l-3.4 12H7.8z" />
+    </svg>
+  );
+}

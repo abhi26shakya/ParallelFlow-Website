@@ -38,25 +38,26 @@ export function MobileMenu() {
       {open && (
         <div
           id={panelId}
-          className="absolute inset-x-0 top-full max-h-[calc(100dvh-var(--navbar-height))] overflow-y-auto border-b border-line bg-background px-4 pb-6 pt-2"
+          className="absolute inset-x-0 top-full h-[calc(100dvh-var(--navbar-height))] overflow-y-auto bg-background px-4 pb-6 pt-2"
         >
           {NAV_GROUPS.map((group) =>
-            group.href ? (
+            group.href && group.items.length === 0 ? (
               <div key={group.label} className="py-2">
                 <NavItemRow
                   item={{ label: group.label, href: group.href }}
                   onSelect={() => setOpen(false)}
+                  size="medium"
                 />
               </div>
             ) : (
               <div key={group.label} className="py-2">
-                <p className="px-3 py-1 text-xs font-medium uppercase tracking-wide text-muted">
+                <p className="px-3 py-1 text-sm text-muted">
                   {group.label}
                 </p>
                 <ul>
                   {group.items.map((item) => (
                     <li key={item.label}>
-                      <NavItemRow item={item} onSelect={() => setOpen(false)} />
+                      <NavItemRow item={item} onSelect={() => setOpen(false)} size="medium" />
                     </li>
                   ))}
                 </ul>

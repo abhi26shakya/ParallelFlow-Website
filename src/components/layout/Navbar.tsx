@@ -4,23 +4,26 @@ import { WaitlistButton } from "@/components/waitlist/WaitlistButton";
 import { NAV_GROUPS } from "@/lib/nav";
 import { MobileMenu } from "./MobileMenu";
 import { NavDropdown } from "./NavDropdown";
+import { NAV_ITEM_CLASS } from "./NavItemRow";
 
 export function Navbar() {
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-background">
+    <header className="sticky top-0 z-50 bg-background">
       <nav
         aria-label="Main"
-        className="relative mx-auto flex h-(--navbar-height) max-w-6xl items-center justify-between px-4 sm:px-6"
+        className="relative flex h-(--navbar-height) items-center justify-between px-4 sm:px-6 lg:px-8"
       >
-        <div className="flex items-center gap-6">
+        <div className="flex h-full items-center">
           <Logo />
-          <div className="hidden items-center gap-1 md:flex">
+          {/* While the pointer is over the items, the others dim and the
+              hovered one (or an open dropdown's trigger) stays bright. */}
+          <div className="group/nav ml-8 hidden h-full items-center gap-7 md:flex">
             {NAV_GROUPS.map((group) =>
-              group.href ? (
+              group.href && group.items.length === 0 ? (
                 <Link
                   key={group.label}
                   href={group.href}
-                  className="inline-flex items-center rounded-control px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-hover"
+                  className={NAV_ITEM_CLASS}
                 >
                   {group.label}
                 </Link>
@@ -31,7 +34,7 @@ export function Navbar() {
           </div>
         </div>
         <div className="hidden md:block">
-          <WaitlistButton />
+          <WaitlistButton className="h-9 py-0" />
         </div>
         <MobileMenu />
       </nav>

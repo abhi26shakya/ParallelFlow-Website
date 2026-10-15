@@ -1,14 +1,19 @@
 import Link from "next/link";
 import type { ComponentProps } from "react";
 
-export type Variant = "primary" | "secondary";
+export type Variant = "primary" | "secondary" | "soft";
 
 const base =
-  "inline-flex items-center justify-center rounded-pill px-5 py-2.5 text-sm font-semibold transition-colors";
+  "inline-flex items-center justify-center rounded-pill px-5 py-2.5 text-sm font-semibold transition-[color,background-color,box-shadow] duration-200";
 
+// On hover the buttons glow rather than fade (owner request, 2026-10-15).
 const variants: Record<Variant, string> = {
-  primary: "bg-foreground text-background hover:bg-muted",
-  secondary: "border border-line text-foreground hover:bg-hover",
+  primary:
+    "bg-foreground text-background hover:shadow-glow focus-visible:shadow-glow",
+  secondary:
+    "border border-line text-foreground hover:bg-hover hover:shadow-glow-soft",
+  // Filled, no border: a quieter secondary action.
+  soft: "bg-hover text-foreground hover:bg-line hover:shadow-glow-soft",
 };
 
 export function buttonClass(variant: Variant = "primary", className = "") {
@@ -44,7 +49,7 @@ export function DisabledButton({
     <button
       type="button"
       disabled
-      className={`${base} ${variants.secondary} cursor-not-allowed text-muted opacity-80 hover:bg-transparent ${className}`}
+      className={`${base} ${variants.secondary} cursor-not-allowed text-muted opacity-80 hover:bg-transparent hover:shadow-none ${className}`}
       {...props}
     />
   );

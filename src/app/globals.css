@@ -61,6 +61,16 @@
   --animate-flow-pulse: flow-pulse 2.6s linear infinite;
   --animate-shimmer: shimmer 2.4s ease-in-out infinite;
 
+  /* Product page preview window: fades in when the active mode changes.
+     Used with motion-safe: only. */
+  --animate-fade-in: fade-in 300ms ease-out;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+
   @keyframes flow-pulse {
     from {
       stroke-dashoffset: 0.08;
@@ -149,6 +159,12 @@
   /* Hero video and problem windows: white glow above, dark shadow below. */
   --window-shadow: 0 -16px 80px -24px rgb(255 255 255 / 0.16),
     0 40px 80px -24px rgb(0 0 0 / 0.8);
+  /* Button hover glow (owner request, 2026-10-15): a thin ring and a soft
+     halo. The soft one is for secondary and soft buttons. */
+  --button-glow: 0 0 0 1px rgb(255 255 255 / 0.25),
+    0 0 20px 2px rgb(255 255 255 / 0.35), 0 0 48px 8px rgb(255 255 255 / 0.12);
+  --button-glow-soft: 0 0 0 1px rgb(255 255 255 / 0.12),
+    0 0 20px 2px rgb(255 255 255 / 0.12);
 }
 
 /* Light theme. Set on <html> before first paint by the inline script in
@@ -166,10 +182,23 @@
   --color-field: #858585;
   --color-scrim: rgb(0 0 0 / 0.4);
   --window-shadow: 0 24px 64px -24px rgb(0 0 0 / 0.18);
+  /* A white glow is invisible on white, so the light theme uses a dark halo. */
+  --button-glow: 0 0 0 1px rgb(0 0 0 / 0.12), 0 0 18px 2px rgb(0 0 0 / 0.22),
+    0 0 40px 6px rgb(0 0 0 / 0.08);
+  --button-glow-soft: 0 0 0 1px rgb(0 0 0 / 0.08),
+    0 0 16px 2px rgb(0 0 0 / 0.1);
 }
 
 @utility shadow-window {
   box-shadow: var(--window-shadow);
+}
+
+@utility shadow-glow {
+  box-shadow: var(--button-glow);
+}
+
+@utility shadow-glow-soft {
+  box-shadow: var(--button-glow-soft);
 }
 
 html {

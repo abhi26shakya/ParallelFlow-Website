@@ -1,12 +1,15 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
 import type { NavGroup } from "@/lib/nav";
-import { NavItemRow } from "./NavItemRow";
+import { NAV_ITEM_CLASS, NavItemRow } from "./NavItemRow";
 
-// Opens on click/tap and on mouse hover. Closes on Escape, outside click,
-// or when focus leaves the dropdown.
+// A navbar group that opens a full-width panel under the bar, after
+// openai.com: the group label in muted text above large links (or, for
+// Product, rich rows after x.ai's Products menu), with the page
+// behind blurred and dimmed. Opens on click/tap and on mouse hover. Closes on
+// Escape, outside click, when the pointer moves onto the dimmed page, or when
+// focus leaves the dropdown.
 export function NavDropdown({ group }: { group: NavGroup }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -15,6 +18,8 @@ export function NavDropdown({ group }: { group: NavGroup }) {
   // first click pins it open instead of toggling it shut.
   const hoverOpened = useRef(false);
   const panelId = useId();
+  // Groups whose items have one-liners (Product) list them as rich rows.
+  const rich = group.items.some((item) => item.description);
 
   useEffect(() => {
     if (!open) return;
@@ -25,10 +30,15 @@ export function NavDropdown({ group }: { group: NavGroup }) {
     return () => document.removeEventListener("pointerdown", onPointerDown);
   }, [open]);
 
+  const close = () => {
+    hoverOpened.current = false;
+    setOpen(false);
+  };
+
   return (
     <div
       ref={ref}
-      className="relative"
+      className="h-full"
       onPointerEnter={(e) => {
         if (e.pointerType !== "mouse") return;
         hoverOpened.current = true;
@@ -36,8 +46,7 @@ export function NavDropdown({ group }: { group: NavGroup }) {
       }}
       onPointerLeave={(e) => {
         if (e.pointerType !== "mouse") return;
-        hoverOpened.current = false;
-        setOpen(false);
+        close();
       }}
       onKeyDown={(e) => {
         if (e.key !== "Escape") return;
@@ -61,27 +70,46 @@ export function NavDropdown({ group }: { group: NavGroup }) {
           }
           setOpen((v) => !v);
         }}
-        className="inline-flex items-center gap-1 rounded-control px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-hover"
+        className={NAV_ITEM_CLASS}
       >
         {group.label}
-        <ChevronDown
-          aria-hidden="true"
-          className={`size-4 text-muted transition-transform ${open ? "rotate-180" : ""}`}
-        />
       </button>
       {open && (
-        <div
-          id={panelId}
-          className="absolute left-0 top-full min-w-56 pt-2"
-        >
-          <ul className="rounded-card border border-line bg-card p-1.5">
-            {group.items.map((item) => (
-              <li key={item.label}>
-                <NavItemRow item={item} onSelect={() => setOpen(false)} />
-              </li>
-            ))}
-          </ul>
-        </div>
+        <>
+          {/* The page below the panel, blurred and dimmed. Moving onto it or
+              clicking it closes the panel. */}
+          <div
+            aria-hidden="true"
+            onPointerEnter={(e) => {
+              if (e.pointerType === "mouse") close();
+            }}
+            onClick={close}
+            className="fixed inset-x-0 bottom-0 top-(--navbar-height) bg-background/40 backdrop-blur-md motion-safe:animate-fade-in"
+          />
+          <div
+            id={panelId}
+            className="fixed inset-x-0 top-(--navbar-height) bg-background px-4 pb-10 pt-6 sm:px-6 lg:px-8 motion-safe:animate-fade-in"
+          >
+            <p className="text-sm text-muted">{group.label}</p>
+            {rich ? (
+              <ul className="-mx-4 mt-3 max-w-sm space-y-1">
+                {group.items.map((item) => (
+                  <li key={item.label}>
+                    <NavItemRow item={item} onSelect={close} />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <ul className="mt-4 space-y-2">
+                {group.items.map((item) => (
+                  <li key={item.label}>
+                    <NavItemRow item={item} onSelect={close} size="large" />
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </>
       )}
     </div>
   );
