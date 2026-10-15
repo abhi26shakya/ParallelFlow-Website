@@ -1,6 +1,40 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, and "The Solution" was rebuilt to match it, mirrored.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, and both visual cards got a hover effect.
+
+## Change after Phase 11: Hover effect on the Problems and Solution cards
+
+**Owner request (2026-10-15)**
+- A subtle hover animation on the two dithered visual cards, inspired by memorable.sh. Nothing else changes.
+
+**Behaviour**
+- Only for mouse pointers on hover-capable screens. Off under reduced motion, and the dot glow is off while the card is off screen.
+- A soft lavender glow follows the pointer through the dots. It eases in and out over about 400ms, and the canvas redraws at about 30fps while hovered (20fps otherwise).
+- The frosted frame tilts up to about 3° toward the pointer and lifts 3px. It eases back over 700ms when the pointer leaves.
+- A faint white sheen follows the pointer across the frame's glass border, under the black screen. The scenes are untouched.
+
+**Files changed**
+- New: `src/components/home/problems/useCardHover.ts`, which sets `data-hover` and `--pf-hover-x`/`--pf-hover-y` on the card.
+- Changed:
+  - `src/components/home/problems/DitherBackground.tsx` (the pointer glow)
+  - `ProblemCard.tsx` and `SolutionCard.tsx` (one `useCardHover` call each)
+  - `problems.css` and `solution.css` (an appended hover block only)
+  - `PROGRESS.md`
+
+**Setup needed from the owner**
+- None.
+
+**Verified**
+- Lint, type-check and production build pass.
+- In headless Chrome at 1440x900 on the production build, a mouse hover on each card:
+  - sets `data-hover`
+  - tilts and lifts the frame
+  - brightens the dots under the pointer
+  - resets to `transform: none` after leaving
+- No console errors.
+
+**Still incomplete / notes**
+- Not checked by hand: real mouse feel, Safari, the light theme.
 
 ## Change after Phase 11: "The Solution" matches "The Problems"
 
