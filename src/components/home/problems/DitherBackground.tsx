@@ -3,11 +3,11 @@
 import { useEffect, useRef } from "react";
 
 // The Problems card's background: a colour field quantized into square dots
-// with a 4×4 Bayer ordered dither, in greys. Near-black at the top, a mid-grey
-// glow hugging the sides of the frame and a silver glow under it. While `play`
-// is on it shimmers at about 20fps; it also stops while the tab is hidden.
-// Otherwise it holds one still frame.
-// While a mouse hovers the card (and `play` is on) a soft grey-white glow
+// with a 4×4 Bayer ordered dither. Indigo at the top, a violet glow hugging
+// the sides of the frame and a sunset glow under it. While `play` is on it
+// shimmers at about 20fps; it also stops while the tab is hidden. Otherwise
+// it holds one still frame. Owner-approved colour exception (2026-10-15).
+// While a mouse hovers the card (and `play` is on) a soft lavender glow
 // follows the pointer through the dots, eased in and out.
 
 // CSS px per dot cell, and the dark gap between dots.
@@ -45,16 +45,16 @@ const mix = (a: RGB, b: RGB, t: number): RGB => [
   a[2] + (b[2] - a[2]) * t,
 ];
 
-const BLACK = hex("#0a0a0a");
-const CHARCOAL = hex("#1f1f1f");
-const GREY = hex("#5a5a5a");
-const LIGHT_GREY = hex("#8a8a8a");
-const SILVER = hex("#bfbfbf");
-const SILVER_LOW = hex("#bfbfbf");
-const SILVER_HIGH = hex("#e6e6e6");
-const DARK_GREY = hex("#2a2a2a");
-const CORNER = hex("#2a2a2a");
-const GLOW = mix(LIGHT_GREY, [1, 1, 1], 0.3);
+const NAVY = hex("#1b1f5e");
+const INDIGO = hex("#2a2f8a");
+const VIOLET = hex("#8b7cf0");
+const LAVENDER = hex("#b9a6ff");
+const PEACH = hex("#f0a37a");
+const ORANGE = hex("#e98a5a");
+const GOLD = hex("#f5c27a");
+const MAGENTA = hex("#6e2448");
+const BROWN = hex("#3a1c12");
+const GLOW = mix(LAVENDER, [1, 1, 1], 0.3);
 
 // The frame's box as card fractions (matches .pf-problems-frame).
 const LEFT = 0.08;
@@ -67,17 +67,17 @@ function field(u: number, v: number, t: number): RGB {
   const breathe = 1 + 0.1 * Math.sin(t * 0.9);
   const drift = 0.06 * Math.sin(u * 7 + t * 0.5 + Math.sin(v * 5 - t * 0.3));
 
-  // Near-black dots above the frame, fading to black at the very top.
+  // Indigo above the frame, fading to black at the very top.
   const top = smooth(0, 0.14, v) * (1 - smooth(TOP + 0.02, TOP + 0.2, v)) * 2;
-  const topColour = mix(BLACK, CHARCOAL, smooth(0.03, TOP + 0.1, v));
+  const topColour = mix(NAVY, INDIGO, smooth(0.03, TOP + 0.1, v));
 
-  // Mid-grey glow hugging the frame's left and right edges.
+  // Violet hugging the frame's left and right edges.
   const edge = Math.min(Math.abs(u - LEFT), Math.abs(u - RIGHT));
   const sideMask = smooth(TOP - 0.05, TOP + 0.08, v) * (1 - smooth(BOTTOM - 0.04, BOTTOM + 0.12, v));
   const side = Math.exp(-edge / 0.04) * sideMask * 0.95 * breathe;
-  const sideColour = mix(GREY, LIGHT_GREY, Math.exp(-edge / 0.015));
+  const sideColour = mix(VIOLET, LAVENDER, Math.exp(-edge / 0.015));
 
-  // Silver under the frame: brightest just below it, dark grey in the corners.
+  // Sunset under the frame: brightest just below it, darker in the corners.
   const below = Math.max(0, v - BOTTOM);
   const centred = 1 - Math.abs(u - 0.5) * 2;
   const bottom =
@@ -85,10 +85,10 @@ function field(u: number, v: number, t: number): RGB {
     smooth(BOTTOM - 0.01, BOTTOM + 0.03, v) *
     (0.65 + 0.55 * centred) *
     breathe;
-  let warm = mix(mix(SILVER_HIGH, SILVER, smooth(0, 0.12, below)), SILVER_LOW, smooth(0.1, 0.28, below));
+  let warm = mix(mix(GOLD, PEACH, smooth(0, 0.12, below)), ORANGE, smooth(0.1, 0.28, below));
   warm = mix(
     warm,
-    mix(DARK_GREY, CORNER, smooth(0.15, 0.35, below)),
+    mix(MAGENTA, BROWN, smooth(0.15, 0.35, below)),
     (1 - smooth(0.1, 0.65, centred)) * smooth(0.04, 0.3, below),
   );
 

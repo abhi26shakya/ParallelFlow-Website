@@ -1,24 +1,6 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the cards' dither went back to grey.
-
-## Change after Phase 11: Grey dither on the Problems and Solution cards
-
-**Owner request (2026-10-15)**
-- Recolour the dithered card background from indigo / violet / sunset to grey so it matches the rest of the site. Colours only. Dot size, dither, shimmer, layout, scenes, counter, accordion and text are unchanged.
-
-**Palette**
-- Top: near-black dots (#0a0a0a to #1f1f1f). Sides: mid-grey glow (#5a5a5a to #8a8a8a). Under the frame: silver (#e6e6e6 to #bfbfbf), fading to #2a2a2a in the bottom corners. The hover glow is now neutral grey-white.
-- Inner frame tint: `rgb(255 255 255 / 0.12)` instead of lavender.
-- The orange status dot in the counter pill is unchanged.
-
-**Files changed**
-- `src/components/home/problems/DitherBackground.tsx` (colour constants and comments)
-- `src/components/home/problems/problems.css` and `src/components/home/solution/solution.css` (the frame tint line)
-- `PROGRESS.md`
-
-**Setup needed from the owner**
-- None.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, and both visual cards got a hover effect.
 
 ## Change after Phase 11: Hover effect on the Problems and Solution cards
 
