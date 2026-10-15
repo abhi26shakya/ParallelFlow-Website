@@ -51,9 +51,17 @@ export function MobileMenu() {
               </div>
             ) : (
               <div key={group.label} className="py-2">
-                <p className="px-3 py-1 text-sm text-muted">
-                  {group.label}
-                </p>
+                {group.href ? (
+                  <NavItemRow
+                    item={{ label: group.label, href: group.href }}
+                    onSelect={() => setOpen(false)}
+                    size="medium"
+                  />
+                ) : (
+                  <p className="px-3 py-1 text-sm text-muted">
+                    {group.label}
+                  </p>
+                )}
                 <ul>
                   {group.items.map((item) => (
                     <li key={item.label}>

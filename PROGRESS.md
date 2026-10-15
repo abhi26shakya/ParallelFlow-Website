@@ -2,6 +2,24 @@
 
 Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos.
 
+## Change after Phase 11: Product navbar label links to /product
+
+**Owner request (2026-10-15)**
+- Clicking "Product" in the navbar now opens `/product`. Hovering it with a mouse still opens the Product dropdown.
+- **Mobile menu:** the "Product" group heading is now a link to `/product`, with the three product rows under it.
+- Solutions and Resources have no page of their own, so they stay click-to-open dropdowns.
+
+**Files changed**
+- `src/components/layout/NavDropdown.tsx` (a group with an `href` uses a link as its trigger)
+- `src/components/layout/MobileMenu.tsx`
+- `PROGRESS.md`
+
+**Verified**
+- Lint, type-check and production build pass.
+
+**Note**
+- On touch and keyboard, the Product label now goes straight to `/product`, so the dropdown opens only on mouse hover. The same three products are listed on `/product`.
+
 ## Change after Phase 11: Buttons glow on hover
 
 **Owner request (2026-10-15)**

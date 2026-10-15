@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import type { NavGroup } from "@/lib/nav";
 import { NAV_ITEM_CLASS, NavItemRow } from "./NavItemRow";
@@ -9,11 +10,12 @@ import { NAV_ITEM_CLASS, NavItemRow } from "./NavItemRow";
 // Product, rich rows after x.ai's Products menu), with the page
 // behind blurred and dimmed. Opens on click/tap and on mouse hover. Closes on
 // Escape, outside click, when the pointer moves onto the dimmed page, or when
-// focus leaves the dropdown.
+// focus leaves the dropdown. A group with its own `href` (Product) has a
+// link as its trigger: hovering opens the panel and clicking goes to the page.
 export function NavDropdown({ group }: { group: NavGroup }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const buttonRef = useRef<HTMLButtonElement & HTMLAnchorElement>(null);
   // True while the panel is open only because the mouse is hovering, so the
   // first click pins it open instead of toggling it shut.
   const hoverOpened = useRef(false);
@@ -58,22 +60,35 @@ export function NavDropdown({ group }: { group: NavGroup }) {
         if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false);
       }}
     >
-      <button
-        ref={buttonRef}
-        type="button"
-        aria-expanded={open}
-        aria-controls={panelId}
-        onClick={() => {
-          if (hoverOpened.current) {
-            hoverOpened.current = false;
-            return;
-          }
-          setOpen((v) => !v);
-        }}
-        className={NAV_ITEM_CLASS}
-      >
-        {group.label}
-      </button>
+      {group.href ? (
+        <Link
+          ref={buttonRef}
+          href={group.href}
+          aria-expanded={open}
+          aria-controls={panelId}
+          onClick={close}
+          className={NAV_ITEM_CLASS}
+        >
+          {group.label}
+        </Link>
+      ) : (
+        <button
+          ref={buttonRef}
+          type="button"
+          aria-expanded={open}
+          aria-controls={panelId}
+          onClick={() => {
+            if (hoverOpened.current) {
+              hoverOpened.current = false;
+              return;
+            }
+            setOpen((v) => !v);
+          }}
+          className={NAV_ITEM_CLASS}
+        >
+          {group.label}
+        </button>
+      )}
       {open && (
         <>
           {/* The page below the panel, blurred and dimmed. Moving onto it or
