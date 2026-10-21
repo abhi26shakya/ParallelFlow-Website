@@ -32,9 +32,9 @@ const EMPTY: Values = {
 const inputClass =
   "w-full rounded-control border border-field bg-background aria-invalid:border-foreground px-3 py-2.5 text-sm text-foreground placeholder:text-muted";
 
-export function WaitlistForm({ initialEmail = "" }: { initialEmail?: string }) {
+export function WaitlistForm() {
   const id = useId();
-  const [values, setValues] = useState<Values>({ ...EMPTY, email: initialEmail });
+  const [values, setValues] = useState<Values>(EMPTY);
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
   const [fieldErrors, setFieldErrors] = useState<WaitlistFieldErrors>({});

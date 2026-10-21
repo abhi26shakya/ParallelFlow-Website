@@ -21,13 +21,10 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - The footer is shorter than a typical laptop viewport, so at the bottom of the page the sticky navbar no longer covers the CTA heading. That was the cause of the clipped-heading bug. It can still happen on windows under about 740px tall.
 
 **Files changed**
-- New: `src/components/layout/FooterWaitlist.tsx`. An email-only form that hands the email to the modal. It is currently unused and kept at the owner's request.
-- Deleted: `src/components/layout/FooterDoodles.tsx`
+- Deleted: `src/components/layout/FooterDoodles.tsx`. An inline email form, `FooterWaitlist.tsx`, was added during the redesign and later removed when the CTA button replaced it. Its modal and form prefill changes were reverted with it.
 - Changed:
   - `src/components/layout/Footer.tsx`
   - `src/app/globals.css`: footer animation tokens and keyframes removed, `--color-status` added
-  - `src/components/waitlist/WaitlistModal.tsx`: `open({ email })`
-  - `src/components/waitlist/WaitlistForm.tsx`: `initialEmail`, used by `FooterWaitlist`
   - `src/lib/nav.ts`: `footerLabel` removed, comment updated
   - `PROGRESS.md`
 
