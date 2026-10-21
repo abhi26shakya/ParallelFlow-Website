@@ -1,6 +1,48 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge.
+
+## Change after Phase 11: Neon ring on buttons and the hero badge
+
+**Owner request (2026-10-21 to 2026-10-22)**
+- The footer's "Get Early Access" gets the same hover glow as the navbar's "Join Waitlist".
+- A thin animated neon border on every pill button, then changed to show only on hover. Without hover the buttons look as before.
+- The same neon border, always moving, on the home hero's "Pre-launch · Waitlist open" badge.
+- Remove "Pre-launch · Waitlist open" from the footer.
+- **Owner override:** the neon colours go against the brief's monochrome, no-neon, no-gradient rules (CLAUDE.md, `PROJECT_BRIEF.md` Part 3, decision 7). The owner chose neon colours when asked.
+
+**Behaviour**
+- **Ring:** 1.5px, a conic gradient (cyan → violet → pink → amber → cyan) turning once every 4s, linear. It is drawn on `::before` with a mask, so only the outline shows. Fill, text, size and shape are unchanged and nothing shifts.
+- **Buttons:** every pill from the shared `Button.tsx` (navbar, mobile menu, footer, `/product`, 404, Home hero's "Talk to us", `DisabledButton`) plus the waitlist form submit. The ring fades in over 200ms on hover and on keyboard focus, together with the existing glow. Icon buttons and nav controls are unchanged.
+- **Hero badge:** the ring is always on (`neon-ring-on`).
+- **Bordered pills** ("Talk to us", the badge) set `--neon-ring-inset: 1px`, so the ring covers the grey border instead of sitting inside it.
+- **Reduced motion:** the ring stays still and keeps its colours.
+- **Themes:** the colours are the same in light and dark.
+- **Footer CTA:** its overrides that turned the glow off and dimmed the fill on hover are removed, so it uses the shared primary glow. Its 16px regular text and focus ring stay.
+- **Footer bottom bar:** the status badge and its green dot are removed. The theme toggle and copyright remain. `--color-status` is now unused but kept in `globals.css`.
+
+**Files changed**
+- `src/app/globals.css`: `@property --neon-ring-angle`, `neon-ring-spin` keyframes, `neon-ring` and `neon-ring-on` utilities
+- `src/components/ui/Button.tsx`: `neon-ring` on the shared base, the inset on the secondary variant
+- `src/components/waitlist/WaitlistForm.tsx`: `neon-ring` on the submit
+- `src/components/home/Hero.tsx`: the always-on ring on the badge
+- `src/components/layout/Footer.tsx`: shared glow on Get Early Access, status badge removed
+- `PROGRESS.md`
+
+**Setup needed from the owner**
+- None. No migrations, env vars or dependencies.
+
+**Verified**
+- Lint, type-check and production build pass.
+- Headless Chrome at 1440 and 390px, in dark and light:
+  - No ring at rest; the ring on hover; the same glow on the footer and navbar buttons.
+  - The badge ring is visible all the time.
+  - The ring angle moves about 90° per second, and stays at 0° under reduced motion.
+
+**Still incomplete / notes**
+- Not checked by hand: a real mouse, Safari, Firefox.
+- The Turbopack dev server twice missed new `@utility` rules in `globals.css` until it was restarted. If a style change does not show in dev, restart `npm run dev`.
+- Committed as `2440c7f` and pushed.
 
 ## Change after Phase 11: Navbar trimmed, SDLC page deleted
 
