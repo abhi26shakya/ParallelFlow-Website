@@ -14,7 +14,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 **Behaviour**
 - **Ring:** 1.5px, a conic gradient (cyan → violet → pink → amber → cyan) turning once every 4s, linear. It is drawn on `::before` with a mask, so only the outline shows. Fill, text, size and shape are unchanged and nothing shifts.
 - **Buttons:** every pill from the shared `Button.tsx` (navbar, mobile menu, footer, `/product`, 404, Home hero's "Talk to us", `DisabledButton`) plus the waitlist form submit. The ring fades in over 200ms on hover and on keyboard focus, together with the existing glow. Icon buttons and nav controls are unchanged.
-- **Hero badge:** the ring is always on (`neon-ring-on`).
+- **Hero badge:** the ring is always on (`neon-ring-on`), dimmed to 45% (`[--neon-ring-opacity:0.45]` in `Hero.tsx`) at the owner's request so it is less visible. `--neon-ring-opacity` defaults to 1.
 - **Bordered pills** ("Talk to us", the badge) set `--neon-ring-inset: 1px`, so the ring covers the grey border instead of sitting inside it.
 - **Reduced motion:** the ring stays still and keeps its colours.
 - **Themes:** the colours are the same in light and dark.
@@ -22,7 +22,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - **Footer bottom bar:** the status badge and its green dot are removed. The theme toggle and copyright remain. `--color-status` is now unused but kept in `globals.css`.
 
 **Files changed**
-- `src/app/globals.css`: `@property --neon-ring-angle`, `neon-ring-spin` keyframes, `neon-ring` and `neon-ring-on` utilities
+- `src/app/globals.css`: `@property --neon-ring-angle`, `neon-ring-spin` keyframes, `neon-ring` and `neon-ring-on` utilities, `--neon-ring-opacity`
 - `src/components/ui/Button.tsx`: `neon-ring` on the shared base, the inset on the secondary variant
 - `src/components/waitlist/WaitlistForm.tsx`: `neon-ring` on the submit
 - `src/components/home/Hero.tsx`: the always-on ring on the badge
@@ -42,7 +42,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 **Still incomplete / notes**
 - Not checked by hand: a real mouse, Safari, Firefox.
 - The Turbopack dev server twice missed new `@utility` rules in `globals.css` until it was restarted. If a style change does not show in dev, restart `npm run dev`.
-- Committed as `2440c7f` and pushed.
+- Committed as `2440c7f`, with the dimmer badge ring in `bc11d83`. Both pushed.
 
 ## Change after Phase 11: Navbar trimmed, SDLC page deleted
 
