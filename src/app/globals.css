@@ -188,10 +188,10 @@
 }
 
 /* With neon-ring: shows the ring at all times, for labels that are never
-   hovered, like the hero's pre-launch badge. */
+   hovered, like the hero's pre-launch badge. --neon-ring-opacity dims it. */
 @utility neon-ring-on {
   &::before {
-    opacity: 1;
+    opacity: var(--neon-ring-opacity, 1);
   }
 }
 
