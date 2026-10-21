@@ -1,10 +1,8 @@
-// Single source for navbar and footer links.
+// Navbar links. The footer keeps its own list in Footer.tsx.
 // An item with no `href` is not live yet and renders as a non-clickable
-// "Coming soon" label in the navbar and is left out of the footer. Add `href`
-// only once the destination page exists.
+// "Coming soon" label. Add `href` only once the destination page exists.
 // A group with an `href` and no items is a plain link with no dropdown. A
-// group with an `href` and items opens a dropdown in the navbar; the footer
-// shows only its `href`. Items with a `description` render as rich rows
+// group with an `href` and items opens a dropdown. Items with a `description` render as rich rows
 // (name above a one-liner), after x.ai's Products menu.
 
 import { PRODUCTS, type ProductSlug } from "@/content/products";
@@ -12,8 +10,6 @@ import { PRODUCTS, type ProductSlug } from "@/content/products";
 export type NavItem = {
   label: string;
   href?: string;
-  // Longer label for the footer, where there is room for it.
-  footerLabel?: string;
   // One-liner shown under the label in the navbar dropdown.
   description?: string;
 };
@@ -50,7 +46,6 @@ export const NAV_GROUPS: NavGroup[] = [
       {
         label: "Engineering: SDLC",
         href: "/solutions/engineering/sdlc",
-        footerLabel: "Software Development Lifecycle (SDLC)",
       },
     ],
   },

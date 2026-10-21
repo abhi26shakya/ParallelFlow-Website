@@ -1,6 +1,50 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer.
+
+## Change after Phase 11: Footer redesign
+
+**Owner request (2026-10-21)**
+- A clean, minimal YC-startup-style footer, aligned with the navbar, refined over several rounds in one session. Nothing outside the footer was redesigned.
+- Owner decisions:
+  - Only real links: a column needs at least two links, at most three columns, no "Soon" tags.
+  - One colour accent, a green status dot. This overrides decision 7 for that dot only.
+  - The Humans/Agents track and the footer doodles are removed.
+  - The closing CTA follows cursor.com's "Try Cursor now.".
+
+**What was built (top to bottom)**
+- Closing CTA, centred: "Try ParallelFlow" in large regular-weight type (clamp 44–72px, -0.04em, line height 1.1) over a light "Get Early Access" pill. The pill uses the shared `WaitlistButton`, so it opens the same waitlist modal as the navbar.
+- Brand block on the left (logo, tagline, 36px round Email/X/LinkedIn buttons). Link columns from `FOOTER_COLUMNS` at the top of `Footer.tsx` sit on the right, flush with the container's right edge. Today that is one column, Product (Workspace, Arena, Developer Space → `/product#…`). Solutions has only SDLC, so it is left out under the two-link rule; SDLC stays in the navbar.
+- Bottom bar: theme toggle and "© year ParallelFlow" on the left, a status pill with a green dot (`--color-status`, with light and dark values) on the right.
+- A large "ParallelFlow" sign-off wordmark (17vw, fading out) cropped by the bottom edge. `overflow-hidden` sits on the wordmark's wrapper only.
+- No divider lines inside the footer; only its top border remains. Every row uses the navbar's padding (`px-4 sm:px-6 lg:px-8`) with no max width.
+- The footer is shorter than a typical laptop viewport, so at the bottom of the page the sticky navbar no longer covers the CTA heading. That was the cause of the clipped-heading bug. It can still happen on windows under about 740px tall.
+
+**Files changed**
+- New: `src/components/layout/FooterWaitlist.tsx`. An email-only form that hands the email to the modal. It is currently unused and kept at the owner's request.
+- Deleted: `src/components/layout/FooterDoodles.tsx`
+- Changed:
+  - `src/components/layout/Footer.tsx`
+  - `src/app/globals.css`: footer animation tokens and keyframes removed, `--color-status` added
+  - `src/components/waitlist/WaitlistModal.tsx`: `open({ email })`
+  - `src/components/waitlist/WaitlistForm.tsx`: `initialEmail`, used by `FooterWaitlist`
+  - `src/lib/nav.ts`: `footerLabel` removed, comment updated
+  - `PROGRESS.md`
+
+**Setup needed from the owner**
+- None. No migrations, env vars or dependencies.
+
+**Verified**
+- Lint, type-check and production build pass.
+- Headless Chrome at 375, 768, 1440 and 1920px in both themes:
+  - Left edges match the navbar logo, and the Product column and pill line up with the Join Waitlist button.
+  - No horizontal scroll.
+  - The CTA opens the modal.
+
+**Still incomplete / notes**
+- Add links to `FOOTER_COLUMNS` as pages ship. Solutions returns once it has a second page; Company and Legal once their pages exist.
+- `SOCIAL_LINKS` are still dummy values; replace them before going public.
+- The brief's footer table (Part 3) still lists the old columns; this redesign supersedes it at the owner's request.
 
 ## Change after Phase 11: Real logo
 

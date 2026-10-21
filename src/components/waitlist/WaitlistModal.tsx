@@ -16,7 +16,11 @@ import { WaitlistForm } from "./WaitlistForm";
 // Old links to the removed home page section open the modal instead.
 const WAITLIST_HASH = "#waitlist";
 
-const OpenWaitlistContext = createContext<(() => void) | null>(null);
+// The footer's inline form passes the email it collected so the modal
+// starts with it filled in.
+type OpenWaitlist = (options?: { email?: string }) => void;
+
+const OpenWaitlistContext = createContext<OpenWaitlist | null>(null);
 
 export function useWaitlistModal() {
   const open = useContext(OpenWaitlistContext);
@@ -37,14 +41,16 @@ export function WaitlistModalProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   // Bumped on every open so the form starts fresh each time.
   const [formKey, setFormKey] = useState(0);
+  const [initialEmail, setInitialEmail] = useState("");
   const titleId = useId();
   const descriptionId = useId();
 
-  const open = useCallback(() => {
+  const open = useCallback<OpenWaitlist>((options) => {
     if (dialogRef.current?.open) return;
     triggerRef.current =
       document.activeElement instanceof HTMLElement ? document.activeElement : null;
     setFormKey((k) => k + 1);
+    setInitialEmail(options?.email ?? "");
     setIsOpen(true);
   }, []);
 
@@ -122,7 +128,7 @@ export function WaitlistModalProvider({ children }: { children: ReactNode }) {
               Get early access to ParallelFlow and help shape the future of team
               collaboration.
             </p>
-            {isOpen && <WaitlistForm key={formKey} />}
+            {isOpen && <WaitlistForm key={formKey} initialEmail={initialEmail} />}
           </div>
         </div>
       </dialog>

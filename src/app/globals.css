@@ -30,6 +30,9 @@
   --color-field: #6b6b6b;
   /* Dim layer behind the waitlist modal. */
   --color-scrim: rgb(0 0 0 / 0.7);
+  /* The footer status dot: the site's only colour accent (owner request,
+     2026-10-21). */
+  --color-status: #22c55e;
 
   --radius-control: 0.5rem;
   --radius-card: 0.75rem;
@@ -42,18 +45,6 @@
 
   /* Height of the sticky navbar, used for anchor offsets. */
   --navbar-height: 4rem;
-
-  /* Footer lanes: a dot crossing its track. Used with motion-safe: only. */
-  --animate-lane: lane 9s linear infinite;
-  --animate-lane-fast: lane 5.5s linear infinite;
-
-  /* Footer doodles (FooterDoodles.tsx). Used with motion-safe: only. */
-  --animate-bob: bob 0.5s ease-in-out infinite alternate;
-  --animate-bob-fast: bob 0.3s ease-in-out infinite alternate;
-  --animate-high-five: high-five 3.2s ease-in-out infinite;
-  --animate-spark: spark 3.2s ease-in-out infinite;
-  --animate-dash-flow: dash-flow 0.8s linear infinite;
-  --animate-draw-check: draw-check 3.2s ease-in-out infinite;
 
   /* Solution diagram (SolutionDiagram.tsx): a light pulse travelling along a
      path with pathLength="1", and its idle shimmer. Used with motion-safe:
@@ -89,69 +80,6 @@
       opacity: 1;
     }
   }
-
-  @keyframes bob {
-    to {
-      translate: 0 -2px;
-    }
-  }
-
-  /* Arms rest swung away (--swing) and meet in the middle of the loop. */
-  @keyframes high-five {
-    0%,
-    100% {
-      rotate: var(--swing);
-    }
-    40%,
-    60% {
-      rotate: 0deg;
-    }
-  }
-
-  @keyframes spark {
-    0%,
-    38%,
-    72%,
-    100% {
-      opacity: 0;
-    }
-    46%,
-    60% {
-      opacity: 1;
-    }
-  }
-
-  @keyframes dash-flow {
-    to {
-      stroke-dashoffset: -7;
-    }
-  }
-
-  @keyframes draw-check {
-    0%,
-    15% {
-      stroke-dashoffset: 1;
-      opacity: 1;
-    }
-    45%,
-    85% {
-      stroke-dashoffset: 0;
-      opacity: 1;
-    }
-    100% {
-      stroke-dashoffset: 0;
-      opacity: 0;
-    }
-  }
-
-  @keyframes lane {
-    from {
-      translate: -10% 0;
-    }
-    to {
-      translate: 100% 0;
-    }
-  }
 }
 
 :root {
@@ -181,6 +109,7 @@
   /* 3.3:1 on cards. */
   --color-field: #858585;
   --color-scrim: rgb(0 0 0 / 0.4);
+  --color-status: #16a34a;
   --window-shadow: 0 24px 64px -24px rgb(0 0 0 / 0.18);
   /* A white glow is invisible on white, so the light theme uses a dark halo. */
   --button-glow: 0 0 0 1px rgb(0 0 0 / 0.12), 0 0 18px 2px rgb(0 0 0 / 0.22),
