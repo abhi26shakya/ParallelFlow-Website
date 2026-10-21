@@ -12,9 +12,11 @@ export const size = { width: SOCIAL_IMAGE.width, height: SOCIAL_IMAGE.height };
 export const contentType = "image/png";
 
 export default async function Image() {
-  const [interRegular, interBold] = await Promise.all([
+  const [interRegular, interBold, logoMark] = await Promise.all([
     readFile(join(process.cwd(), "assets/fonts/Inter-Regular.ttf")),
     readFile(join(process.cwd(), "assets/fonts/Inter-Bold.ttf")),
+    // White mark rendered from the Logo component's paths (see Logo.tsx).
+    readFile(join(process.cwd(), "assets/brand/logo-mark-white.png")),
   ]);
 
   return new ImageResponse(
@@ -32,7 +34,22 @@ export default async function Image() {
           fontFamily: "Inter",
         }}
       >
-        <div style={{ fontSize: 88, fontWeight: 700, letterSpacing: -3 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 28,
+            fontSize: 88,
+            fontWeight: 700,
+            letterSpacing: -3,
+          }}
+        >
+          <img
+            src={`data:image/png;base64,${logoMark.toString("base64")}`}
+            width={96}
+            height={96}
+            alt=""
+          />
           {SITE_NAME}
         </div>
         <div

@@ -1,6 +1,36 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark.
+
+## Change after Phase 11: Real logo
+
+**Owner request (2026-10-21)**
+- The owner's logo, an isometric box with two tape strips, replaces the placeholder mark. It must work on both the black and the white background.
+- Masters: `logo1.png` (black on white) and `logo2.png` (white on black), 1024px with no transparency, from `~/Desktop/ParallelFlow Logo/`. Copied to `assets/brand/` as references. They are not served.
+
+**How it works**
+- The mark was traced into one SVG in `LogoMark` (`src/components/brand/Logo.tsx`). The four faces are filled with `currentColor`, and the two tape lines are cut out with a mask that uses a `useId` id. On top of the black master it differs by about 0.3% of pixels, all anti-aliased edges.
+- Because it uses `currentColor`, the mark is white in the dark theme and black in the light theme, with no per-theme files.
+- `Logo` is now the mark (28px) plus the "ParallelFlow" wordmark at 20px semibold, 8px apart. The owner asked on 2026-10-21 for it larger (first 24px and 18px), then sized like typical startup navbars (mark 20–28px, wordmark 16–20px), so the navbar and footer pick it up. The `/product` eyebrow already used `LogoMark` and now shows the real mark.
+- **Favicon:** `src/app/icon.svg` uses the same paths. It is near-black on a light browser and white on a dark one (`prefers-color-scheme`). The default Next `favicon.ico` is removed.
+- **Social image:** `opengraph-image.tsx` shows the white mark beside the name, from `assets/brand/logo-mark-white.png`, which is rendered from the same paths.
+- If the mark changes, update `Logo.tsx`, `icon.svg` and `logo-mark-white.png` together.
+
+**Files changed**
+- New: `assets/brand/logo-black-on-white.png`, `assets/brand/logo-white-on-black.png`, `assets/brand/logo-mark-white.png`, `src/app/icon.svg`
+- Changed: `src/components/brand/Logo.tsx`, `src/app/opengraph-image.tsx`, `PROGRESS.md`
+- Removed: `src/app/favicon.ico`
+
+**Verified**
+- Lint, type-check and production build pass.
+- The served navbar and footer markup render white on `#080808` and black on white. Each instance gets a unique mask id.
+- The social image renders the mark beside the name.
+
+**Not verified**
+- Not looked at in a real browser this session (no browser tools). Check the navbar, footer, `/product` eyebrow and the tab icon in both themes.
+
+**Note**
+- ParallelFlow is still a working name. The mark has no text in it, so it would survive a rename.
 
 ## Change after Phase 11: Product navbar label links to /product
 
@@ -113,7 +143,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - **Preview card:** the dots, mode title and "Product preview" pill are removed. What remains is a rounded card with a border and the existing glow, around the blank 16:9 screen.
 
 **Owner decisions**
-- **`LogoMark`** (two parallel slanted bars, from the brief's logo description) is a placeholder until real logo assets exist. It is used only in this eyebrow. The navbar and footer still use the text wordmark.
+- **`LogoMark`** (two parallel slanted bars, from the brief's logo description) is a placeholder until real logo assets exist. It is used only in this eyebrow. The navbar and footer still use the text wordmark. (Superseded: see "Real logo".)
 - **"Product preview" label:** removed while the card is blank. **When videos are added, a visible "Product preview" label must come back** (CLAUDE.md rule). Screen readers still hear "<Mode> product preview, video coming soon".
 
 **Files changed**
