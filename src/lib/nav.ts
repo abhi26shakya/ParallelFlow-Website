@@ -40,21 +40,5 @@ export const NAV_GROUPS: NavGroup[] = [
     // A dropdown again since 2026-10-15 (owner request).
     items: PRODUCT_ITEMS,
   },
-  {
-    label: "Solutions",
-    items: [
-      {
-        label: "Engineering: SDLC",
-        href: "/solutions/engineering/sdlc",
-      },
-    ],
-  },
-  {
-    label: "Resources",
-    items: [
-      { label: "Packages" },
-      { label: "Documentation" },
-      { label: "Developer Resources" },
-    ],
-  },
+  // Solutions and Resources removed 2026-10-21 (owner request).
 ];

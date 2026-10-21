@@ -10,9 +10,8 @@ import { CopyrightYear } from "./CopyrightYear";
 import { ThemeToggle } from "./ThemeToggle";
 
 // Footer links. List only pages that exist, keep a column only once it has at
-// least two links, and show at most three columns. Solutions comes back here
-// once it has a second page beside SDLC; Company and Legal once their pages
-// exist.
+// least two links, and show at most three columns. Company and Legal come back
+// once their pages exist.
 type FooterLinkItem = { label: string; href: string };
 type FooterColumn = { label: string; items: FooterLinkItem[] };
 

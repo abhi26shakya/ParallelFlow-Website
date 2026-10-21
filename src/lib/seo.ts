@@ -5,7 +5,6 @@ import { SITE_NAME } from "@/lib/site";
 // Public routes listed in the sitemap. Add a route here when its page goes live.
 export const PUBLIC_ROUTES = [
   "/",
-  "/solutions/engineering/sdlc",
   "/product",
 ];
 

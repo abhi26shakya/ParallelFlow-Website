@@ -1,5 +1,5 @@
-// One-line product descriptions shared by the home page, the SDLC page and
-// the Product page. Source: PROJECT_BRIEF.md Part 4, SDLC section 5.
+// One-line product descriptions shared by the home page, the navbar and the
+// Product page. Source: PROJECT_BRIEF.md Part 4, SDLC section 5.
 
 export type ProductSlug = "arena" | "workspace" | "developer-space";
 
