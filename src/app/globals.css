@@ -221,8 +221,8 @@ body {
   }
 }
 
-/* Monochrome light beams behind the hero heading (HeroBeams.tsx). Fades to
-   black before the navbar and the product preview. Dark theme only. */
+/* Monochrome light beams behind the hero heading (HeroBeams.tsx). Fades out
+   before the navbar and the product preview. Inverted in the light theme. */
 .hero-beams {
   position: absolute;
   top: 0;
@@ -256,8 +256,11 @@ body {
   }
 }
 
+/* Light theme: the same beams inverted to dark grey on white, and dimmed so
+   the black heading stays readable. hue-rotate keeps the cool tint. */
 [data-theme="light"] .hero-beams {
-  display: none;
+  filter: invert(1) hue-rotate(180deg);
+  opacity: 0.8;
 }
 
 .hero-beams-glow {

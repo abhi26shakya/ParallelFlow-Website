@@ -1,6 +1,29 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge. Developer Space was then removed from the site, and the Product page lost its "How it connects" cards and closing waitlist band.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge. Developer Space was then removed from the site, and the Product page lost its "How it connects" cards and closing waitlist band. The hero beams then appeared in the light theme too, inverted to dark grey.
+
+## Change after Phase 11: Hero beams in the light theme
+
+**Owner request (2026-10-22)**
+- The hero's diagonal beams ("strip effect") showed only in the dark theme. Show them in the light theme too, adjusted to suit it.
+
+**What changed**
+- In the light theme `.hero-beams` is no longer hidden. A CSS filter (`invert(1) hue-rotate(180deg)`) turns the silver beams and white glow into dark-grey beams and a soft dark halo on white, with the same cool tint, at 80% opacity. The shader, animation, mask and dark theme are unchanged.
+
+**Files changed**
+- `src/app/globals.css`: the light-theme `.hero-beams` rule and comments
+- `src/components/home/HeroBeams.tsx`: comments only
+
+**Setup needed from the owner**
+- None.
+
+**Verified**
+- Lint, type-check and production build pass.
+- In Chrome at 1440px against the production build: the beams animate in the light theme, the heading stays readable and the beams fade out before the navbar and the preview. Tried 55% opacity first; it was too faint.
+
+**Still incomplete / notes**
+- As in the dark theme, the grey subheading (`#555555`) loses some contrast where a beam crosses it.
+- Not checked: phone widths and reduced motion in the light theme. The running dev server on port 3000 was not picking up file changes and may need a restart.
 
 ## Change after Phase 11: Developer Space removed, Product page trimmed
 

@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from "react";
 
-// Animated monochrome diagonal light beams behind the hero heading. Dark
-// theme only (globals.css hides it in the light theme). Under
+// Animated monochrome diagonal light beams behind the hero heading. The light
+// theme shows them inverted to dark grey (see globals.css). Under
 // prefers-reduced-motion it draws one still frame. Drawing pauses while it is
 // off screen or hidden.
 
@@ -291,8 +291,8 @@ export function HeroBeams() {
     onResize();
     window.addEventListener("resize", onResize);
 
-    // Also fires when the theme hides or shows the beams. Resize on show,
-    // since a canvas mounted while hidden has no size.
+    // Pauses off screen. Resize on show, since a canvas mounted while hidden
+    // has no size.
     const observer = new IntersectionObserver(([entry]) => {
       cancelAnimationFrame(frame);
       if (!entry.isIntersecting) return;
