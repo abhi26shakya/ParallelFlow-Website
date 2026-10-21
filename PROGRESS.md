@@ -18,7 +18,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - None.
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass. Committed and pushed as `0c1b5ef`.
 - In Chrome at 1440px against the production build: the beams animate in the light theme, the heading stays readable and the beams fade out before the navbar and the preview. Tried 55% opacity first; it was too faint.
 
 **Still incomplete / notes**
