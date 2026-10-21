@@ -1,5 +1,4 @@
-// Product page copy: the hero, the three work modes, the feature grid, the
-// connects cards and the closing band. Written 2026-10-15 from the Phase 8 product copy and PROJECT_BRIEF.md
+// Product page copy: the hero, the two work modes and the feature grid. Written 2026-10-15 from the Phase 8 product copy and PROJECT_BRIEF.md
 // Part 6. Items marked "Draft" are new and await the owner's review.
 // Headlines and value props come from products.ts. Change wording only with
 // the owner's approval.
@@ -85,38 +84,6 @@ export const PRODUCT_MODES: ProductMode[] = [
       },
     ],
   },
-  {
-    slug: "developer-space",
-    highlights: [
-      "Visual, low-code builder for roles and skills",
-      "Personal and team libraries with versioning",
-      "Secure sharing, with credentials never embedded",
-    ],
-    features: [
-      {
-        title: "Visual, low-code builder",
-        body: "Create roles and skills step by step, without building every tool from scratch.",
-      },
-      {
-        // Draft.
-        title: "Distinct extension types",
-        body: "Roles, skills, tools, and MCP connections each keep their own description and configuration.",
-      },
-      {
-        // Draft.
-        title: "Preview and test before sharing",
-        body: "Preview, validate, and test an extension before your team relies on it.",
-      },
-      {
-        title: "Personal and team libraries",
-        body: "Extensions are private by default. Share versioned extensions with your team, each with a clear owner.",
-      },
-      {
-        title: "Secure sharing",
-        body: "Credentials are never embedded in a shared extension, and sensitive capabilities require approval.",
-      },
-    ],
-  },
 ];
 
 export const PRODUCT_PAGE = {
@@ -141,23 +108,6 @@ export const PRODUCT_PAGE = {
     // Earlier approved section label.
     title: "What it's designed to do",
     // Draft.
-    subtitle: "Across Workspace, Arena, and Developer Space. All coming soon.",
+    subtitle: "Across Workspace and Arena. Both coming soon.",
   },
-  connectsTitle: "How it connects",
-  connectsSubtitle: "One of three connected areas.",
-  // PROJECT_BRIEF.md Part 6, Developer Space section 2. In card order.
-  connects: [
-    { slug: "arena", text: "Arena determines what the team needs to accomplish." },
-    { slug: "workspace", text: "Workspace is where the work is performed." },
-    {
-      slug: "developer-space",
-      text: "Developer Space provides the reusable capabilities agents use.",
-    },
-  ] satisfies { slug: ProductSlug; text: string }[],
-  // Draft.
-  closingTitle: "Join the waitlist",
-  // Adapted from the approved per-product closing line.
-  closing:
-    "Workspace, Arena, and Developer Space are coming soon. Join the waitlist for early access and product updates.",
-  closingCta: "Join Waitlist",
 };

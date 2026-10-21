@@ -1,7 +1,7 @@
 // One-line product descriptions shared by the home page, the navbar and the
 // Product page. Source: PROJECT_BRIEF.md Part 4, SDLC section 5.
 
-export type ProductSlug = "arena" | "workspace" | "developer-space";
+export type ProductSlug = "arena" | "workspace";
 
 export type Product = {
   slug: ProductSlug;
@@ -25,12 +25,5 @@ export const PRODUCTS: Product[] = [
     href: "/product#workspace",
     role: "Execute the work",
     body: "Run AI-assisted sessions, work with project context, use available tools, and produce deliverables.",
-  },
-  {
-    slug: "developer-space",
-    name: "Developer Space",
-    href: "/product#developer-space",
-    role: "Configure capabilities",
-    body: "Create and manage reusable agent roles, skills, tools, and integrations to adapt AI capabilities to the team's workflow.",
   },
 ];

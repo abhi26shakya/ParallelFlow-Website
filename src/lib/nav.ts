@@ -16,7 +16,7 @@ export type NavItem = {
 
 // Product page order (owner-approved 2026-10-14). Names, links and one-liners
 // come from products.ts.
-const PRODUCT_ORDER: ProductSlug[] = ["workspace", "arena", "developer-space"];
+const PRODUCT_ORDER: ProductSlug[] = ["workspace", "arena"];
 
 const PRODUCT_ITEMS: NavItem[] = PRODUCT_ORDER.map((slug) => {
   const product = PRODUCTS.find((p) => p.slug === slug)!;

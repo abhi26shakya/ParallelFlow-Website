@@ -1,6 +1,51 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge. Developer Space was then removed from the site, and the Product page lost its "How it connects" cards and closing waitlist band.
+
+## Change after Phase 11: Developer Space removed, Product page trimmed
+
+**Owner request (2026-10-22)**
+- Remove Developer Space from the website. Workspace and Arena are the only products left.
+- Remove the "How it connects" section from `/product`.
+- Remove the closing "Join the waitlist" band from `/product`.
+
+**What changed**
+- Developer Space is gone from the product list, the navbar's Product menu, the footer's Product column and the `/product` mode showcase and feature grid.
+- The feature grid is now two columns, so it fills the width.
+- `/product/developer-space` now redirects (308) to `/product`. The Arena and Workspace redirects are unchanged.
+- `/product` now ends with "What it's designed to do". The footer's "Try ParallelFlow / Get Early Access" is the closing CTA. The divider above the removed sections went with them.
+- The footer's Product column still has two links (Workspace, Arena), so it meets the two-link rule.
+- Copy changed (owner to review):
+  - Feature grid subtitle: "Across Workspace, Arena, and Developer Space. All coming soon." → "Across Workspace and Arena. Both coming soon."
+  - The "How it connects" text and the closing band text were deleted with their sections.
+
+**Files changed**
+- `src/content/products.ts`: the Developer Space entry and slug
+- `src/content/product-modes.ts`: the Developer Space mode, the grid subtitle, the connects and closing copy
+- `src/lib/nav.ts`: the Product menu order
+- `src/components/layout/Footer.tsx`: the Product column
+- `src/components/product/modes.ts`: Developer Space icons and their imports
+- `src/components/product/FeatureGrid.tsx`: two columns
+- `src/components/product/ModeShowcase.tsx`: comments only
+- `src/app/product/page.tsx`: the two sections, a divider and an unused helper removed
+- `next.config.ts`: the redirect
+- `PROGRESS.md`
+
+**Setup needed from the owner**
+- None. `next.config.ts` changed, so restart `npm run dev` if it was running.
+
+**Verified**
+- Lint, type-check and production build pass.
+- No "Developer Space" text on `/`, `/product` or the 404 page.
+- Headless Chrome at 1440 and 390px:
+  - `/product` has only the Workspace and Arena blocks.
+  - No "How it connects" or closing band.
+  - Normal spacing before the footer, no horizontal scroll.
+  - The footer lists only Workspace and Arena.
+
+**Still incomplete / notes**
+- The open navbar dropdown was not screenshotted. It builds from the same product list.
+- The Developer Space copy is still in `PROJECT_BRIEF.md` Part 6 if it comes back.
 
 ## Change after Phase 11: Neon ring on buttons and the hero badge
 

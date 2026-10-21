@@ -7,7 +7,6 @@ import { LinkButton } from "@/components/ui/Button";
 import { WaitlistButton } from "@/components/waitlist/WaitlistButton";
 import { VALUE_PROPOSITION } from "@/content/home";
 import { PRODUCT_MODES, PRODUCT_PAGE } from "@/content/product-modes";
-import { PRODUCTS } from "@/content/products";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -16,17 +15,16 @@ export const metadata: Metadata = pageMetadata({
   path: "/product",
 });
 
-const name = (slug: string) => PRODUCTS.find((p) => p.slug === slug)!.name;
-
 // Contained hairline between sections, as on x.ai/grok.
 function Divider() {
   return <hr className="mx-auto max-w-6xl border-line" />;
 }
 
 // The Product page, laid out after x.ai/grok's product page (owner request,
-// 2026-10-15): a centred hero, the three work modes beside one sticky preview
-// window (components/product), a grid of every feature, "How it connects"
-// cards and a closing waitlist band.
+// 2026-10-15): a centred hero, the two work modes beside one sticky preview
+// window (components/product) and a grid of every feature. The "How it
+// connects" cards and the closing waitlist band were removed (owner request,
+// 2026-10-22).
 export default function ProductPage() {
   const { hero } = PRODUCT_PAGE;
   return (
@@ -69,53 +67,6 @@ export default function ProductPage() {
       <ModeShowcase modes={PRODUCT_MODES} />
       <Divider />
       <FeatureGrid modes={PRODUCT_MODES} />
-      <Divider />
-
-      <section aria-labelledby="connects-title" className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
-        <div className="text-center">
-          <h2
-            id="connects-title"
-            className="text-3xl font-medium tracking-tight sm:text-4xl"
-          >
-            {PRODUCT_PAGE.connectsTitle}
-          </h2>
-          <p className="mt-4 text-sm text-muted sm:text-base">
-            {PRODUCT_PAGE.connectsSubtitle}
-          </p>
-        </div>
-        <ol className="mt-12 grid gap-4 md:grid-cols-3 md:gap-6">
-          {PRODUCT_PAGE.connects.map(({ slug, text }, index) => (
-            <li key={slug} className="rounded-card border border-line p-8">
-              <p className="font-mono text-xs text-muted">
-                {String(index + 1).padStart(2, "0")}
-              </p>
-              <h3 className="mt-4 text-xl font-medium tracking-tight">
-                {name(slug)}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{text}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <section aria-labelledby="closing-title" className="mx-auto max-w-6xl px-4 pb-24 sm:px-6">
-        <div className="flex flex-col gap-8 rounded-card border border-line bg-card p-8 sm:p-12 md:flex-row md:items-center md:justify-between">
-          <div className="max-w-xl">
-            <h2
-              id="closing-title"
-              className="text-2xl font-medium tracking-tight sm:text-3xl"
-            >
-              {PRODUCT_PAGE.closingTitle}
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">
-              {PRODUCT_PAGE.closing}
-            </p>
-          </div>
-          <WaitlistButton className="h-11 shrink-0 self-start md:self-auto">
-            {PRODUCT_PAGE.closingCta}
-          </WaitlistButton>
-        </div>
-      </section>
     </main>
   );
 }

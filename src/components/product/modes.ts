@@ -1,16 +1,10 @@
 import {
-  Blocks,
   Bot,
   FileCheck2,
-  FlaskConical,
   FolderKanban,
-  Library,
   Lock,
   MessagesSquare,
   Paperclip,
-  Puzzle,
-  Shapes,
-  Share2,
   ShieldCheck,
   SlidersHorizontal,
   SquareTerminal,
@@ -24,7 +18,6 @@ import type { ProductSlug } from "@/content/products";
 export const MODE_ICON: Record<ProductSlug, LucideIcon> = {
   workspace: SquareTerminal,
   arena: UsersRound,
-  "developer-space": Puzzle,
 };
 
 // Each mode's feature icons, in the order of its features in
@@ -32,5 +25,4 @@ export const MODE_ICON: Record<ProductSlug, LucideIcon> = {
 export const MODE_ICONS: Record<ProductSlug, LucideIcon[]> = {
   workspace: [FolderKanban, Paperclip, SlidersHorizontal, Bot, FileCheck2],
   arena: [MessagesSquare, Bot, Lock, Target, ShieldCheck],
-  "developer-space": [Blocks, Shapes, FlaskConical, Library, Share2],
 };

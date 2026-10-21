@@ -16,7 +16,7 @@ export function FeatureGrid({ modes }: { modes: ProductMode[] }) {
       <p className="mt-4 text-sm text-muted sm:text-base">
         {PRODUCT_PAGE.grid.subtitle}
       </p>
-      <div className="mt-14 grid gap-12 md:grid-cols-3 md:gap-8">
+      <div className="mt-14 grid gap-12 md:grid-cols-2 md:gap-8">
         {modes.map((mode) => {
           const name = PRODUCTS.find((p) => p.slug === mode.slug)!.name;
           const icons = MODE_ICONS[mode.slug];

@@ -7,7 +7,7 @@ import { PRODUCTS } from "@/content/products";
 import { MODE_ICON } from "./modes";
 import { PreviewWindow } from "./PreviewWindow";
 
-// The three work modes as scroll-linked blocks beside one sticky "Product
+// The two work modes as scroll-linked blocks beside one sticky "Product
 // preview" window, after x.ai/grok's feature section. At lg and up, each block
 // is as tall as the window's sticky box and centres its text, so the active
 // mode's text lines up with the window. The block crossing the middle of the
@@ -89,7 +89,7 @@ export function ModeShowcase({ modes }: { modes: ProductMode[] }) {
           })}
         </div>
 
-        {/* One window for all three modes. Its box fills the screen below the
+        {/* One window for both modes. Its box fills the screen below the
             navbar and centres the window, so it sits mid-screen while the
             blocks scroll past. */}
         <div className="hidden lg:block">
