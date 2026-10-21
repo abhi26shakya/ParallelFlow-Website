@@ -130,6 +130,71 @@
   box-shadow: var(--button-glow-soft);
 }
 
+/* Animated neon ring on every pill button, shown only on hover and keyboard
+   focus (owner request, 2026-10-21, an approved exception to the monochrome
+   rule). At rest the button looks as before. A rotating conic gradient on
+   ::before, masked so only a 1.5px outline shows: the fill, text and size are
+   untouched and nothing shifts. Bordered buttons set --neon-ring-inset to
+   their border width so the ring covers the border. Static under reduced
+   motion. */
+@property --neon-ring-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes neon-ring-spin {
+  to {
+    --neon-ring-angle: 360deg;
+  }
+}
+
+@utility neon-ring {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: calc(var(--neon-ring-inset, 0px) * -1);
+    padding: 1.5px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--neon-ring-angle),
+      #22d3ee,
+      #a78bfa,
+      #f472b6,
+      #fbbf24,
+      #22d3ee
+    );
+    mask:
+      linear-gradient(#000 0 0) content-box exclude,
+      linear-gradient(#000 0 0);
+    pointer-events: none;
+    animation: neon-ring-spin 4s linear infinite;
+    opacity: 0;
+    transition: opacity 200ms;
+  }
+
+  &:hover::before,
+  &:focus-visible::before {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &::before {
+      animation: none;
+    }
+  }
+}
+
+/* With neon-ring: shows the ring at all times, for labels that are never
+   hovered, like the hero's pre-launch badge. */
+@utility neon-ring-on {
+  &::before {
+    opacity: 1;
+  }
+}
+
 html {
   scroll-padding-top: var(--navbar-height);
 }

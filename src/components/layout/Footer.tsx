@@ -3,7 +3,6 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { WaitlistButton } from "@/components/waitlist/WaitlistButton";
-import { HERO } from "@/content/home";
 import { PRODUCTS, type ProductSlug } from "@/content/products";
 import { SITE_NAME, SITE_TAGLINE, SOCIAL_LINKS } from "@/lib/site";
 import { CopyrightYear } from "./CopyrightYear";
@@ -91,9 +90,9 @@ export function Footer() {
           Try ParallelFlow
         </h2>
         {/* Same modal as the navbar's Join Waitlist. The ! overrides restyle the
-            shared primary button for this spot only: regular 16px text, a
-            dimmer fill on hover instead of the glow, and a focus ring. */}
-        <WaitlistButton className="mt-8 text-base! leading-5! font-normal! transition-[background-color]! hover:bg-foreground/85 hover:shadow-none! focus-visible:shadow-none! focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground">
+            shared primary button for this spot only: regular 16px text and a
+            focus ring. The hover glow is the shared one, as on the navbar. */}
+        <WaitlistButton className="mt-8 text-base! leading-5! font-normal! focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground">
           Get Early Access
         </WaitlistButton>
       </div>
@@ -148,10 +147,6 @@ export function Footer() {
               &copy; <CopyrightYear /> {SITE_NAME}
             </p>
           </div>
-          <p className="inline-flex items-center gap-2 self-start rounded-pill border border-line px-3 py-1 md:self-auto">
-            <span aria-hidden="true" className="size-1.5 rounded-pill bg-status" />
-            {HERO.status}
-          </p>
         </div>
       </div>
 

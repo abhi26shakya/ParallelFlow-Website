@@ -3,15 +3,16 @@ import type { ComponentProps } from "react";
 
 export type Variant = "primary" | "secondary" | "soft";
 
+// neon-ring: the animated outline on every pill (see globals.css).
 const base =
-  "inline-flex items-center justify-center rounded-pill px-5 py-2.5 text-sm font-semibold transition-[color,background-color,box-shadow] duration-200";
+  "neon-ring inline-flex items-center justify-center rounded-pill px-5 py-2.5 text-sm font-semibold transition-[color,background-color,box-shadow] duration-200";
 
 // On hover the buttons glow rather than fade (owner request, 2026-10-15).
 const variants: Record<Variant, string> = {
   primary:
     "bg-foreground text-background hover:shadow-glow focus-visible:shadow-glow",
   secondary:
-    "border border-line text-foreground hover:bg-hover hover:shadow-glow-soft",
+    "border border-line text-foreground hover:bg-hover hover:shadow-glow-soft [--neon-ring-inset:1px]",
   // Filled, no border: a quieter secondary action.
   soft: "bg-hover text-foreground hover:bg-line hover:shadow-glow-soft",
 };

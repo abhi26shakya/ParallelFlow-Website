@@ -14,7 +14,7 @@ export function Hero() {
     <section className="relative mx-auto max-w-7xl px-4 pb-20 pt-16 text-center sm:px-6 sm:pb-24 sm:pt-28">
       <HeroBeams />
       <div className={`relative z-10 ${fadeIn}`}>
-        <p className="inline-flex rounded-pill border border-line px-3 py-1 text-xs font-medium text-muted">
+        <p className="neon-ring neon-ring-on inline-flex rounded-pill border border-line px-3 py-1 text-xs font-medium text-muted [--neon-ring-inset:1px]">
           {HERO.status}
         </p>
         <h1 className="mx-auto mt-6 max-w-[18ch] text-4xl font-bold tracking-tighter text-balance sm:text-6xl lg:text-7xl">
