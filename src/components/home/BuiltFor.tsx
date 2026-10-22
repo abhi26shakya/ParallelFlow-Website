@@ -216,11 +216,11 @@ export function BuiltFor() {
               >
                 {item.phrase}
               </span>
-              {/* The bright green in both themes (owner request, 2026-10-22),
-              although it is about 1.9:1 on white. */}
+              {/* A brighter green than the accent in the light theme (owner
+              request, 2026-10-22). 3.4:1 on white, enough for large text. */}
               <span
                 aria-hidden="true"
-                className="mt-1 block font-normal text-accent light:text-[#6fd39a]"
+                className="mt-1 block font-normal text-accent light:text-[#2f9e5f]"
               >
                 <Swap active={active} render={(role) => role.phrase} />
               </span>

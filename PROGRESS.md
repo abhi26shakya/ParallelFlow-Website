@@ -32,7 +32,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - The card uses `bg-card` (#151515 / #f4f4f4). The demo cards in "The Problems" and "The Solution" are pure black in both themes, so they have no raised-surface token to reuse.
 - Reduced motion was checked in code only, not by emulating it in a browser.
 - Owner follow-up: the "Who it's for" eyebrow (green dot and label) was removed, and `ROLES.label` with it. On screens matching the `pin` variant (at least 1024px wide and 672px tall) the section now pins under the navbar inside a 300svh wrapper, and scrolling moves the role from 01 Developers to 04 Agent builders, one quarter of the stretch each. Clicking a tab smooth-scrolls to its quarter, the same way "The Solution" works. On phones and short screens, where the pinned layout wouldn't fit, the 2.8s autoplay stays. Checked on the dev server at 1440×812 and 1024×680 (pinned; the card fits) and 375×812 (autoplay).
-- Owner follow-up: the rotating role phrase uses the bright green `#6fd39a` in the light theme too. It is about 1.9:1 on white, below the 4.5:1 target. The eyebrow dot and the arrows keep the darker `#1f7a4d` in light mode.
+- Owner follow-up: in the light theme the rotating role phrase uses `#2f9e5f`, brighter than the accent. The owner first asked for the dark theme's `#6fd39a` (1.8:1 on white), then for something a little darker. `#2f9e5f` is 3.4:1, which passes for large text but is below the 4.5:1 target. The arrows keep the darker `#1f7a4d` in light mode.
 
 ## Change after Phase 11: Hero beams in the light theme
 
