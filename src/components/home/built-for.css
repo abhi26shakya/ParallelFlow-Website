@@ -1,0 +1,89 @@
+/* "Built for" section, imported by BuiltFor.tsx. */
+
+/* Every variant sits in the same grid cell, so the cell keeps the size of
+   the largest one and switching never shifts the page. */
+.pf-builtfor-stack {
+  display: grid;
+}
+
+.pf-builtfor-stack > * {
+  grid-area: 1 / 1;
+}
+
+/* Cross-fade with a slight upward slide. Visibility flips at the end of the
+   fade-out, so hidden variants can't be found or selected. */
+.pf-builtfor-swap {
+  transition:
+    opacity 280ms ease-out,
+    transform 280ms ease-out,
+    visibility 280ms;
+}
+
+.pf-builtfor-swap[data-active="false"] {
+  opacity: 0;
+  transform: translateY(8px);
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-builtfor-swap {
+    transition: none;
+  }
+}
+
+/* Role pills. Inactive: outlined. Active: filled with the text colour. */
+.pf-builtfor-tab {
+  border-color: var(--color-line);
+  color: var(--color-foreground);
+  transition:
+    background-color 200ms,
+    color 200ms,
+    border-color 200ms;
+}
+
+.pf-builtfor-tab[data-active="false"]:hover {
+  background: var(--color-hover);
+}
+
+.pf-builtfor-tab[data-active="true"] {
+  border-color: var(--color-foreground);
+  background: var(--color-foreground);
+  color: var(--color-background);
+}
+
+.pf-builtfor-num {
+  color: var(--color-muted);
+}
+
+/* Mid grey on the white pill: 5.3:1. */
+.pf-builtfor-tab[data-active="true"] .pf-builtfor-num {
+  color: #6b6b6b;
+}
+
+/* Mid grey on the black pill: 7.9:1. */
+[data-theme="light"] .pf-builtfor-tab[data-active="true"] .pf-builtfor-num {
+  color: #a3a3a3;
+}
+
+/* Phones: one row of pills that scrolls sideways instead of wrapping. */
+@media (width < 30rem) {
+  .pf-builtfor-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    /* Room for the focus outline, which overflow would otherwise clip. The
+       top margin is left to the mt- utility. */
+    margin-inline: -4px;
+    margin-bottom: -4px;
+    padding: 4px;
+  }
+
+  .pf-builtfor-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pf-builtfor-tab {
+    scroll-snap-align: start;
+  }
+}

@@ -33,6 +33,10 @@
   /* The footer status dot: the site's only colour accent (owner request,
      2026-10-21). */
   --color-status: #22c55e;
+  /* Green accent for the "Built for" section (BuiltFor.tsx): its dot, the
+     rotating role phrase and the arrows. Owner-approved exception to the
+     monochrome rule, 2026-10-22. */
+  --color-accent: #6fd39a;
 
   --radius-control: 0.5rem;
   --radius-card: 0.75rem;
@@ -110,6 +114,8 @@
   --color-field: #858585;
   --color-scrim: rgb(0 0 0 / 0.4);
   --color-status: #16a34a;
+  /* 5.3:1 on white, 4.9:1 on cards. */
+  --color-accent: #1f7a4d;
   --window-shadow: 0 24px 64px -24px rgb(0 0 0 / 0.18);
   /* A white glow is invisible on white, so the light theme uses a dark halo. */
   --button-glow: 0 0 0 1px rgb(0 0 0 / 0.12), 0 0 18px 2px rgb(0 0 0 / 0.22),

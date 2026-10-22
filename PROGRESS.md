@@ -1,6 +1,38 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge. Developer Space was then removed from the site, and the Product page lost its "How it connects" cards and closing waitlist band. The hero beams then appeared in the light theme too, inverted to dark grey.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge. Developer Space was then removed from the site, and the Product page lost its "How it connects" cards and closing waitlist band. The hero beams then appeared in the light theme too, inverted to dark grey. The home page's "Who it's for" grid was then replaced by a rotating "Built for [role]" section.
+
+## Change after Phase 11: "Built for [role]" section
+
+**Owner request (2026-10-22)**
+- Replace the home page's "Who it's for" section (headline, intro, 2×2 persona grid) with a rotating "Built for [role]" section: four role tabs, a headline phrase that rotates with them, and a detail card (three columns with a Join Waitlist button at first; two columns and no button after follow-ups). Copy supplied by the owner, used word for word.
+- Owner decisions in this session: the green accent is approved as an exception to the monochrome rule (decision 7). The role copy, including "Review diffs before anything merges" and "Reuse skills for review, tests, and refactors", is approved as written. The role data lives in `src/content/home.ts`.
+
+**What changed**
+- New `BuiltFor` section. It autoplays every 2.8s from 01. It pauses on hover, on focus inside the section and while off screen, and stops for good once a role is picked. Under reduced motion there is no autoplay and no transition.
+- The pills are a WAI-ARIA tab group (arrow keys, Home, End). The card is the tabpanel. The headline phrase becomes a polite live region only after the visitor picks a role.
+- All variants of the phrase and card columns sit stacked in one grid cell, so heights never change while cycling.
+- Below 880px the card columns stack. Below 480px the pills scroll sideways in one row.
+- New `--color-accent` token: `#6fd39a` dark, `#1f7a4d` light (5.3:1 on white, 4.9:1 on cards).
+
+**Files changed**
+- New: `src/components/home/BuiltFor.tsx`, `src/components/home/built-for.css`
+- Changed: `src/components/home/HomeBody.tsx`, `src/content/home.ts` (`AUDIENCE` replaced by `ROLES`), `src/app/globals.css` (accent token), `PROGRESS.md`
+- Deleted: `src/components/sections/Section.tsx` (no longer used)
+
+**Setup needed from the owner**
+- None.
+
+**Verified**
+- Lint, type-check and production build pass (rerun after the follow-ups).
+- In Chrome against the production build: autoplay cycles, pauses on hover and resumes after, stops after a click. Arrow, Home and End keys select and focus tabs. Section height stays constant across all four roles at 1440, 1024, 768 and 375px, with no horizontal overflow. Checked visually in both themes at 1440, 768 and 375px (375px in an iframe).
+
+**Still incomplete / notes**
+- Owner follow-up: the card's third column ("Start in" plus the mode name) was removed, along with `startIn` in `home.ts`. The card now has two columns ("The problem", "What you do in ParallelFlow"). The Join Waitlist button was then removed from the section too, so it has no CTA.
+- The card uses `bg-card` (#151515 / #f4f4f4). The demo cards in "The Problems" and "The Solution" are pure black in both themes, so they have no raised-surface token to reuse.
+- Reduced motion was checked in code only, not by emulating it in a browser.
+- Owner follow-up: the "Who it's for" eyebrow (green dot and label) was removed, and `ROLES.label` with it. On screens matching the `pin` variant (at least 1024px wide and 672px tall) the section now pins under the navbar inside a 300svh wrapper, and scrolling moves the role from 01 Developers to 04 Agent builders, one quarter of the stretch each. Clicking a tab smooth-scrolls to its quarter, the same way "The Solution" works. On phones and short screens, where the pinned layout wouldn't fit, the 2.8s autoplay stays. Checked on the dev server at 1440×812 and 1024×680 (pinned; the card fits) and 375×812 (autoplay).
+- Owner follow-up: the rotating role phrase uses the bright green `#6fd39a` in the light theme too. It is about 1.9:1 on white, below the 4.5:1 target. The eyebrow dot and the arrows keep the darker `#1f7a4d` in light mode.
 
 ## Change after Phase 11: Hero beams in the light theme
 
@@ -58,7 +90,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - None. `next.config.ts` changed, so restart `npm run dev` if it was running.
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 - No "Developer Space" text on `/`, `/product` or the 404 page.
 - Headless Chrome at 1440 and 390px:
   - `/product` has only the Workspace and Arena blocks.
@@ -101,7 +133,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - None. No migrations, env vars or dependencies.
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 - Headless Chrome at 1440 and 390px, in dark and light:
   - No ring at rest; the ring on hover; the same glow on the footer and navbar buttons.
   - The badge ring is visible all the time.
@@ -159,7 +191,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - None. No migrations, env vars or dependencies.
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 - Headless Chrome at 375, 768, 1440 and 1920px in both themes:
   - Left edges match the navbar logo, and the Product column and pill line up with the Join Waitlist button.
   - No horizontal scroll.
@@ -190,7 +222,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - Removed: `src/app/favicon.ico`
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 - The served navbar and footer markup render white on `#080808` and black on white. Each instance gets a unique mask id.
 - The social image renders the mark beside the name.
 
@@ -213,7 +245,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - `PROGRESS.md`
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 
 **Note**
 - On touch and keyboard, the Product label now goes straight to `/product`, so the dropdown opens only on mouse hover. The same three products are listed on `/product`.
@@ -240,7 +272,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - `PROGRESS.md`
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 - In headless Chrome, in dark and light, hovering each of these changes `box-shadow` from none to the glow:
   - the navbar's Join Waitlist
   - the `/product` hero's "Get early access" and "Explore the modes"
@@ -263,7 +295,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - `PROGRESS.md`
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 - In headless Chrome, `/product` shows "Get early access", "Explore the modes" and the closing "Join Waitlist", and clicking "Get early access" opens the waitlist modal.
 
 ## Change after Phase 11: Product navbar menu after x.ai
@@ -291,7 +323,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - None.
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 - Headless Chrome on the production build, at 1440x900 in dark and light:
   - **Hover:** hovering Product opens the panel with the 3 rows. Hovering Arena highlights it.
   - **Links:** clicking Arena lands on `/product#arena` at the navbar edge with the panel closed.
@@ -367,7 +399,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - None.
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 - Headless Chrome on the production build, at 1440x900 in dark and light:
   - **Bar measurements:** the bottom border is 0px, the logo is 32px from the left, and Join Waitlist is 32px from the right and 36px tall.
   - **Hover:** hovering Solutions dims Product and Resources and opens the panel. Moving onto the dimmed page closes it.
@@ -392,7 +424,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - `PROGRESS.md`
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 - In headless Chrome on the production build:
   - **Alignment:** at 1280x720, 1440x900 and 1920x1080, with each mode centred on screen, the vertical centre of the text and of the window match to the pixel. The opacity and window title follow the active mode. `/product#arena` also lands aligned.
   - **Other checks:** 390x844 is unchanged apart from the pills. There is no horizontal overflow.
@@ -555,7 +587,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - None.
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 - In headless Chrome at 1440x900 on the production build, a mouse hover on each card:
   - sets `data-hover`
   - tilts and lifts the frame
@@ -604,7 +636,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - None. No migrations, env vars or dependencies.
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 - Headless Chrome on the production build:
   - at 1440x900, scroll opens rows 1 to 5 with the matching scene, counter and `aria-live` text, and both cards are 549px square at the same height
   - clicking row 4 opens it, ArrowDown moves focus to row 5, and "The Problems" keeps its own open row
@@ -641,7 +673,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - None. No migrations, env vars or dependencies.
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 - Headless Chrome screenshots of the production build at 1440x900 (all five rows by scroll, each with the right scene, counter and `aria-live` text), in the light theme, under reduced motion, at 1280x650 (unpinned fallback) and at 390x844 (auto-advance moved to row 2). No console errors.
 
 **Still incomplete / notes**
@@ -714,7 +746,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - `PROGRESS.md`
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 
 **Still incomplete / open decision**
 - The SDLC hero's "Explore the Platform" button (`SDLC_HERO.secondaryCta` in `src/content/sdlc.ts`) still links to `/#how-it-works`, an anchor that no longer exists. It now just opens the top of the home page. The owner needs to decide whether to repoint it or remove it.
@@ -749,7 +781,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - `PROGRESS.md`
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 - Tested in headless Chrome against the production build:
   - Pinned: 1440×900 (dark and light, all five steps forward and in reverse), 1024×768 (light), 1280×768, 1440×790, 1440×800 and 1920×1080. At each step the counter, the highlighted row and the diagram match, scrolling down and back up. The heading and list fit inside the pinned panel at every size; the tightest is 1024×768, with 31px to spare. There is no horizontal overflow.
   - 1024×767 and 1280×680 fall back to the stacked layout as intended.
@@ -778,7 +810,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - `PROGRESS.md`
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 
 ## Change after Phase 11: "The Problems" restyled as a pinned list
 
@@ -806,7 +838,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - `PROGRESS.md`
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 - Tested in headless Chrome against the production build:
   - Pinned: 1440×900 (dark, light, reduced motion), 1440×700, 1280×680, 1024×768 (light) and 1920×1080.
   - Stacked: 1366×650, 768×1024, and 375×812 (dark, light, reduced motion) and 320×640.
@@ -894,7 +926,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - `PROGRESS.md`
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 - Tested in headless Chrome against the production build. Desktop at 1440×900, 1440×700, 1920×1080, 1280×1200 and 1024×768; reduced motion at 1440×900; tablet at 768×1024; mobile at 375×812 and 320×640.
 - At every desktop size the window is exactly centred below the navbar while each of the three blocks is centred. Scrolling down then back up gives the same active block, counter and visual at each point. The coordination counter reaches 09 while active and resets to 00 after it leaves.
 - The result line goes from 20% to full opacity, then the window scrolls away with the end of the section.
@@ -934,7 +966,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - `PROGRESS.md`
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 - Measured at 1920px, 1440px, 768px and 375px. The pill, H1, subheading and button keep their exact sizes and positions, because their own `ch` limits keep them unchanged in the wider section. The window is 1232px wide on desktop, 720px on tablet and 343px on mobile (full width with the existing 16–24px side margins).
 - Sampled pixels confirm the page background stays `#080808` away from the window.
 
@@ -952,7 +984,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - `PROGRESS.md`
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 - Screenshots and measurements at 1440px, 768px and 375px. Content is centred, and the spacing between the pill, H1, subheading, button and video is the same as before. The longer subheading wraps to 2 lines on desktop and 4 on mobile.
 
 **Notes**
@@ -987,7 +1019,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - `TALK_TO_US_URL` in `src/lib/site.ts` is a **placeholder** (`https://calendly.com/parallelflow/30min`). Replace it with the real Calendly link before the site goes public.
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 - Headless Chrome at 1440px and 375px:
   - The link has the right URL, `target` and `rel`, and the icon is hidden from screen readers. Screen readers hear "(opens in a new tab)".
   - The border and text colours are right.
@@ -1031,7 +1063,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - None. Migration `0002_waitlist_modal_fields.sql` was applied to the ParallelFlow Supabase project (`iwbyrebxrtmctiispzet`) on 2026-10-13 through the Supabase MCP, at the owner's request. It adds the `workflow_notes` column and the new team sizes, and keeps the old ones for existing rows. It is safe to run again.
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 - Headless Chrome, driven by a script in the session scratchpad, not added to the project. Checked at 1440px and 375px:
   - The modal opens from the navbar, mobile menu, hero, footer, each product page's closing CTA, and the SDLC navbar.
   - x, backdrop click and Escape all close it. Focus returns to the trigger each time.
@@ -1079,7 +1111,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - `PROGRESS.md`
 
 **Verified**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 - Driven in Chrome on the home page at 1440px and 375px, and with reduced motion: lanes animate, and stop with reduced motion; footer links point to real routes; Tab gives `:focus-visible` with the focus ring and underlines; hover draws the underlines.
 
 **Setup needed from the owner**
@@ -1203,7 +1235,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - Approved fixes 1–5 (dropdown Escape focus, focus on first invalid field, focus on success, highlighted invalid fields, `#6B6B6B` form field borders). The `aria-disabled` submit fix was found while re-checking and is the same kind of focus fix.
 
 **Checked (local production build, headless Chrome)**
-- Lint, type-check and production build pass.
+- Lint, type-check and production build pass (rerun after the follow-ups).
 - All 7 pages (including the 404) at 1440, 768, 375 and 320px: no sideways scroll, layout shift 0, navbar stays pinned.
 - Links: every internal link returns 200, both anchors exist, no external or placeholder links, missing URLs return a real 404.
 - Keyboard: logical tab order, visible white focus outline everywhere, no traps; dropdowns open with Enter and close on Escape or tab-out; "Tell us more" opens with Enter.

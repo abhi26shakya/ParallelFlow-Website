@@ -4,8 +4,6 @@
 // Product one-liners live in products.ts.
 // Change wording only with the owner's approval.
 
-import type { SectionItem } from "@/components/sections/Section";
-
 export const VALUE_PROPOSITION =
   "ParallelFlow brings teams, AI agents, tasks, and project context into a connected workspace to help them plan, build, and ship together.";
 
@@ -100,27 +98,65 @@ export const SOLUTION = {
   finale: ["Plan together.", "Execute with AI.", "Move forward as a team."],
 };
 
-export const AUDIENCE = {
-  label: "Who it's for",
-  title: "Software engineering teams using AI to build and ship software.",
-  intro:
-    "For teams that want to coordinate people, AI agents, tasks, tools, and shared context in one connected workflow.",
+// "Built for" section (BuiltFor.tsx), which replaces the old "Who it's for"
+// grid. Owner-supplied copy, 2026-10-22. The headline reads "Built for"
+// followed by the active role's phrase.
+export type Role = {
+  number: string;
+  label: string;
+  phrase: string;
+  problem: string;
+  actions: [string, string, string];
+};
+
+export const ROLES = {
+  lead: "Built for",
   items: [
     {
-      title: "AI-native developers",
-      body: "Use AI to write, debug, review, and maintain code, with fewer context switches and reusable agent capabilities.",
+      number: "01",
+      label: "Developers",
+      phrase: "AI-native developers.",
+      problem:
+        "You paste the same context into chat, editor, and terminal every session.",
+      actions: [
+        "Run agent sessions tied to your project",
+        "Reuse skills for review, tests, and refactors",
+        "Review diffs before anything merges",
+      ],
     },
     {
-      title: "Startup founders and small engineering teams",
-      body: "Coordinate people, AI, tasks, and deliverables with limited resources.",
+      number: "02",
+      label: "Founders",
+      phrase: "founders.",
+      problem:
+        "A small team juggling people, agents, and deliverables across too many tools.",
+      actions: [
+        "Set one project goal everyone sees",
+        "Split tasks between teammates and agents",
+        "Approve what ships",
+      ],
     },
     {
-      title: "Engineering leads and technical managers",
-      body: "See progress, blockers, and responsibilities across work done by people and AI.",
+      number: "03",
+      label: "Leads",
+      phrase: "engineering leads.",
+      problem: "You can't see what agents did without asking someone.",
+      actions: [
+        "Track owners, status, and blockers",
+        "Follow work by people and AI in one feed",
+        "Approve consequential actions",
+      ],
     },
     {
-      title: "AI agent builders and technical teams",
-      body: "Experiment with agent workflows, tools, skills, and MCP.",
+      number: "04",
+      label: "Agent builders",
+      phrase: "agent builders.",
+      problem: "Tools, skills, and MCP get wired up per agent, per machine.",
+      actions: [
+        "Manage roles, tools, and skills once",
+        "Connect MCP servers per project",
+        "Run interactive or autonomous, within permissions",
+      ],
     },
-  ] satisfies SectionItem[],
+  ] satisfies Role[],
 };
