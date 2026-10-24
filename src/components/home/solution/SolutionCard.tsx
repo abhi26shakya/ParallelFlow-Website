@@ -3,7 +3,6 @@
 import type { LucideIcon } from "lucide-react";
 import { motion } from "motion/react";
 import { type ComponentType, useEffect, useRef, useState } from "react";
-import { DitherBackground } from "../problems/DitherBackground";
 import type { SceneProps } from "../problems/sceneKit";
 import { useCardHover } from "../problems/useCardHover";
 import { SolutionScene01 } from "./SolutionScene01";
@@ -13,7 +12,7 @@ import { SolutionScene04 } from "./SolutionScene04";
 import { SolutionScene05 } from "./SolutionScene05";
 
 // The visual card for "The Solution", a copy of ProblemCard.tsx with the
-// solution scenes: the same dithered background, frosted frame, black screen
+// solution scenes: the same blurred background, frosted frame, black screen
 // and counter. Scenes crossfade; the outgoing one stays mounted only for the
 // fade. Everything pauses while the card is off screen, and holds still under
 // reduced motion.
@@ -74,7 +73,6 @@ export function SolutionCard({
 
   return (
     <div ref={ref} className="pf-solution-card">
-      <DitherBackground play={play} />
       <div aria-hidden="true" className="pf-solution-frame">
         <div className="pf-solution-screen">
           {SCENES.map((Scene, index) =>

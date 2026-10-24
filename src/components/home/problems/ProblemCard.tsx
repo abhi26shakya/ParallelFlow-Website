@@ -3,7 +3,6 @@
 import type { LucideIcon } from "lucide-react";
 import { motion } from "motion/react";
 import { type ComponentType, useEffect, useRef, useState } from "react";
-import { DitherBackground } from "./DitherBackground";
 import { ProblemScene01 } from "./ProblemScene01";
 import { ProblemScene02 } from "./ProblemScene02";
 import { ProblemScene03 } from "./ProblemScene03";
@@ -12,10 +11,10 @@ import { ProblemScene05 } from "./ProblemScene05";
 import type { SceneProps } from "./sceneKit";
 import { useCardHover } from "./useCardHover";
 
-// The visual card for "The Problems": a dithered background, a frosted frame
-// and a black screen showing the active item's scene. Scenes crossfade; the
-// outgoing one stays mounted only for the fade. Everything pauses while the
-// card is off screen, and holds still under reduced motion.
+// The visual card for "The Problems": a softly blurred background, a frosted
+// frame and a black screen showing the active item's scene. Scenes crossfade;
+// the outgoing one stays mounted only for the fade. Everything pauses while
+// the card is off screen, and holds still under reduced motion.
 
 // In row order (content/home.ts PROBLEM.items).
 const SCENES: ComponentType<SceneProps>[] = [
@@ -73,7 +72,6 @@ export function ProblemCard({
 
   return (
     <div ref={ref} className="pf-problems-card">
-      <DitherBackground play={play} />
       <div aria-hidden="true" className="pf-problems-frame">
         <div className="pf-problems-screen">
           {SCENES.map((Scene, index) =>

@@ -1,7 +1,7 @@
 /* "The Problems", imported by ProblemStory.tsx. A plain stylesheet, not a
    CSS module (the Tailwind Turbopack loader drops module scoping), so every
    class starts with pf-problems-. Row colours follow the theme; the visual
-   card stays dark in both themes, like a device screen. */
+   card follows the theme too, but its screen stays dark. */
 
 .pf-problems-root {
   --pf-problems-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -163,34 +163,63 @@
 /* Visual card */
 
 .pf-problems-card {
+  /* Follows the theme: the site's card colour with two soft, heavily
+     blurred shapes behind the frosted frame. The screen stays dark. */
+  --pf-problems-blob-a: #3a3a3a;
+  --pf-problems-blob-b: #262626;
+  --pf-problems-glass: rgb(255 255 255 / 0.06);
+  --pf-problems-glass-line: rgb(255 255 255 / 0.08);
   position: relative;
   aspect-ratio: 1 / 1;
+  border: 1px solid var(--color-line);
   border-radius: 18px;
   overflow: hidden;
-  background: #000000;
+  background: var(--color-card);
   color: #e5e5e5;
-  /* The card is dark in both themes. */
-  color-scheme: dark;
 }
 
-.pf-problems-canvas {
+[data-theme="light"] .pf-problems-card {
+  --pf-problems-blob-a: #ffffff;
+  --pf-problems-blob-b: #d4d4d4;
+  --pf-problems-glass: rgb(0 0 0 / 0.04);
+  --pf-problems-glass-line: rgb(0 0 0 / 0.06);
+}
+
+.pf-problems-card::before,
+.pf-problems-card::after {
+  content: "";
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  image-rendering: pixelated;
+  width: 70%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  filter: blur(64px);
+  pointer-events: none;
+}
+
+.pf-problems-card::before {
+  top: -20%;
+  left: -15%;
+  background: var(--pf-problems-blob-a);
+}
+
+.pf-problems-card::after {
+  right: -15%;
+  bottom: -20%;
+  background: var(--pf-problems-blob-b);
 }
 
 .pf-problems-frame {
-  /* Centred vertically: (100% - 55%) / 2 above and below. */
+  /* Centred vertically: (100% - 65%) / 2 above and below. */
   position: absolute;
-  top: 22.5%;
-  left: 8%;
-  right: 8%;
-  height: 55%;
+  z-index: 1;
+  top: 17.5%;
+  left: 5%;
+  right: 5%;
+  height: 65%;
   padding: 10px;
+  border: 1px solid var(--pf-problems-glass-line);
   border-radius: 14px;
-  background: rgb(200 180 255 / 0.22);
+  background: var(--pf-problems-glass);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -203,6 +232,8 @@
 
 .pf-problems-screen {
   position: relative;
+  /* Dark in both themes, like a device screen. */
+  color-scheme: dark;
   height: 100%;
   border-radius: 6px;
   overflow: hidden;
@@ -224,8 +255,7 @@
 
 /* Hover: the frame tilts toward the pointer and lifts a little, and a faint
    sheen follows it across the glass. useCardHover.ts sets data-hover and
-   --pf-hover-x / --pf-hover-y on the card; the dots glow in
-   DitherBackground.tsx. */
+   --pf-hover-x / --pf-hover-y on the card. */
 
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .pf-problems-frame {
