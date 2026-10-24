@@ -20,7 +20,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - Checked on the dev server: `/product/workspace` lands on `/product#private`; the page shows "Private" and no "Workspace"; the `#private` section exists; there are no console errors.
 
 **Still incomplete / notes**
-- `PROJECT_BRIEF.md` still says "Workspace". Update it if the new name is final.
+- `PROJECT_BRIEF.md` was then updated: every mention of the product now says "Private", with a rename note under the Part 6 heading. "Workspace" stays where it is a common noun: the old "Workspace for teams…" tagline, "Profile & Workspace settings", the homepage SEO title, and all lower-case uses, including the value proposition.
 
 ## Change after Phase 11: New product video
 

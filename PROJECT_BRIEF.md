@@ -12,7 +12,7 @@
 | 3 | Brand and design system: palette, rules, logo, typography, footer |
 | 4 | Pages: navigation, hero, tagline, download buttons, video, SDLC page, pricing, resources |
 | 5 | Waitlist form |
-| 6 | Product reference: Arena, Workspace, Developer Space (source material only) |
+| 6 | Product reference: Arena, Private, Developer Space (source material only) |
 | 7 | Target audience, SEO, technical stack, implementation checklist, rules |
 
 ---
@@ -41,7 +41,7 @@ The owner is applying to YC, so the site must stay accurate. **Show no traction,
 
 | # | Topic | What the brief says | Suggestion |
 |---|---|---|---|
-| 1 | Product sections | Arena, Workspace, Developer Space are written as specs for building the product itself. | Use them as source material for website product pages; keep the product build a separate project. |
+| 1 | Product sections | Arena, Private, Developer Space are written as specs for building the product itself. | Use them as source material for website product pages; keep the product build a separate project. |
 | 2 | Front-page copy | Hero headline "Work moves forward." plus subheading. Separate tagline and headline are "for the website's front page, YC oriented". | Keep hero as written. Tagline as a short line near the hero; headline as first section heading below it. |
 | 3 | Optional waitlist questions | Collapsible "Tell us more (optional)" section, or a second step after signup. | Use the collapsible section. |
 | 4 | Unavailable destinations | Resources not available; footer links only to pages that exist. | Show these nav items as non-clickable "Coming soon" labels; leave them out of the footer until live. |
@@ -63,7 +63,7 @@ The owner is applying to YC, so the site must stay accurate. **Show no traction,
 | Waitlist form | Ready, with approved addition | Part 5 |
 | Solutions → Engineering → SDLC | Full copy ready | Part 4 |
 | Solutions and Engineering pages | SEO text only | Part 7 |
-| Arena, Workspace, Developer Space | Product specs only, no page copy | Part 6 |
+| Arena, Private, Developer Space | Product specs only, no page copy | Part 6 |
 | Pricing | Spec ready; proposed prices stay unpublished | Part 4 |
 | Resources (Packages, Documentation, Developer Resources) | Not available yet | Part 4 |
 | Footer | Ready; links only to pages that exist | Part 3 |
@@ -85,7 +85,7 @@ The owner is applying to YC, so the site must stay accurate. **Show no traction,
 | 5 | Home body | Sections below hero, written **only from existing brief text**, then approved by owner | Owner approved copy; sections render cleanly |
 | 6 | SDLC page | Solutions → Engineering → SDLC, all 8 sections as written | Copy matches brief, no unsupported claims |
 | 7 | Pricing page | Teams and Enterprise cards, both Join Waitlist, **no unapproved price shown** | Matches Pricing spec; no checkout or billing |
-| 8 | Remaining pages | Arena, Workspace, Developer Space, Solutions, Engineering, as copy becomes available | Every nav page exists or is clearly "Coming soon" |
+| 8 | Remaining pages | Arena, Private, Developer Space, Solutions, Engineering, as copy becomes available | Every nav page exists or is clearly "Coming soon" |
 | 9 | SEO | Titles, meta descriptions, canonical URLs, sitemap, robots, Open Graph, structured data where accurate | Private and staging pages not indexed |
 | 10 | Quality gate | Phase 6 of the Implementation Checklist (Part 7) | All checks pass |
 | 11 | Launch | Domain + HTTPS, live waitlist test, sitemap submission, monitoring | A real signup lands in production DB |
@@ -100,7 +100,7 @@ The owner is applying to YC, so the site must stay accurate. **Show no traction,
 | Logo files (text wordmark is the fallback) | Phase 2 | Missing |
 | Screenshots of x.ai/bot and OpenAI's navbar (in `/reference`) | Phases 2 and 3 | Missing |
 | Copy for home sections below hero | Phase 5 | Missing |
-| Marketing copy for Arena, Workspace, Developer Space, Solutions, Engineering | Phase 8 | Missing |
+| Marketing copy for Arena, Private, Developer Space, Solutions, Engineering | Phase 8 | Missing |
 | Social preview image | Phase 9 | Missing |
 | Working business email or inquiry form | Needed before "Contact Sales" can appear | Missing |
 | Social links, if any | Footer | Missing |
@@ -164,7 +164,7 @@ Everything here comes from the brief; nothing new is added.
 | 2 | Problem | "Coding is getting faster. Shipping software is still complicated." Three problems: fragmented workflows, lost context, coordination overhead | SDLC section 2 |
 | 3 | Why now | AI has made code generation faster, but the surrounding development lifecycle has not evolved at the same pace | Part 2, problem 3 |
 | 4 | Solution | One connected workflow from idea to delivery: "Plan together. Execute with AI. Move forward as a team." | SDLC section 3 |
-| 5 | How it works | Arena determines what the team needs to accomplish. Workspace is where the work is performed. Developer Space provides the reusable capabilities agents use. | Part 6, Developer Space section 2 |
+| 5 | How it works | Arena determines what the team needs to accomplish. Private is where the work is performed. Developer Space provides the reusable capabilities agents use. | Part 6, Developer Space section 2 |
 | 6 | Product preview | Labelled "Product preview", with the motion video once it exists | Part 4 |
 | 7 | Trust | Human oversight, permissions, private-by-default personal assistants, approval for sensitive actions | Part 6, Arena sections 4 and 11 |
 | 8 | Who it's for | Software engineering teams using AI to build and ship software, starting with AI-native developers and startup teams | Part 7 |
@@ -175,7 +175,7 @@ Everything here comes from the brief; nothing new is added.
 | Product | One line | Lead with |
 |---|---|---|
 | Arena | Align people and AI around project goals, tasks, discussions, responsibilities, and progress. | One shared feed for people and a shared project agent, with optional private personal assistants. One clear project goal, with task owners, status and blockers. Human approval for consequential actions. |
-| Workspace | Run AI-assisted sessions, work with project context, use available tools, and produce deliverables. | Sessions tied to projects. Roles, tools, skills and MCP connections managed in one place. Interactive or autonomous mode within granted permissions, with tasks syncing back to Arena. |
+| Private | Run AI-assisted sessions, work with project context, use available tools, and produce deliverables. | Sessions tied to projects. Roles, tools, skills and MCP connections managed in one place. Interactive or autonomous mode within granted permissions, with tasks syncing back to Arena. |
 | Developer Space | Create and manage reusable agent roles, skills, tools, and integrations to adapt AI capabilities to the team's workflow. | Visual, low-code builder for roles and skills. Personal and team libraries with versioning. Secure sharing, credentials never embedded in a shared extension. |
 
 Describe all three as what ParallelFlow is designed to do; mark them **coming soon** until real.
@@ -287,7 +287,7 @@ Minimal, modern, technical, professional. Built for engineering teams and AI-pow
 | Column | Content |
 |---|---|
 | 1 Brand | Logo; "A collaborative workspace for teams and AI to plan, build, and ship together."; optional social links only for accounts that exist |
-| 2 Product | Arena, Workspace, Developer Space, Pricing |
+| 2 Product | Arena, Private, Developer Space, Pricing |
 | 3 Solutions | Engineering, Software Development Lifecycle (SDLC) |
 | 4 Resources | Documentation, Developer Resources, Packages |
 | 5 Company | About, Careers, Contact |
@@ -315,7 +315,7 @@ Minimal, modern, technical, professional. Built for engineering teams and AI-pow
 Product ▾ | Solutions ▾ | Resources ▾ | Pricing | Join waitlist
 ```
 
-- **Product:** Arena, Workspace, Developer Space
+- **Product:** Arena, Private, Developer Space
 - **Solutions:** Engineering → SDLC
 - **Resources:** Packages, Documentation, Developer Resources
 - **Pricing:** direct link
@@ -387,7 +387,7 @@ Product ▾ | Solutions ▾ | Resources ▾ | Pricing | Join waitlist
 ### 5. How ParallelFlow Connects the Workflow
 **From isolated tools to coordinated work.**
 - **Arena, Coordinate the team:** Align people and AI around project goals, tasks, discussions, responsibilities, and progress.
-- **Workspace, Execute the work:** Run AI-assisted sessions, work with project context, use available tools, and produce deliverables.
+- **Private, Execute the work:** Run AI-assisted sessions, work with project context, use available tools, and produce deliverables.
 - **Developer Space, Configure capabilities:** Create and manage reusable agent roles, skills, tools, and integrations to adapt AI capabilities to the team's workflow.
 - Together, these areas form a connected approach to planning, execution, and customization without treating each activity as an isolated process.
 
@@ -428,7 +428,7 @@ Two plans, **Teams** and **Enterprise**, in the existing monochrome design. Clea
 ### Teams plan
 - **Audience:** startups, small engineering teams, product teams using AI to build software.
 - **Proposed price (DO NOT PUBLISH without approval):** $25 per user per month. Initial hypothesis only.
-- **Proposed features:** shared team workspace; Arena for project coordination and collaboration; Workspace for AI-assisted task execution; shared project tasks and progress tracking; reusable agent roles and skills; supported tools and integrations; shared project context and knowledge; standard usage limits; standard support. **List only features implemented in the relevant release;** mark planned features appropriately or omit them.
+- **Proposed features:** shared team workspace; Arena for project coordination and collaboration; Private for AI-assisted task execution; shared project tasks and progress tracking; reusable agent roles and skills; supported tools and integrations; shared project context and knowledge; standard usage limits; standard support. **List only features implemented in the relevant release;** mark planned features appropriately or omit them.
 - **CTA:** Join Waitlist. **Supporting text:** Get early access to collaborative AI-powered software development.
 
 ### Enterprise plan
@@ -522,7 +522,7 @@ Inspect codebase, form, DB, API routes first. Preserve framework, styling, compo
 
 # Part 6: Product Reference
 
-> **Source material only.** These are specs for building the *product* (Arena, Workspace, Developer Space), not website pages. Use them to write accurate marketing copy for the product pages. Do not build the product from them unless the owner starts a separate project. On the website, describe everything as what ParallelFlow is **designed to do** and mark it **coming soon**.
+> **Source material only.** These are specs for building the *product* (Arena, Private, Developer Space), not website pages. Use them to write accurate marketing copy for the product pages. Do not build the product from them unless the owner starts a separate project. On the website, describe everything as what ParallelFlow is **designed to do** and mark it **coming soon**.
 
 ## Arena: Collaborate and Coordinate
 
@@ -545,7 +545,9 @@ Inspect codebase, form, DB, API routes first. Preserve framework, styling, compo
 
 **Principles:** one shared goal; one shared project agent; personal assistants optional and member-controlled; one shared feed; goal in a collapsible panel; contextual tools only when relevant; Motion Design is a dedicated workspace; privacy, authorization, transparency, human oversight; no UI full of nonfunctional controls.
 
-## Workspace: Execute Work
+## Private: Execute Work
+
+> Renamed from "Workspace" to "Private" by the owner on 2026-10-24. The website uses `/product#private`.
 
 **Overview:** an AI work environment inspired by the usability of Claude Code and OpenAI Codex. Start AI sessions, manage projects, configure agents, connect tools, execute tasks in one place. Clean, developer-friendly, extensible; helps users move from instructions to completed work.
 
@@ -563,7 +565,7 @@ Inspect codebase, form, DB, API routes first. Preserve framework, styling, compo
 
 **Design:** inspired by Claude Code, OpenAI Codex, boxes.dev (clarity, not copying). Dark monochrome, subtle borders, restrained animation, collapsible panels. A capable workbench, not a generic chatbot.
 
-**Relationship with Arena:** Arena = communication, planning, goals, progress. Workspace = execution and deliverables. Tasks assigned in Arena open in Workspace; status and deliverables sync back. No disconnected copies of project state.
+**Relationship with Arena:** Arena = communication, planning, goals, progress. Private = execution and deliverables. Tasks assigned in Arena open in Private; status and deliverables sync back. No disconnected copies of project state.
 
 **Principles:** core navigation first → functional sessions and projects → extension management and real agent execution → incremental tool/MCP integration. **No fake integrations, simulated results, or controls that do nothing.**
 
@@ -571,7 +573,7 @@ Inspect codebase, form, DB, API routes first. Preserve framework, styling, compo
 
 **Overview:** a visual, low-code environment to create, configure, test, manage and share extensions that enhance AI agent capabilities. For teams that want to customize agents without building every tool or integration from scratch. **Design principle: Configure visually. Reuse everywhere. Share securely.**
 
-**The three areas:** Arena determines what the team needs to accomplish. Workspace is where the work is performed. Developer Space provides the reusable capabilities agents use. Extensions made in Developer Space are selectable in Workspace and shareable with authorized projects/teams in Arena.
+**The three areas:** Arena determines what the team needs to accomplish. Private is where the work is performed. Developer Space provides the reusable capabilities agents use. Extensions made in Developer Space are selectable in Private and shareable with authorized projects/teams in Arena.
 
 **Target users:** teams configuring agents for dev and operational workflows; developers reusing tools and integrations; technical PMs standardizing agent behavior; non-programmers creating reusable instructions; organizations needing controlled sharing.
 
@@ -585,7 +587,7 @@ Inspect codebase, form, DB, API routes first. Preserve framework, styling, compo
 
 **Security:** server-side authorization on every protected operation; no credentials client-side; least privilege; schema validation; approval for sensitive capabilities; audit trail; isolated execution for custom tools (defer rather than simulate).
 
-**MVP phases:** 1 core extension management (roles and skills builders, drafts, ownership, visibility, backend) → 2 testing and Workspace integration → 3 integrations and MCP → 4 advanced ecosystem (public publishing only when appropriate).
+**MVP phases:** 1 core extension management (roles and skills builders, drafts, ownership, visibility, backend) → 2 testing and Private integration → 3 integrations and MCP → 4 advanced ecosystem (public publishing only when appropriate).
 
 ---
 
@@ -628,7 +630,7 @@ Treat these as candidates, not guaranteed volume. Validate with search data.
 | Engineering | AI-Powered Engineering Workflows \| ParallelFlow | Help engineering teams coordinate people, AI agents, tasks, and project context across the software development workflow. |
 | SDLC | AI Software Development Lifecycle \| ParallelFlow | Connect planning, development, code review, testing, and delivery in a collaborative AI-powered software development workflow. |
 | Arena | Arena \| Team and AI Collaboration \| ParallelFlow | Coordinate engineering teams and AI around shared project goals, discussions, tasks, and progress. |
-| Workspace | Workspace \| AI-Powered Development \| ParallelFlow | Execute development tasks with AI-assisted sessions, project context, tools, and connected workflows. |
+| Private | Private \| AI-Powered Development \| ParallelFlow | Execute development tasks with AI-assisted sessions, project context, tools, and connected workflows. |
 | Developer Space | Developer Space \| Build and Manage Agent Extensions | Configure and manage reusable agent roles, skills, tools, and supported integrations for your development workflows. |
 | Pricing | Pricing \| ParallelFlow | Explore ParallelFlow plans for collaborative AI development. Check the website for current availability and pricing details. |
 
@@ -699,7 +701,7 @@ Recommendations, not a requirement to install everything. Prefer existing depend
 - [ ] Homepage messaging focused on AI-assisted software development teams
 - [ ] Explain fragmented tools, context, coordination
 - [ ] Communicate the value proposition clearly
-- [ ] Explain Arena, Workspace, Developer Space distinctly
+- [ ] Explain Arena, Private, Developer Space distinctly
 - [ ] Consistent CTAs
 - [ ] No unsupported claims about features or performance
 
