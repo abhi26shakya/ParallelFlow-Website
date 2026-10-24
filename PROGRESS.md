@@ -1,6 +1,72 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge. Developer Space was then removed from the site, and the Product page lost its "How it connects" cards and closing waitlist band. The hero beams then appeared in the light theme too, inverted to dark grey. The home page's "Who it's for" grid was then replaced by a rotating "Built for [role]" section. The animated dotted backgrounds of the Problems and Solution cards were then replaced by a plain blurred background that follows the theme, and their inner screens grew. The hero's preview slot then got the real product video in its own section below the hero, the hero was made to fill the first screen with its copy at the top centre, and the hero beams were removed.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge. Developer Space was then removed from the site, and the Product page lost its "How it connects" cards and closing waitlist band. The hero beams then appeared in the light theme too, inverted to dark grey. The home page's "Who it's for" grid was then replaced by a rotating "Built for [role]" section. The animated dotted backgrounds of the Problems and Solution cards were then replaced by a plain blurred background that follows the theme, and their inner screens grew. The hero's preview slot then got the real product video in its own section below the hero, the hero was made to fill the first screen with its copy at the top centre, and the hero beams were removed. The hero then got an animated particle galaxy behind its copy.
+
+## Change after Phase 11: New product video
+
+**Owner request (2026-10-24)**
+- Replace the product video with `ParallelFlow Logo/Preview_2.mp4`.
+
+**What changed**
+- `public/videos/product-preview.mp4` is now that file: 1920×1080 H.264, 58.5s, no audio track, 34.1 MB. Its metadata is at the front of the file, so it streams. The path is unchanged, so there are no code changes. The old video stays in git history.
+
+**Files changed**
+- Changed: `public/videos/product-preview.mp4`, `PROGRESS.md`
+
+**Verified**
+- Checked on the dev server at 1440×812: the new video loads (58.5s, 1920×1080) and plays from the start when scrolled into view.
+
+**Still incomplete / notes**
+- At 34.1 MB it is still large; re-encode it to roughly 5–10 MB before launch (ffmpeg is not installed here).
+
+## Change after Phase 11: Product video starts on reaching it
+
+**Owner request (2026-10-24)**
+- Start the product video from the beginning when the visitor reaches its section.
+
+**What changed**
+- `HeroVideo` now waits until at least 40% of the video is on screen. Then it jumps to 0:00 and plays. It pauses when scrolled away, and restarts from 0:00 each time it comes back into view. Reduced-motion behaviour is unchanged: paused on the first frame with controls, and never restarted.
+
+**Files changed**
+- Changed: `src/components/home/HeroVideo.tsx`, `PROGRESS.md`
+
+**Verified**
+- Lint, type-check and production build pass.
+- Checked on the dev server at 1440×812: paused at 0:00 while at the top of the page; playing from 0:00 once scrolled into view; paused when scrolled away; restarted from 0:00 on return.
+
+## Change after Phase 11: Hero particle galaxy
+
+**Owner request (2026-10-24)**
+- Add an interactive Milky Way made of fine sand-grain particles behind the hero copy, inspired by ingrassiadaniel.it but not copied from it. The hero's copy, layout and buttons stay unchanged.
+- Owner decisions in this session: plain WebGL with no new dependency (Three.js not added). In the light theme the same galaxy is drawn as dark graphite grains on white.
+
+**What changed**
+- New `HeroGalaxy` client component: one WebGL point cloud generated once from a fixed seed (mulberry32). It has two major and two minor logarithmic spiral arms with clumps, a dim bulge and a sparse halo: 55k grains on desktop, 22k on phones or devices with 4 or fewer cores. The pixel ratio is capped at 1.5 (1 on phones).
+- All motion runs in the vertex shader: a slow rotation, grains flowing outward along the arms (fading in and out at the ends), light turbulence, about 16% twinkle, and an eased mouse tilt for parallax. Grains near the mouse ease a few pixels outward (mouse only, not touch). No React state changes per frame.
+- Readability: grains dim to 28% inside the hero copy's box (found with `data-hero-copy`) and fade out toward the canvas edges, so there is no visible rectangle. The core is kept dim. On phones the galaxy is larger and sits a little lower, so its arms show around and below the copy.
+- Palette: graphite to silver to soft white, with about 3% warm-white grains. Light theme: charcoal and graphite at lower opacity. It follows theme changes live.
+- `pointer-events: none` and `aria-hidden`. It pauses off screen and in hidden tabs. Under reduced motion it draws one still frame with no pointer response, and it reacts if that setting changes. If WebGL is missing, it renders nothing. Cleanup frees the buffer, the program and the listeners. The WebGL context is not force-lost, because React Strict Mode remounts reuse the same canvas.
+- `Hero.tsx`: the section gained `relative isolate`, the copy wrapper gained `relative z-10` and `data-hero-copy`, and `<HeroGalaxy />` was added. Copy, spacing and sizes are unchanged.
+
+**Files changed**
+- New: `src/components/home/HeroGalaxy.tsx`
+- Changed: `src/components/home/Hero.tsx`, `PROGRESS.md`
+
+**Setup needed from the owner**
+- None.
+
+**Verified**
+- Lint, type-check and production build pass. (The build again stopped once on Next.js's security-advisory check; a rerun passed.)
+- Checked on the dev server at 1440×812 in the dark and light themes: the galaxy shows behind the heading with no rectangle edge, and it rotates between frames. The heading, subheading, badge, navbar and buttons look the same. The navbar links, Join Waitlist and "Talk to us" receive clicks through the canvas. It runs at about 60 fps, with no horizontal scroll.
+- Checked at 390px wide (in an iframe): the copy is readable and the galaxy frames it.
+- Not checked: reduced motion, a real phone or touch device, lower-end GPUs, or how the cursor ripple feels to use.
+
+**Follow-up (2026-10-24): more visible**
+- Owner asked for the galaxy to be more visible in both themes. Grain opacity is up about 1.5×, grains are slightly larger, dark-theme greys are lighter and light-theme greys are darker. The light theme now uses nearly full opacity. The dimming behind the copy is unchanged.
+- Checked on the dev server at 1440×812 in both themes: the arms are clearly visible and the heading stays readable.
+
+**Still incomplete / notes**
+- Brightness, tilt and speed are constants at the top of the shader and are easy to tune if the owner wants it stronger or calmer.
 
 ## Change after Phase 11: Hero video, split hero, beams removed
 
