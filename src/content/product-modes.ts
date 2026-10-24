@@ -21,7 +21,7 @@ export type ProductMode = {
 // In page order (owner-approved 2026-10-14).
 export const PRODUCT_MODES: ProductMode[] = [
   {
-    slug: "workspace",
+    slug: "private",
     highlights: [
       "Sessions tied to projects",
       "Roles, tools, skills, and MCP connections managed in one place",
@@ -108,6 +108,6 @@ export const PRODUCT_PAGE = {
     // Earlier approved section label.
     title: "What it's designed to do",
     // Draft.
-    subtitle: "Across Workspace and Arena. Both coming soon.",
+    subtitle: "Across Private and Arena. Both coming soon.",
   },
 };

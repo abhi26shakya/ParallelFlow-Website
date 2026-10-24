@@ -6,11 +6,16 @@ const nextConfig: NextConfig = {
   partialPrefetching: true,
   // The three product pages became sections of /product. Developer Space
   // was later removed (2026-10-22), so its old URL goes to /product.
+  // Workspace was renamed Private (2026-10-24), so its old URL goes to
+  // #private.
   async redirects() {
     return [
-      ...["arena", "workspace"].map((slug) => ({
+      ...[
+        ["arena", "arena"],
+        ["workspace", "private"],
+      ].map(([slug, anchor]) => ({
         source: `/product/${slug}`,
-        destination: `/product#${slug}`,
+        destination: `/product#${anchor}`,
         permanent: true,
       })),
       {

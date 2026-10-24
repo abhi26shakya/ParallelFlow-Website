@@ -57,7 +57,7 @@ export default function ProductPage() {
             {hero.primaryCta}
             <ChevronRight aria-hidden="true" className="size-4" />
           </WaitlistButton>
-          <LinkButton href="#workspace" variant="soft" className="h-11">
+          <LinkButton href="#private" variant="soft" className="h-11">
             {hero.secondaryCta}
           </LinkButton>
         </div>

@@ -22,7 +22,7 @@ const productLink = (slug: ProductSlug): FooterLinkItem => {
 const FOOTER_COLUMNS: FooterColumn[] = [
   {
     label: "Product",
-    items: [productLink("workspace"), productLink("arena")],
+    items: [productLink("private"), productLink("arena")],
   },
 ];
 
