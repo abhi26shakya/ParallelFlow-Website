@@ -1,5 +1,6 @@
 import { MessageCircle } from "lucide-react";
 import { buttonClass } from "@/components/ui/Button";
+import { HeroGalaxy } from "@/components/home/HeroGalaxy";
 import { HeroVideo } from "@/components/home/HeroVideo";
 import { HERO } from "@/content/home";
 import { TALK_TO_US_URL } from "@/lib/site";
@@ -9,11 +10,13 @@ import { TALK_TO_US_URL } from "@/lib/site";
 const fadeIn =
   "motion-safe:transition-[opacity,translate] motion-safe:duration-700 motion-safe:ease-out motion-safe:starting:translate-y-2 motion-safe:starting:opacity-0";
 
-// Fills the first screen below the navbar, with the copy at the top centre.
+// Fills the first screen below the navbar, with the copy at the top centre
+// and the particle galaxy behind it.
 export function Hero() {
   return (
-    <section className="mx-auto min-h-[calc(100svh-var(--navbar-height))] max-w-7xl px-4 py-16 text-center sm:px-6 sm:py-24">
-      <div className={fadeIn}>
+    <section className="relative isolate mx-auto min-h-[calc(100svh-var(--navbar-height))] max-w-7xl px-4 py-16 text-center sm:px-6 sm:py-24">
+      <HeroGalaxy />
+      <div data-hero-copy className={`relative z-10 ${fadeIn}`}>
         <p className="neon-ring neon-ring-on inline-flex rounded-pill border border-line px-3 py-1 text-xs font-medium text-muted [--neon-ring-inset:1px] [--neon-ring-opacity:0.45]">
           {HERO.status}
         </p>
