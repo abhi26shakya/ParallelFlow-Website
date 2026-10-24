@@ -2,13 +2,33 @@
 
 Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge. Developer Space was then removed from the site, and the Product page lost its "How it connects" cards and closing waitlist band. The hero beams then appeared in the light theme too, inverted to dark grey. The home page's "Who it's for" grid was then replaced by a rotating "Built for [role]" section. The animated dotted backgrounds of the Problems and Solution cards were then replaced by a plain blurred background that follows the theme, and their inner screens grew. The hero's preview slot then got the real product video in its own section below the hero, the hero was made to fill the first screen with its copy at the top centre, and the hero beams were removed. The hero then got an animated particle galaxy behind its copy.
 
+## Change after Phase 11: Workspace renamed to Private
+
+**Owner request (2026-10-24)**
+- Rename the "Workspace" product to "Private". Owner decision in this session: the section anchor changes too, `/product#workspace` → `/product#private`.
+
+**What changed**
+- The product name, slug and link are now Private / `private` / `/product#private` in the navbar dropdown, the footer and the Product page (the section, the "Explore the modes" button and "Across Private and Arena"). The icon maps use the new slug.
+- `/product/workspace` now redirects (308) to `/product#private`. Old `/product#workspace` links still open `/product`, but at the top of the page.
+- Unchanged on purpose: the lower-case "workspace" as a common noun in the value proposition (kept word for word), the site description and the Product page subtitle.
+
+**Files changed**
+- Changed: `src/content/products.ts`, `src/content/product-modes.ts`, `src/app/product/page.tsx`, `src/components/layout/Footer.tsx`, `src/components/product/modes.ts`, `src/lib/nav.ts`, `next.config.ts`, `PROGRESS.md`
+
+**Verified**
+- Lint, type-check and production build pass.
+- Checked on the dev server: `/product/workspace` lands on `/product#private`; the page shows "Private" and no "Workspace"; the `#private` section exists; there are no console errors.
+
+**Still incomplete / notes**
+- `PROJECT_BRIEF.md` still says "Workspace". Update it if the new name is final.
+
 ## Change after Phase 11: New product video
 
 **Owner request (2026-10-24)**
 - Replace the product video with `ParallelFlow Logo/Preview_2.mp4`.
 
 **What changed**
-- `public/videos/product-preview.mp4` is now that file: 1920×1080 H.264, 58.5s, no audio track, 34.1 MB. Its metadata is at the front of the file, so it streams. The path is unchanged, so there are no code changes. The old video stays in git history.
+- `public/videos/product-preview.mp4` is now that file: 1920×1080 H.264, 58.5s, no audio track, 34.1 MB. The owner then re-exported `Preview_2.mp4` (same format, 34.1 MB), and the site copy was replaced with the new export. Its metadata is at the front of the file, so it streams. The path is unchanged, so there are no code changes. The old video stays in git history.
 
 **Files changed**
 - Changed: `public/videos/product-preview.mp4`, `PROGRESS.md`
