@@ -2,6 +2,28 @@
 
 Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge. Developer Space was then removed from the site, and the Product page lost its "How it connects" cards and closing waitlist band. The hero beams then appeared in the light theme too, inverted to dark grey. The home page's "Who it's for" grid was then replaced by a rotating "Built for [role]" section. The animated dotted backgrounds of the Problems and Solution cards were then replaced by a plain blurred background that follows the theme, and their inner screens grew. The hero's preview slot then got the real product video in its own section below the hero, the hero was made to fill the first screen with its copy at the top centre, and the hero beams were removed. The hero then got an animated particle galaxy behind its copy.
 
+## Change after Phase 11: Next.js security upgrade (16.4.0 → 16.4.3)
+
+**Owner request (2026-10-24)**
+- Run the Next.js security upgrade. Next.js 16.4.0 was flagged by a published security advisory, and the build kept stopping on it.
+
+**What changed**
+- `next` and `eslint-config-next` 16.4.0 → 16.4.3, a same-major patch release, so no codemods or migration guide. Versions stay pinned exactly, as before. `package-lock.json` is updated.
+- No source or config changes. The tool also asked for `experimental.agentUpgrade` in `next.config.ts`; that was not added without the owner's say.
+
+**Files changed**
+- Changed: `package.json`, `package-lock.json`, `PROGRESS.md`
+
+**Setup needed from the owner**
+- None. Restart any running `npm run dev` so it uses 16.4.3.
+
+**Verified**
+- `next --version` reports v16.4.3, and `npm audit` finds 0 vulnerabilities.
+- Lint, type-check and production build pass; the build no longer stops on the security check.
+- Dev server: `/`, `/product`, `/robots.txt`, `/sitemap.xml` and `/opengraph-image` return 200. `/product/workspace` redirects (308) to `/product#private`. `/api/waitlist` rejects an empty body with field errors (400, nothing written).
+- Home page in the browser: hero, galaxy and navbar look the same, there are no console errors, and the dev overlay no longer shows the security insight.
+- Duplicate check: no existing upgrade branch or commit. Open GitHub PRs could not be checked, because the `gh` CLI is not installed.
+
 ## Change after Phase 11: Workspace renamed to Private
 
 **Owner request (2026-10-24)**
@@ -141,7 +163,7 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 - None.
 
 **Verified**
-- Lint, type-check and production build pass. (The build sometimes stops on Next.js's online security-advisory check after compiling; a rerun passes. Next.js 16.4.0 is flagged as having a known vulnerability, so upgrading is worth scheduling.)
+- Lint, type-check and production build pass. (The build sometimes stops on Next.js's online security-advisory check after compiling; a rerun passes. Next.js 16.4.0 was flagged as having a known vulnerability; upgraded to 16.4.3 on 2026-10-24.)
 - Checked on the dev server at 1440×812: the Problems card in the dark theme and the Solution card in the light theme.
 
 **Still incomplete / notes**
