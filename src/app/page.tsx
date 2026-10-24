@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { HomeBody } from "@/components/home/HomeBody";
-import { Hero } from "@/components/home/Hero";
+import { Hero, ProductPreview } from "@/components/home/Hero";
 import { VALUE_PROPOSITION } from "@/content/home";
 import { pageMetadata } from "@/lib/seo";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
@@ -45,6 +45,7 @@ export default function Home() {
         }}
       />
       <Hero />
+      <ProductPreview />
       <HomeBody />
     </main>
   );

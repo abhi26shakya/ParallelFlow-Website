@@ -1,6 +1,66 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge. Developer Space was then removed from the site, and the Product page lost its "How it connects" cards and closing waitlist band. The hero beams then appeared in the light theme too, inverted to dark grey. The home page's "Who it's for" grid was then replaced by a rotating "Built for [role]" section.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge. Developer Space was then removed from the site, and the Product page lost its "How it connects" cards and closing waitlist band. The hero beams then appeared in the light theme too, inverted to dark grey. The home page's "Who it's for" grid was then replaced by a rotating "Built for [role]" section. The animated dotted backgrounds of the Problems and Solution cards were then replaced by a plain blurred background that follows the theme, and their inner screens grew. The hero's preview slot then got the real product video in its own section below the hero, the hero was made to fill the first screen with its copy at the top centre, and the hero beams were removed.
+
+## Change after Phase 11: Hero video, split hero, beams removed
+
+**Owner requests (2026-10-24)**
+- Put the product video (`ParallelFlow Logo/Product_preview.mp4`) in the hero's Product preview slot.
+- Then: split the hero copy and the video into two separate sections. The owner chose to have the hero fill the first screen and the video section start below it.
+- Then: remove the animated background strips (the hero beams) and place the heading at the top centre. The owner chose to keep the full-screen hero, leaving empty space below the button.
+
+**What changed**
+- The video is copied to `public/videos/product-preview.mp4` (1920×1080 H.264, 52s, no audio track, 36.6 MB, metadata at the front of the file so it streams).
+- New `HeroVideo` client component: muted, looping, inline, `preload="metadata"`. It autoplays only when motion is allowed. Under `prefers-reduced-motion` it stays paused on the first frame and shows controls. It reacts if that setting changes.
+- The "Product preview" label stays in the frame's top-left corner, now with a dark translucent background so it reads over the video in both themes.
+- `Hero` now holds only the copy (badge, heading, subheading, "Talk to us"). It is at least one screen tall below the navbar (`100svh` minus the navbar height), with the copy centred left to right and starting near the top.
+- New `ProductPreview` section (in `Hero.tsx`) holds the 16:9 video frame. `src/app/page.tsx` renders `<Hero />` then `<ProductPreview />`.
+- The hero beams are gone: `HeroBeams.tsx` is deleted and all `.hero-beams` styles (including the light-theme filter and the glow animation) are removed from `globals.css`.
+
+**Files changed**
+- New: `src/components/home/HeroVideo.tsx`, `public/videos/product-preview.mp4`
+- Changed: `src/components/home/Hero.tsx`, `src/app/page.tsx`, `src/app/globals.css`, `PROGRESS.md`
+- Deleted: `src/components/home/HeroBeams.tsx`
+
+**Setup needed from the owner**
+- None.
+
+**Verified**
+- Lint, type-check and production build pass. (The build again stopped once on Next.js's security-advisory check; a rerun passed.)
+- Not checked in a browser: the video playing, the hero layout, phone widths, the light theme or reduced motion.
+
+**Still incomplete / notes**
+- The video is 36.6 MB and committed to git with the code. Re-encode it to roughly 5–10 MB (ideally with a WebM version too) before launch. ffmpeg is not installed on this machine.
+- The full-screen hero leaves empty space below the button on tall screens, as chosen by the owner.
+- The older entries about the hero beams below are now history only.
+
+## Change after Phase 11: Blurred card backgrounds, bigger screens
+
+**Owner requests (2026-10-24)**
+- First: make the coloured dotted background behind "The Problems" and "The Solution" visual cards monochrome, and make the screen inside both cards a little bigger.
+- Then: remove the animated dot (pixel) background entirely and use a simple blurred background that matches the rest of the site.
+
+**What changed**
+- `DitherBackground.tsx` (the animated canvas, shared by both cards) is deleted. Its hover glow went with it; the frame's tilt and sheen on hover stay.
+- Each card now uses the site's card colour (`--color-card`) with a 1px `--color-line` border, plus two soft, heavily blurred grey shapes (CSS `filter: blur`) in opposite corners behind the frosted frame. It is static, so there is nothing to pause or reduce.
+- The card now follows the theme: dark grey in the dark theme, light grey in the light theme. The screen inside stays dark in both, like a device screen. The frame's glass is a faint white (dark theme) or faint black (light theme) tint with a hairline border.
+- The frame (glass border plus screen) grew from 84% × 55% of the card to 90% × 65%, still centred.
+- Scene accents inside the screens (green, indigo, orange) are unchanged.
+
+**Files changed**
+- Deleted: `src/components/home/problems/DitherBackground.tsx`
+- Changed: `src/components/home/problems/ProblemCard.tsx`, `src/components/home/solution/SolutionCard.tsx`, `src/components/home/problems/problems.css`, `src/components/home/solution/solution.css`, `PROGRESS.md`
+
+**Setup needed from the owner**
+- None.
+
+**Verified**
+- Lint, type-check and production build pass. (The build sometimes stops on Next.js's online security-advisory check after compiling; a rerun passes. Next.js 16.4.0 is flagged as having a known vulnerability, so upgrading is worth scheduling.)
+- Checked on the dev server at 1440×812: the Problems card in the dark theme and the Solution card in the light theme.
+
+**Still incomplete / notes**
+- Not checked at phone widths.
+- Should the scene accents inside the screens go monochrome too? Not done unless asked.
 
 ## Change after Phase 11: "Built for [role]" section
 

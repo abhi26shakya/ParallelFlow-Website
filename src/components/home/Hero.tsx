@@ -1,6 +1,6 @@
 import { MessageCircle } from "lucide-react";
 import { buttonClass } from "@/components/ui/Button";
-import { HeroBeams } from "@/components/home/HeroBeams";
+import { HeroVideo } from "@/components/home/HeroVideo";
 import { HERO } from "@/content/home";
 import { TALK_TO_US_URL } from "@/lib/site";
 
@@ -9,11 +9,11 @@ import { TALK_TO_US_URL } from "@/lib/site";
 const fadeIn =
   "motion-safe:transition-[opacity,translate] motion-safe:duration-700 motion-safe:ease-out motion-safe:starting:translate-y-2 motion-safe:starting:opacity-0";
 
+// Fills the first screen below the navbar, with the copy at the top centre.
 export function Hero() {
   return (
-    <section className="relative mx-auto max-w-7xl px-4 pb-20 pt-16 text-center sm:px-6 sm:pb-24 sm:pt-28">
-      <HeroBeams />
-      <div className={`relative z-10 ${fadeIn}`}>
+    <section className="mx-auto min-h-[calc(100svh-var(--navbar-height))] max-w-7xl px-4 py-16 text-center sm:px-6 sm:py-24">
+      <div className={fadeIn}>
         <p className="neon-ring neon-ring-on inline-flex rounded-pill border border-line px-3 py-1 text-xs font-medium text-muted [--neon-ring-inset:1px] [--neon-ring-opacity:0.45]">
           {HERO.status}
         </p>
@@ -37,22 +37,28 @@ export function Hero() {
           </a>
         </div>
       </div>
+    </section>
+  );
+}
 
-      {/* Fixed 16:9 slot for the product video: a wide app-window frame that
-          fills the hero container and runs past the first screen. The soft
-          white glow above and dark shadow below lift it off the page (a soft
-          drop shadow in the light theme; see --window-shadow). */}
+// The product video in its own section below the hero.
+export function ProductPreview() {
+  return (
+    <section
+      aria-label="Product preview"
+      className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 sm:pb-24"
+    >
+      {/* Fixed 16:9 frame for the product video: a wide app-window frame that
+          fills the container. The soft white glow above and dark shadow below
+          lift it off the page (a soft drop shadow in the light theme; see
+          --window-shadow). */}
       <div
-        role="img"
-        aria-label="Product preview video placeholder"
-        className={`relative mt-12 aspect-video w-full overflow-hidden rounded-card border border-line bg-card shadow-window sm:mt-16 ${fadeIn} motion-safe:delay-150`}
+        className={`relative aspect-video w-full overflow-hidden rounded-card border border-line bg-card shadow-window ${fadeIn}`}
       >
-        <span className="absolute left-4 top-4 rounded-pill border border-line px-3 py-1 text-xs text-muted">
+        <HeroVideo />
+        <span className="pointer-events-none absolute left-4 top-4 rounded-pill border border-white/20 bg-black/60 px-3 py-1 text-xs text-white/80 backdrop-blur-sm">
           Product preview
         </span>
-        <div className="flex size-full items-center justify-center text-sm text-muted">
-          Product video coming soon
-        </div>
       </div>
     </section>
   );
