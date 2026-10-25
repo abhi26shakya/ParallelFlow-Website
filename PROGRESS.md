@@ -1,6 +1,64 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge. Developer Space was then removed from the site, and the Product page lost its "How it connects" cards and closing waitlist band. The hero beams then appeared in the light theme too, inverted to dark grey. The home page's "Who it's for" grid was then replaced by a rotating "Built for [role]" section. The animated dotted backgrounds of the Problems and Solution cards were then replaced by a plain blurred background that follows the theme, and their inner screens grew. The hero's preview slot then got the real product video in its own section below the hero, the hero was made to fill the first screen with its copy at the top centre, and the hero beams were removed. The hero then got an animated particle galaxy behind its copy.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge. Developer Space was then removed from the site, and the Product page lost its "How it connects" cards and closing waitlist band. The hero beams then appeared in the light theme too, inverted to dark grey. The home page's "Who it's for" grid was then replaced by a rotating "Built for [role]" section. The animated dotted backgrounds of the Problems and Solution cards were then replaced by a plain blurred background that follows the theme, and their inner screens grew. The hero's preview slot then got the real product video in its own section below the hero, the hero was made to fill the first screen with its copy at the top centre, and the hero beams were removed. The hero then got an animated particle galaxy behind its copy. A team blog was then added: a Blog navbar link, an editorial `/blog` index and post pages, with posts written as MDX files in the repo. The home video's "Product preview" badge was then removed.
+
+## Change after Phase 11: "Product preview" badge removed from the home video
+
+**Owner request (2026-10-25)**
+- Delete the "Product preview" badge in the top-left corner of the home page product video. The owner confirmed this overrides the "Label product visuals 'Product preview'" rule for this video.
+
+**What changed**
+- The badge is gone. The section keeps `aria-label="Product preview"`, so screen readers still announce it. The Product page preview cards are unchanged.
+- `CLAUDE.md` and `PROJECT_BRIEF.md` (Part 1, "Product visuals and video"; home section 6) record the exception.
+
+**Files changed**
+- Changed: `src/components/home/Hero.tsx`, `CLAUDE.md`, `PROJECT_BRIEF.md`, `PROGRESS.md`
+
+**Setup needed from the owner**
+- None.
+
+**Verified**
+- Lint, type-check and production build pass.
+
+## Change after Phase 11: Team blog (MDX) in the navbar
+
+**Owner request (2026-10-25)**
+- Add "Blog" to the navbar after Product, linking to a real `/blog` page.
+- Let anyone on the team write posts, and give the blog a more attractive, creative design.
+- Owner's choices: team-only authors; posts are Markdown (MDX) files in the repo, published by pull request; editorial-magazine design within the monochrome rules.
+
+**What changed**
+- Posts are `src/content/blog/posts/<slug>.mdx`, each starting with `export const metadata = { title, summary, date, author, tags, cover?, coverAlt?, draft? }`. `src/lib/blog.ts` validates the metadata with Zod, so a bad date, an unknown author or an invalid file name fails the build with a readable message. It also works out reading time and the table of contents. Drafts show only in `npm run dev`.
+- Authors live in `src/content/blog/authors.ts`, which starts empty; only real team members should be added. A writing guide is in `src/content/blog/README.md`, and `posts/_template.mdx` is a copy-me template (files starting with `_` are never published).
+- `/blog`: an oversized masthead, the newest post as a wide featured card, the rest in an asymmetric 7/5–5/7 grid, and topic chips that filter in the browser so the page stays static. Cards lift, the cover zooms and an arrow slides in on hover. While there are no posts, an "Issue 001" panel shows "The first post is on its way."
+- Posts without a cover image get a generated monochrome dot-field cover (waves or rings), seeded from the slug so it never changes.
+- `/blog/<slug>`: tags, a large title, the summary, the author row, the cover, a ~68ch reading column, a sticky "On this page" contents list on desktop, a reading progress bar under the navbar, an author card, a waitlist band using the value proposition, and "More from the blog".
+- MDX is set up through `@next/mdx`, with `remark-gfm` (tables) and `rehype-slug` (heading ids) named as strings for Turbopack. Post styles are in `src/mdx-components.tsx`.
+- With Cache Components, `generateStaticParams` can't return an empty list. Until the first post exists, it returns the placeholder slug `no-posts-yet`, which renders the 404 page. Unknown slugs call `notFound()`.
+- Sitemap: `/blog` plus every published post. `pageMetadata` takes an optional `article` (published date, author) for post pages.
+
+**Files changed**
+- New: `src/app/blog/page.tsx`, `src/app/blog/[slug]/page.tsx`, `src/lib/blog.ts`, `src/mdx-components.tsx`, `src/components/blog/` (`BlogCover`, `PostCover`, `PostCard`, `AuthorChip`, `BlogTagFilter`, `ReadingProgress`, `TableOfContents`), `src/content/blog/` (`README.md`, `authors.ts`, `page-copy.ts`, `posts/_template.mdx`)
+- Changed: `next.config.ts`, `package.json`, `package-lock.json` (`@next/mdx` 16.4.3 pinned, `@mdx-js/loader`, `@mdx-js/react`, `@types/mdx`, `remark-gfm`, `rehype-slug`, `github-slugger`), `src/lib/nav.ts`, `src/lib/seo.ts`, `src/app/sitemap.ts`, `CLAUDE.md`, `PROGRESS.md`
+
+**Setup needed from the owner**
+- Restart any running `npm run dev`, because `next.config.ts` changed.
+- Add real team members to `src/content/blog/authors.ts` before the first post.
+
+**Verified**
+- Lint, type-check and production build pass; `/blog` and each post prerender as static.
+- In Chrome, on a production build, with four temporary posts and a temporary author (both since deleted): masthead, featured card, grid, hover, tag filter, generated covers, the post page (contents highlight, progress bar, divider, code, table, quote, author card, waitlist band, more posts), the light theme, and 390px mobile width with no horizontal scroll. An unknown slug returns 404, and the sitemap lists posts.
+- Broken metadata (bad date plus unknown author) fails the build, naming the file and both fields.
+- After removing the test files: the empty state renders, and the sitemap lists only `/`, `/product` and `/blog`.
+
+**Not verified**
+- Reduced motion was not toggled in the browser. Transitions rely on the existing global `prefers-reduced-motion` rule in `globals.css`.
+- Real cover images and author avatars were not tried, because none exist yet.
+
+**Open decisions**
+- Draft copy awaiting approval: the description "Updates and writing from the ParallelFlow team.", "The first post is on its way.", "No posts yet. Check back soon." and the "Issue 001" label. `/blog` has no row in the Part 7 metadata table.
+- The footer has no Blog link; add one only if the owner asks.
+- Not built: RSS, newsletter, comments, a web editor.
 
 ## Change after Phase 11: Next.js security upgrade (16.4.0 → 16.4.3)
 
