@@ -41,4 +41,6 @@ export const NAV_GROUPS: NavGroup[] = [
     items: PRODUCT_ITEMS,
   },
   // Solutions and Resources removed 2026-10-21 (owner request).
+  // Added 2026-10-25 (owner request).
+  { label: "Blog", href: "/blog", items: [] },
 ];
