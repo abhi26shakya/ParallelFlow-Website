@@ -58,10 +58,10 @@ export function ProductPreview() {
       <div
         className={`relative aspect-video w-full overflow-hidden rounded-card border border-line bg-card shadow-window ${fadeIn}`}
       >
+        {/* No visible "Product preview" badge (removed at the owner's
+            request, 2026-10-25); the section's aria-label keeps it for
+            screen readers. */}
         <HeroVideo />
-        <span className="pointer-events-none absolute left-4 top-4 rounded-pill border border-white/20 bg-black/60 px-3 py-1 text-xs text-white/80 backdrop-blur-sm">
-          Product preview
-        </span>
       </div>
     </section>
   );

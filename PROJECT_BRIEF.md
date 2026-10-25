@@ -138,7 +138,7 @@ Read PROJECT_BRIEF.md, which is the source of truth. Start with Part 1, the buil
 | Download for macOS / Windows | Keep both buttons and icons side by side, disabled, marked "Coming soon". No link, no placeholder file. |
 | Join Waitlist | The only fully active button. White pill, black text. Disabled buttons get the secondary style (transparent, subtle grey border). |
 | Line under buttons | "Desktop apps are coming soon. Join the waitlist for early access and product updates." |
-| Product visuals and video | Label any workspace preview **"Product preview"** so it isn't read as a live product. |
+| Product visuals and video | Label any workspace preview **"Product preview"** so it isn't read as a live product. Exception: the home page product video has no visible badge (owner decision, 2026-10-25); its section keeps "Product preview" as an accessible label. |
 | Message after signup | "You're on the waitlist. We'll be in touch about early access and product updates." Show only after the backend confirms the save. |
 | When installers exist | Replace one button at a time with its real installer URL, test it, then remove "Coming soon". |
 
@@ -165,7 +165,7 @@ Everything here comes from the brief; nothing new is added.
 | 3 | Why now | AI has made code generation faster, but the surrounding development lifecycle has not evolved at the same pace | Part 2, problem 3 |
 | 4 | Solution | One connected workflow from idea to delivery: "Plan together. Execute with AI. Move forward as a team." | SDLC section 3 |
 | 5 | How it works | Arena determines what the team needs to accomplish. Private is where the work is performed. Developer Space provides the reusable capabilities agents use. | Part 6, Developer Space section 2 |
-| 6 | Product preview | Labelled "Product preview", with the motion video once it exists | Part 4 |
+| 6 | Product preview | The motion video, with no visible "Product preview" badge (owner decision, 2026-10-25) | Part 4 |
 | 7 | Trust | Human oversight, permissions, private-by-default personal assistants, approval for sensitive actions | Part 6, Arena sections 4 and 11 |
 | 8 | Who it's for | Software engineering teams using AI to build and ship software, starting with AI-native developers and startup teams | Part 7 |
 | 9 | Status and CTA | Coming soon, with the waitlist | This part |

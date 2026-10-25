@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Current state
 
-Next.js 16 (App Router, `src/`), React 19, TypeScript, Tailwind CSS v4, lucide-react, Zod, Supabase (`@supabase/supabase-js`). Built so far: foundation (tokens, fonts, Logo, sticky navbar, footer), the home hero, and the waitlist form with `POST /api/waitlist`. See `PROGRESS.md` for phase status. Next.js here has breaking changes from older versions, so read `node_modules/next/dist/docs/` (see `AGENTS.md`) before writing Next code.
+Next.js 16 (App Router, `src/`), React 19, TypeScript, Tailwind CSS v4, lucide-react, Zod, Supabase (`@supabase/supabase-js`). Built so far: foundation (tokens, fonts, Logo, sticky navbar, footer), the home hero, the waitlist form with `POST /api/waitlist`, and a team blog (MDX posts in `src/content/blog/posts`, loaded and validated by `src/lib/blog.ts`; writing guide in `src/content/blog/README.md`). See `PROGRESS.md` for phase status. Next.js here has breaking changes from older versions, so read `node_modules/next/dist/docs/` (see `AGENTS.md`) before writing Next code.
 
 Use npm. The folder name has a space, so scaffolding tools reject it as a package name.
 
@@ -42,7 +42,7 @@ If two instructions conflict, or something is listed under "Decisions still open
 - The site is **waitlist-first**. The macOS and Windows download buttons stay disabled, labelled "Coming soon", with no link. Join Waitlist is the only active primary action. Do not add a Login button.
 - **Never publish prices.** The $25/user Teams price and the Enterprise pilot offer are unapproved. The Enterprise CTA is "Join Waitlist". Do not add "Contact Sales".
 - No invented features, integrations, metrics, testimonials, logos, customer counts, "Most Popular" labels, checkout, or billing. Do not mention SSO, compliance, SLAs, or other enterprise guarantees.
-- Describe products as what ParallelFlow is "designed to" or "aims to" do, and mark them coming soon. Avoid "download now", "try it free", and "get started". Label product visuals "Product preview".
+- Describe products as what ParallelFlow is "designed to" or "aims to" do, and mark them coming soon. Avoid "download now", "try it free", and "get started". Label product visuals "Product preview", except the home page product video, which has no visible badge (owner decision, 2026-10-25).
 - No broken or placeholder links. Nav and footer items without a real page are either a non-clickable "Coming soon" label or left out.
 - Reuse the core value proposition word for word: "ParallelFlow brings teams, AI agents, tasks, and project context into a connected workspace to help them plan, build, and ship together."
 
