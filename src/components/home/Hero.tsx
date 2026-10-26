@@ -1,7 +1,7 @@
 import { MessageCircle } from "lucide-react";
 import { buttonClass } from "@/components/ui/Button";
 import { HeroGalaxy } from "@/components/home/HeroGalaxy";
-import { HeroVideo } from "@/components/home/HeroVideo";
+import { LoopingVideo } from "@/components/media/LoopingVideo";
 import { HERO } from "@/content/home";
 import { TALK_TO_US_URL } from "@/lib/site";
 
@@ -61,7 +61,10 @@ export function ProductPreview() {
         {/* No visible "Product preview" badge (removed at the owner's
             request, 2026-10-25); the section's aria-label keeps it for
             screen readers. */}
-        <HeroVideo />
+        <LoopingVideo
+          src="/videos/product-preview.mp4"
+          label="Product preview video of ParallelFlow"
+        />
       </div>
     </section>
   );

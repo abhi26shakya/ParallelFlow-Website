@@ -42,7 +42,7 @@ If two instructions conflict, or something is listed under "Decisions still open
 - The site is **waitlist-first**. The macOS and Windows download buttons stay disabled, labelled "Coming soon", with no link. Join Waitlist is the only active primary action. Do not add a Login button.
 - **Never publish prices.** The $25/user Teams price and the Enterprise pilot offer are unapproved. The Enterprise CTA is "Join Waitlist". Do not add "Contact Sales".
 - No invented features, integrations, metrics, testimonials, logos, customer counts, "Most Popular" labels, checkout, or billing. Do not mention SSO, compliance, SLAs, or other enterprise guarantees.
-- Describe products as what ParallelFlow is "designed to" or "aims to" do, and mark them coming soon. Avoid "download now", "try it free", and "get started". Label product visuals "Product preview", except the home page product video, which has no visible badge (owner decision, 2026-10-25).
+- Describe products as what ParallelFlow is "designed to" or "aims to" do, and mark them coming soon. Avoid "download now", "try it free", and "get started". Label product visuals "Product preview", except the home page product video and the Product page's Arena and Private videos, which have no visible badge (owner decisions, 2026-10-25 and 2026-10-26).
 - No broken or placeholder links. Nav and footer items without a real page are either a non-clickable "Coming soon" label or left out.
 - Reuse the core value proposition word for word: "ParallelFlow brings teams, AI agents, tasks, and project context into a connected workspace to help them plan, build, and ship together."
 

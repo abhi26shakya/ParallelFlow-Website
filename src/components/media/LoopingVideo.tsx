@@ -2,11 +2,12 @@
 
 import { useEffect, useRef } from "react";
 
-// The hero product video: muted, looping, and silent (the file has no audio).
+// A product video: muted, looping, and silent (the files have no audio). Used
+// by the home hero and the Product page preview windows.
 // When motion is allowed it plays from the start each time it scrolls into
 // view and pauses when it leaves. Under prefers-reduced-motion it stays paused
 // on its first frame with controls, so it can still be played on demand.
-export function HeroVideo() {
+export function LoopingVideo({ src, label }: { src: string; label: string }) {
   const ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -50,8 +51,8 @@ export function HeroVideo() {
   return (
     <video
       ref={ref}
-      src="/videos/product-preview.mp4"
-      aria-label="Product preview video of ParallelFlow"
+      src={src}
+      aria-label={label}
       className="size-full object-cover"
       muted
       loop

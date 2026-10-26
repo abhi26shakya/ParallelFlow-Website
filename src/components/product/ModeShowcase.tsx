@@ -81,7 +81,7 @@ export function ModeShowcase({ modes }: { modes: ProductMode[] }) {
                     ))}
                   </ul>
                   <div className="mt-8 lg:hidden">
-                    <PreviewWindow name={product.name} />
+                    <PreviewWindow slug={product.slug} name={product.name} />
                   </div>
                 </div>
               </div>
@@ -95,7 +95,7 @@ export function ModeShowcase({ modes }: { modes: ProductMode[] }) {
         <div className="hidden lg:block">
           <div className="sticky top-(--navbar-height) flex h-[calc(100svh-var(--navbar-height))] items-center">
             <div className="w-full">
-              <PreviewWindow name={name(modes[active])} />
+              <PreviewWindow slug={modes[active].slug} name={name(modes[active])} />
             </div>
           </div>
         </div>
