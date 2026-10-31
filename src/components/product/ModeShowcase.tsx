@@ -40,8 +40,8 @@ export function ModeShowcase({ modes }: { modes: ProductMode[] }) {
     PRODUCTS.find((p) => p.slug === mode.slug)!.name;
 
   return (
-    <section aria-label="Work modes" className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:py-16">
-      <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] lg:gap-12">
+    <section aria-label="Work modes" className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:py-16">
+      <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16">
         <div>
           {modes.map((mode, index) => {
             const product = PRODUCTS.find((p) => p.slug === mode.slug)!;
@@ -63,19 +63,19 @@ export function ModeShowcase({ modes }: { modes: ProductMode[] }) {
                   }`}
                 >
                   <div className="flex flex-wrap items-center gap-3">
-                    <Icon aria-hidden="true" strokeWidth={1.5} className="size-6 shrink-0" />
+                    <Icon aria-hidden="true" strokeWidth={1.5} className="size-7 shrink-0 lg:size-8" />
                     <h2
                       id={`${mode.slug}-title`}
-                      className="text-2xl font-medium tracking-tight sm:text-3xl"
+                      className="text-3xl font-bold tracking-tighter text-balance sm:text-4xl lg:text-5xl"
                     >
                       {product.name}
                     </h2>
                   </div>
-                  <p className="mt-4 max-w-md leading-relaxed">{product.body}</p>
+                  <p className="mt-4 max-w-md text-lg text-pretty text-muted sm:text-xl">{product.body}</p>
                   <ul className="mt-6 space-y-2.5">
                     {mode.highlights.map((point) => (
-                      <li key={point} className="flex gap-3 text-sm text-muted">
-                        <Check aria-hidden="true" strokeWidth={1.75} className="mt-0.5 size-4 shrink-0" />
+                      <li key={point} className="flex gap-3 text-base text-muted">
+                        <Check aria-hidden="true" strokeWidth={1.75} className="mt-1 size-4 shrink-0" />
                         {point}
                       </li>
                     ))}

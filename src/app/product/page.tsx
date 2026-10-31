@@ -17,7 +17,11 @@ export const metadata: Metadata = pageMetadata({
 
 // Contained hairline between sections, as on x.ai/grok.
 function Divider() {
-  return <hr className="mx-auto max-w-6xl border-line" />;
+  return (
+    <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <hr className="border-line" />
+    </div>
+  );
 }
 
 // The Product page, laid out after x.ai/grok's product page (owner request,
@@ -38,14 +42,14 @@ export default function ProductPage() {
             {hero.status}
           </span>
         </p>
-        <h1 className="mt-5 text-[clamp(2.75rem,7vw,5rem)] font-medium leading-none tracking-[-0.04em]">
+        <h1 className="mt-5 text-[clamp(2.75rem,7vw,5rem)] font-bold leading-none tracking-tighter">
           {hero.title.map((line) => (
             <span key={line} className="block">
               {line}
             </span>
           ))}
         </h1>
-        <p className="mt-5 text-lg leading-relaxed text-foreground/90 sm:text-xl">
+        <p className="mt-5 text-lg leading-relaxed text-muted sm:text-xl">
           {hero.subtitle.map((line) => (
             <span key={line} className="block">
               {line}
