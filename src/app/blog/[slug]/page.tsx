@@ -12,6 +12,12 @@ import { VALUE_PROPOSITION } from "@/content/home";
 import { getAllPosts, getPostContent } from "@/lib/blog";
 import { pageMetadata } from "@/lib/seo";
 
+// A slug not listed by generateStaticParams waits for its complete static
+// render instead of streaming the shared shell first, so an unknown slug
+// gets a real 404 status rather than a 200 page saying "not found".
+// (dynamicParams = false is not allowed with Cache Components.)
+export const ensureStatic = "navigation";
+
 // Cache Components rejects an empty list here, so until the first post
 // exists this one placeholder slug is prerendered, and it renders the 404.
 const NO_POSTS_SLUG = "no-posts-yet";
