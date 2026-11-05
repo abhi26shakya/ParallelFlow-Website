@@ -17,9 +17,15 @@ export function PostMeta({ post }: { post: Post }) {
   );
 }
 
-export function PostTags({ tags }: { tags: string[] }) {
+export function PostTags({
+  tags,
+  className = "",
+}: {
+  tags: string[];
+  className?: string;
+}) {
   return (
-    <ul className="flex flex-wrap gap-1.5">
+    <ul className={`flex flex-wrap gap-1.5 ${className}`}>
       {tags.map((tag) => (
         <li
           key={tag}

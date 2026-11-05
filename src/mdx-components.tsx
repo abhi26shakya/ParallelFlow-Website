@@ -100,7 +100,7 @@ const components: MDXComponents = {
   ),
   table: (props) => (
     <div className="my-8 overflow-x-auto rounded-card border border-line">
-      <table className="w-full border-collapse text-left text-base" {...props} />
+      <table className="w-full min-w-[40rem] border-collapse text-left text-base" {...props} />
     </div>
   ),
   th: (props) => (

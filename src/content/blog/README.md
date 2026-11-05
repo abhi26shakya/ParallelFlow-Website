@@ -25,12 +25,13 @@ your initials are shown.
 
 | Field      | Required | Notes |
 | ---------- | -------- | ----- |
-| `title`    | yes | |
+| `title`    | yes | Keep it short; put the rest in `subtitle`. |
+| `subtitle` | no  | Subheading under the title on the post page. Without one, the summary is shown there. |
 | `summary`  | yes | One or two sentences. Shown on cards and in search results. |
 | `date`     | yes | `YYYY-MM-DD`. Newest posts are shown first. |
 | `author`   | yes | Your id from `authors.ts`. |
 | `tags`     | yes | 1 to 4 topics, e.g. `["Engineering"]`. These become the filters. |
-| `cover`    | no  | Image path under `public/blog/`, e.g. `/blog/how-we-plan-sprints/cover.jpg`. Without one, a pattern is generated from the slug. |
+| `cover`    | no  | Image path under `public/blog/`, e.g. `/blog/how-we-plan-sprints/cover.jpg`. Shown on the post page and its card. Without one, the post page has no cover and the card shows a pattern generated from the slug. |
 | `coverAlt` | with `cover` | What the cover shows. |
 | `draft`    | no  | `true` hides the post everywhere except `npm run dev`. |
 

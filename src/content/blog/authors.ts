@@ -12,4 +12,6 @@ export type Author = {
 };
 
 // Keyed by author id, e.g. { jane: { name: "Jane Doe", role: "Co-founder" } }.
-export const AUTHORS: Record<string, Author> = {};
+export const AUTHORS: Record<string, Author> = {
+  kirankant: { name: "KiranKant", role: "Co-founder" },
+};

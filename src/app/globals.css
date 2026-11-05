@@ -37,6 +37,13 @@
      rotating role phrase and the arrows. Owner-approved exception to the
      monochrome rule, 2026-10-22. */
   --color-accent: #6fd39a;
+  /* Soft colours for the agent diagram in the "Anatomy of an AI Agent" blog
+     post (AgentAnatomyDiagram.tsx): one per part. Owner-approved exception
+     to the monochrome rule, 2026-11-05. Used only in that diagram. */
+  --color-agent-model: #7cb7ff;
+  --color-agent-tools: #f2c063;
+  --color-agent-env: #6fd39a;
+  --color-agent-harness: #b9a3ff;
 
   --radius-control: 0.5rem;
   --radius-card: 0.75rem;
@@ -116,6 +123,10 @@
   --color-status: #16a34a;
   /* 5.3:1 on white, 4.9:1 on cards. */
   --color-accent: #1f7a4d;
+  --color-agent-model: #1d5fb8;
+  --color-agent-tools: #946000;
+  --color-agent-env: #1f7a4d;
+  --color-agent-harness: #6346c2;
   --window-shadow: 0 24px 64px -24px rgb(0 0 0 / 0.18);
   /* A white glow is invisible on white, so the light theme uses a dark halo. */
   --button-glow: 0 0 0 1px rgb(0 0 0 / 0.12), 0 0 18px 2px rgb(0 0 0 / 0.22),

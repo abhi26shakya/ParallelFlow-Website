@@ -16,6 +16,7 @@ const SHOW_DRAFTS = process.env.NODE_ENV === "development";
 const postMetadataSchema = z
   .object({
     title: z.string().trim().min(1),
+    subtitle: z.string().trim().min(1).optional(),
     summary: z.string().trim().min(1),
     date: z.iso.date(),
     author: z.string().refine((id) => id in AUTHORS, {

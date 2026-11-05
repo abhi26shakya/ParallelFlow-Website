@@ -7,8 +7,6 @@ import { PostCard, PostMeta, PostTags } from "@/components/blog/PostCard";
 import { PostCover } from "@/components/blog/PostCover";
 import { ReadingProgress } from "@/components/blog/ReadingProgress";
 import { TableOfContents } from "@/components/blog/TableOfContents";
-import { WaitlistButton } from "@/components/waitlist/WaitlistButton";
-import { VALUE_PROPOSITION } from "@/content/home";
 import { getAllPosts, getPostContent } from "@/lib/blog";
 import { pageMetadata } from "@/lib/seo";
 
@@ -41,7 +39,7 @@ export async function generateMetadata({
   const { post } = await findPost(slug);
   if (!post) return {};
   return pageMetadata({
-    title: `${post.title} | ParallelFlow Blog`,
+    title: `${post.subtitle ? `${post.title}: ${post.subtitle}` : post.title} | ParallelFlow Blog`,
     description: post.summary,
     path: `/blog/${post.slug}`,
     article: { publishedTime: post.date, authors: [post.authorInfo.name] },
@@ -64,7 +62,7 @@ export default async function BlogPostPage({
     <main className="pb-28 sm:pb-36">
       <ReadingProgress targetId={ARTICLE_ID} />
 
-      <header className="mx-auto max-w-4xl px-4 pt-16 sm:px-6 sm:pt-24">
+      <header className="mx-auto max-w-3xl px-4 pt-16 text-center sm:px-6 sm:pt-24">
         <Link
           href="/blog"
           className="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-foreground"
@@ -76,28 +74,34 @@ export default async function BlogPostPage({
           All posts
         </Link>
         <div className="mt-10">
-          <PostTags tags={post.tags} />
+          <PostTags tags={post.tags} className="justify-center" />
         </div>
-        <h1 className="mt-6 text-[clamp(2.5rem,6vw,4.5rem)] font-medium leading-[1.02] tracking-[-0.04em]">
+        <h1 className="mt-6 text-balance text-[clamp(2.5rem,5.5vw,4.25rem)] font-medium leading-[1.05] tracking-[-0.04em]">
           {post.title}
         </h1>
-        <p className="mt-6 max-w-2xl text-xl leading-relaxed text-muted">
-          {post.summary}
+        {/* The subtitle is the subheading; posts without one show their summary. */}
+        <p className="mx-auto mt-6 max-w-2xl text-balance text-xl leading-snug text-foreground sm:text-2xl">
+          {post.subtitle ?? post.summary}
         </p>
-        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-y border-line py-5">
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-x-5 gap-y-3">
           <AuthorChip author={post.authorInfo} showRole size={36} />
+          <span aria-hidden="true" className="hidden h-6 w-px bg-line sm:block" />
           <PostMeta post={post} />
         </div>
       </header>
 
-      <div className="mx-auto mt-12 max-w-6xl px-4 sm:px-6">
-        <PostCover
-          post={post}
-          sizes="(min-width: 1152px) 1152px, 100vw"
-          priority
-          className="aspect-[21/9] rounded-card border border-line"
-        />
-      </div>
+      {/* Only a real cover image is shown here. The generated pattern is
+          filler, so it stays on the /blog cards. */}
+      {post.cover && (
+        <div className="mx-auto mt-14 max-w-6xl px-4 sm:px-6">
+          <PostCover
+            post={post}
+            sizes="(min-width: 1152px) 1152px, 100vw"
+            priority
+            className="aspect-[21/9] rounded-card border border-line"
+          />
+        </div>
+      )}
 
       <div className="mx-auto mt-6 grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_14rem]">
         <article id={ARTICLE_ID} className="mx-auto w-full max-w-[68ch] lg:mx-0 lg:ml-auto">
@@ -122,15 +126,6 @@ export default async function BlogPostPage({
           </aside>
         )}
       </div>
-
-      <section className="mx-auto mt-24 max-w-6xl px-4 sm:px-6">
-        <div className="flex flex-col gap-6 rounded-card border border-line p-8 sm:flex-row sm:items-center sm:justify-between sm:p-10">
-          <p className="max-w-xl text-lg leading-relaxed text-foreground/90">
-            {VALUE_PROPOSITION}
-          </p>
-          <WaitlistButton className="h-11 shrink-0" />
-        </div>
-      </section>
 
       {more.length > 0 && (
         <section aria-labelledby="more-posts" className="mx-auto mt-24 max-w-6xl px-4 sm:px-6">

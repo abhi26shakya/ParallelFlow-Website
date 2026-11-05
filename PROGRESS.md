@@ -2,6 +2,73 @@
 
 Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge. Developer Space was then removed from the site, and the Product page lost its "How it connects" cards and closing waitlist band. The hero beams then appeared in the light theme too, inverted to dark grey. The home page's "Who it's for" grid was then replaced by a rotating "Built for [role]" section. The animated dotted backgrounds of the Problems and Solution cards were then replaced by a plain blurred background that follows the theme, and their inner screens grew. The hero's preview slot then got the real product video in its own section below the hero, the hero was made to fill the first screen with its copy at the top centre, and the hero beams were removed. The hero then got an animated particle galaxy behind its copy. A team blog was then added: a Blog navbar link, an editorial `/blog` index and post pages, with posts written as MDX files in the repo. The home video's "Product preview" badge was then removed. The Product page's Arena and Private preview windows then got their real videos. A pre-deployment audit (2026-10-31) followed, and its first fixes added security headers and gave unknown blog slugs a real 404.
 
+## Change after Phase 11: Generated cover removed from post pages
+
+### Asked for
+- Remove the dot-pattern cover under the post header (owner request, 2026-11-05).
+
+### Done
+- `src/app/blog/[slug]/page.tsx` shows a cover only when the post sets a real `cover` image. The generated dot pattern still appears on the `/blog` cards. The README says so.
+
+## Change after Phase 11: Blog post header redesign
+
+### Asked for
+- Redesign the post page header and fix its heading and subheading. The title wrapped to 4 huge lines (owner request, 2026-11-05).
+
+### Done
+- Posts can now set an optional `subtitle` in their metadata (`src/lib/blog.ts`, README, template). The post header shows it as the subheading; without one, the summary is shown there.
+- `/blog/[slug]` header is centred: All posts, tags, a smaller balanced title, the subheading, and an author row with date and reading time. The full-width border lines around the author row are gone.
+- "Anatomy of an AI Agent" now has the title "Anatomy of an AI Agent" and the subtitle "Model + Loop + Harness, and why no two agents are alike". The page's SEO title joins both, and the blog cards show the short title.
+- The subheading uses the main text colour (white in dark, black in light), at the owner's request.
+
+### Files changed
+- `src/app/blog/[slug]/page.tsx`, `src/components/blog/PostCard.tsx`, `src/lib/blog.ts`, `src/content/blog/README.md`, `src/content/blog/posts/_template.mdx`, `src/content/blog/posts/anatomy-of-an-ai-agent.mdx`, `PROGRESS.md`
+
+## Change after Phase 11: Waitlist band removed from blog posts
+
+### Asked for
+- Remove the waitlist band (the value proposition and a Join Waitlist button) shown after a post's sources. Owner request, 2026-11-05.
+
+### Done
+- `src/app/blog/[slug]/page.tsx`: the band and its now-unused imports are removed. Every post now goes from the author card to "More from the blog". The navbar's Join Waitlist button is still on every page.
+
+## Change after Phase 11: Coloured agent diagram
+
+### Asked for
+- Make the flowchart in "Anatomy of an AI Agent" a little coloured. The owner chose one soft colour per part (2026-11-05). This is an approved exception to the monochrome rule, for this diagram only.
+
+### Done
+- New tokens in `globals.css` with dark and light values: `--color-agent-model` (blue), `--color-agent-tools` (amber), `--color-agent-env` (green) and `--color-agent-harness` (violet).
+- `AgentAnatomyDiagram.tsx`: the Model, Tools and Environment boxes get flat tints with coloured names, and the Harness label, border and its 9 boxes get a faint violet tint. Command, Output, the arrows, the Loop panel and the formula stay monochrome.
+
+### Files changed
+- `src/app/globals.css`, `src/components/blog/AgentAnatomyDiagram.tsx`, `PROGRESS.md`
+
+### Env vars / migrations
+- None.
+
+## Change after Phase 11: First blog post ("Anatomy of an AI Agent")
+
+### Asked for
+- Publish the owner's Word doc `Anatomy of Ai agent.docx` as a blog post, laid out to match the site.
+
+### Done
+- New post `src/content/blog/posts/anatomy-of-an-ai-agent.mdx` at `/blog/anatomy-of-an-ai-agent`, dated 2026-11-05, tagged "AI agents" and "Engineering", credited to KiranKant (Co-founder, owner decision 2026-11-05). The doc's text is kept, with light proofreading only. Headings feed the contents list, the ReAct pseudo-code is a Python code block, the comparison is a 4-column table, and sources are real links.
+- The doc's light, blue-accented diagram is rebuilt as a monochrome, theme-aware component (`src/components/blog/AgentAnatomyDiagram.tsx`, plus `AgentFormula` for "AI Agent = Model + Loop + Harness").
+- `authors.ts` gets its first author, `kirankant`. Blog tables now have a 40rem minimum width, so wide tables scroll sideways instead of squeezing on phones.
+
+### Files changed
+- New: `src/content/blog/posts/anatomy-of-an-ai-agent.mdx`, `src/components/blog/AgentAnatomyDiagram.tsx`
+- Changed: `src/content/blog/authors.ts`, `src/mdx-components.tsx`, `PROGRESS.md`
+
+### Env vars / migrations
+- None.
+
+### Still open
+- Is the display name "KiranKant" right, or should it be "Kiran Kant"? There's no avatar, so initials are shown.
+- The post names third-party products and 2026 launches (Jev, Laya, Grok Bot, Dots), taken from the owner's sources. They haven't been fact-checked here.
+- Phone-width layout not checked visually (the browser window could not be resized).
+
 ## Change after Phase 11: Security headers and blog 404 (audit fixes)
 
 **Owner request (2026-10-31)**
