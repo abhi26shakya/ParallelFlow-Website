@@ -2,7 +2,7 @@ import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AuthorAvatar, AuthorChip } from "@/components/blog/AuthorChip";
+import { AuthorChip } from "@/components/blog/AuthorChip";
 import { PostCard, PostMeta, PostTags } from "@/components/blog/PostCard";
 import { PostCover } from "@/components/blog/PostCover";
 import { ReadingProgress } from "@/components/blog/ReadingProgress";
@@ -62,7 +62,7 @@ export default async function BlogPostPage({
     <main className="pb-28 sm:pb-36">
       <ReadingProgress targetId={ARTICLE_ID} />
 
-      <header className="mx-auto max-w-3xl px-4 pt-16 text-center sm:px-6 sm:pt-24">
+      <header className="mx-auto max-w-5xl px-4 pt-16 text-center sm:px-6 sm:pt-24">
         <Link
           href="/blog"
           className="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-foreground"
@@ -76,7 +76,9 @@ export default async function BlogPostPage({
         <div className="mt-10">
           <PostTags tags={post.tags} className="justify-center" />
         </div>
-        <h1 className="mt-6 text-balance text-[clamp(2.5rem,5.5vw,4.25rem)] font-medium leading-[1.05] tracking-[-0.04em]">
+        {/* Sized so a short title fits on one line from phones up; longer
+            titles wrap evenly. */}
+        <h1 className="mt-6 text-balance text-[clamp(1.75rem,7vw,4rem)] font-medium leading-[1.05] tracking-[-0.04em]">
           {post.title}
         </h1>
         {/* The subtitle is the subheading; posts without one show their summary. */}
@@ -106,17 +108,6 @@ export default async function BlogPostPage({
       <div className="mx-auto mt-6 grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_14rem]">
         <article id={ARTICLE_ID} className="mx-auto w-full max-w-[68ch] lg:mx-0 lg:ml-auto">
           <Content />
-
-          <footer className="mt-20 flex items-center gap-4 rounded-card border border-line bg-card p-6">
-            <AuthorAvatar author={post.authorInfo} size={48} />
-            <div>
-              <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted">
-                Written by
-              </p>
-              <p className="mt-1 font-medium">{post.authorInfo.name}</p>
-              <p className="text-sm text-muted">{post.authorInfo.role}</p>
-            </div>
-          </footer>
         </article>
         {post.headings.length > 1 && (
           <aside className="hidden lg:block">
