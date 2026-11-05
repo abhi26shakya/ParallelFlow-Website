@@ -1,25 +1,7 @@
 import { ArrowDown, ArrowRight, ArrowUp, Repeat2 } from "lucide-react";
 
-// Diagrams for the "Anatomy of an AI Agent" post, drawn with theme tokens so
-// they follow the light and dark themes instead of shipping a fixed image.
-
-export function AgentFormula() {
-  return (
-    <div
-      role="math"
-      aria-label="AI Agent equals Model plus Loop plus Harness"
-      className="my-10 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 rounded-card border border-line bg-card px-6 py-6 font-mono text-base sm:text-lg"
-    >
-      <span className="font-medium text-foreground">AI Agent</span>
-      <span className="text-muted">=</span>
-      <span className="text-foreground">Model</span>
-      <span className="text-muted">+</span>
-      <span className="text-foreground">Loop</span>
-      <span className="text-muted">+</span>
-      <span className="text-foreground">Harness</span>
-    </div>
-  );
-}
+// The diagram for the AI agent blog post (anatomy-of-an-ai-agent.mdx), drawn with theme tokens so
+// it follows the light and dark themes instead of shipping a fixed image.
 
 // Each loop step has its own soft colour (owner request, 2026-11-05). Class
 // names are written out in full so Tailwind can find them.

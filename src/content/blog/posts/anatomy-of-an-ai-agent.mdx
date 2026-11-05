@@ -1,22 +1,20 @@
-import { AgentAnatomyDiagram, AgentFormula } from "@/components/blog/AgentAnatomyDiagram";
+import { AgentAnatomyDiagram } from "@/components/blog/AgentAnatomyDiagram";
 
 export const metadata = {
-  title: "Anatomy of an AI Agent",
-  subtitle: "Model + Loop + Harness, and why no two agents are alike",
+  title: "One Recipe, Many Agents",
+  subtitle: "Inside how AI agents are built",
   summary:
-    "An AI agent is a model, a loop and a harness. Here is what each part does, and why the harness is what makes two agents on the same model behave so differently.",
+    "Every AI agent is a model, a loop and a harness. Here is what each part does, and how one shared harness core can be configured into very different agents.",
   date: "2026-11-05",
   author: "kirankant",
   tags: ["AI agents", "Engineering"],
 };
 
-## What is an AI agent?
+## AI agent = Model + Loop + Harness
 
 An AI agent is a system that can reason, take actions in a given environment, and deliver an output from a single command, with minimum human involvement.
 
 Every agent is built from three parts:
-
-<AgentFormula />
 
 - **Model:** the brain that reasons.
 - **Loop:** the program that keeps the model working until the job is done.
@@ -36,21 +34,21 @@ The model is a stateless machine: it takes an input, reasons over it, and return
 
 The split comes from psychologist Daniel Kahneman's idea of two modes of thinking: fast and intuitive (System 1) versus slow and deliberate (System 2).
 
-**System 1 models: fast thinkers.** These are classifiers. Instead of writing text, they pick an answer from options you define and return it with a confidence score, in a single pass. They are fast and cheap.
+**System 1 models.** These models are designed to make quick decisions. They choose the most suitable answer from a predefined set of options and provide a confidence score. They are fast, cost-effective, and best suited for simple, well-defined tasks.
 
 - **Use cases:** routing requests, spam and safety filtering, tagging, yes/no decisions, gating tool calls inside an agent.
-- **Examples:** Jev from TypeSafe AI, launched in September 2026 as the first model branded a "System One" model; Laya, an open-source 421M-parameter alternative under Apache 2.0; and customised classifiers you fine-tune yourself.
+- **Examples:** Jev from TypeSafe AI; Laya, an open-source 421M-parameter alternative under Apache 2.0; and customized classifiers fine-tuned on private data.
 
-**System 2 models: slow thinkers.** These are large generative models that think step by step before answering. They are slower and costlier, but give more reliable, accurate output on complex tasks.
+**System 2 models.** These models analyze problems step by step before generating an answer. They are better suited for complex tasks that require deeper reasoning and understanding. They generally provide more reliable and accurate results, but take more time and computational resources.
 
 - **Use cases:** coding, content generation, research, planning. These are the most widely used models today.
-- **Examples:** Claude, GPT and Gemini families.
+- **Examples:** the Claude, GPT, DeepSeek, GLM and Gemini families.
 
-In a real agent the two work together: a System 1 model makes quick decisions, and a System 2 model does the heavy reasoning.
+In a real agent, the two work together.
 
 ## The Loop
 
-The loop is a simple program that keeps feeding input to the model, takes its output, observes the result, and acts on it, again and again until a stopping condition is met.
+An agent loop is a continuous cycle in which a model receives input, decides what to do, performs an action, and observes the result. This process repeats until a stopping condition is reached.
 
 The most widely used loop is ReAct (Reason + Act), introduced by Yao et al. in 2022. Each cycle has three steps:
 
@@ -58,38 +56,48 @@ The most widely used loop is ReAct (Reason + Act), introduced by Yao et al. in 2
 2. **Act:** it calls a tool (run code, search, read a file).
 3. **Observe:** the tool's result goes back into the model's input.
 
-```python
-while True:
-    output = model(context)
-    if output.is_final_answer:  # stopping condition
-        break
-    result = run_tool(output.tool_call)
-    context.append(result)
-```
+**The loop stops when:**
 
-Typical stopping conditions: the model gives a final answer (no tool call), a step or cost budget runs out, or a human stops it.
+- The model produces a final answer without requesting another tool call.
+- The maximum number of steps or cost limit is reached.
+- A human manually stops the process.
 
 ## The Harness
 
-The harness is the system around the loop. It provides the utilities the model needs to reason and act: an execution environment, input context, tools, memory to persist information, and guardrails. Here are its components.
+The harness is the system around the loop. It provides the utilities the model needs to reason and act.
 
 ### Tools
 
-Functions the model can call to act on the world, such as reading a file, running a shell command, searching the web or sending an email. The model only requests a tool call; the harness actually runs it and returns the result.
+Functions the model can call to act on the execution environment, such as reading a file, running a shell command, searching the web or sending an email.
+
+The model only requests a tool call; the harness actually runs it and returns the result.
 
 ### Execution environment
 
 The place where actions run: a developer's laptop, a sandboxed container, a cloud computer, or a browser. Sandboxing limits the damage if the agent does something wrong.
 
-**Filesystem.** Every execution environment comes with a filesystem: the agent's persistent workspace. It is where the agent reads inputs, writes outputs and saves intermediate work. It also matters for the rest of the harness: memory files, project rules and skills are stored here, subagents share results through it, and long tasks can save progress to files so work survives beyond the context window.
+**Filesystem.** Every execution environment comes with a filesystem, the agent's persistent workspace. It is where the agent reads inputs, writes outputs and saves intermediate work.
+
+It also matters for the rest of the harness: memory files, project rules and skills are stored here, subagents share results through it, and long tasks can save progress to files so work survives beyond the context window.
 
 ### Context
 
-Everything placed in the model's input on each turn: system prompt, the user's task, relevant files, tool results and conversation history. The context window is limited, so the harness must decide what to include, summarise or drop.
+Everything placed in the model's input on each turn: system prompt, the user's task, relevant files, tool results and conversation history.
+
+The context window is limited, so the harness must decide what to include, summarise or drop.
 
 ### Memory
 
-Because the model is stateless, the harness stores information that must last beyond one call or session, for example a notes file, a project rules file, a database or a user profile, and loads it back into context when needed.
+Memory is the mechanism that allows an AI agent to store, retrieve, and reuse information across multiple model calls or sessions.
+
+Since models are generally stateless, the agent harness manages memory by saving important information in files, databases, or other storage systems, and loading relevant information back into the model's context whenever needed.
+
+Memory helps an agent retain previous interactions, understand ongoing tasks, remember user preferences, and maintain project-specific knowledge without having to start from scratch every time.
+
+**Types of memory**
+
+1. **Short-term memory (working memory).** Stores information needed for the agent's current task or conversation. It includes recent messages, current task details, intermediate results, and temporary information. _Example:_ remembering the last few messages while answering a user's question.
+2. **Long-term memory.** Stores information that needs to be retained across multiple conversations or sessions. It allows the agent to recall information even after a session has ended. _Example:_ remembering facts, knowledge, records, or summaries of past interactions and experiences.
 
 ### Security and permissions
 
@@ -101,11 +109,13 @@ Child agents that the main agent spawns for a focused sub-task, each with its ow
 
 ### Skills
 
-Packaged instructions, scripts and resources for a specific kind of task, loaded only when relevant. For example, a skill for creating PDFs or following a team's code-review rules.
+Packaged instructions, scripts and resources for a specific kind of task, loaded only when relevant.
+
+_Example:_ a skill for creating PDFs or following a team's code-review rules.
 
 ### Feedback and validation
 
-Checks that test the agent's output and feed errors back into the loop: unit tests, linters, compilers, schema checks. This lets the agent fix its own mistakes instead of handing over broken work.
+Feedback and validation are mechanisms used to check whether an agent's output meets the required standards. They use tools such as unit tests, linters, compilers, and schema validators to identify errors or missing requirements.
 
 ### Human in the loop
 
@@ -113,14 +123,14 @@ Points where a person reviews, approves or corrects the agent, such as approving
 
 ## Why Agents Differ
 
-Most agents today run on a similar set of models and a similar ReAct-style loop. So two agents behave differently mainly because of their harness, specifically four things:
+Most AI agents can be built around the same foundation model and a shared harness core. The core execution mechanism remains largely the same: receive a task, reason, select tools, execute actions, observe results, and repeat.
 
-- **Context given:** what the agent sees decides what it understands. A codebase and a CRM record lead to very different reasoning.
-- **Tools they use:** what the agent can call decides what it can do. Shell access makes a coder; email and CRM access make a salesperson.
-- **Execution environment:** where the agent runs decides how long and how safely it can work. A laptop session ends; a cloud computer runs 24/7.
-- **Skills they have:** packaged know-how decides how well it does a specific job, such as following a team's coding standards or a sales playbook.
+What makes these agents behave differently is how the shared harness is configured for a particular domain. Four factors primarily shape their behavior:
 
-> Put the same model in two different harnesses and you get two different agents.
+- **Context:** what information is provided to the model determines what it understands and reasons about.
+- **Tools:** what tools are available determines what actions the agent can perform.
+- **Execution environment:** where the agent operates determines how it accesses resources, executes tasks and maintains persistence.
+- **Skills:** what domain-specific knowledge and procedures are available determines how effectively it performs specialized tasks.
 
 ## Three Agents Compared
 
@@ -128,22 +138,25 @@ Three real categories show how the harness shapes the agent.
 
 | | Coding harness | Always-on agent | GTM harness |
 | --- | --- | --- | --- |
-| **Examples** | Claude Code, OpenAI Codex CLI | Grok Bot (xAI, Aug 2026), Dots (OpenAI, Sep 2026) | Multi-agent sales and marketing systems |
+| **Harness core** | Shared agent loop, context manager, tool registry, permissions, memory and orchestration | Same shared core | Same shared core |
 | **How it starts** | Developer gives a task | A goal set once; works in the background | Leads, buyer signals or CRM events |
 | **Context** | Codebase, error logs, project rules file | User's goals, preferences, connected accounts | CRM data, account history, buyer signals |
-| **Tools** | Read/edit files, shell, git, tests | Browser, terminal, files, sign-in to the user's apps | CRM, email, enrichment and campaign tools |
-| **Execution environment** | Developer's machine or sandbox | Its own cloud computer, running 24/7 | Cloud, connected to the revenue stack by APIs |
-| **Filesystem** | The project folder (repo) on the developer's machine or in a sandbox; the agent reads and edits code files directly | The disk of its own cloud computer; in Grok Bot, bots share one workspace with common files and browser sessions | Mostly replaced by the CRM and a shared data layer; agents read and write records, not files |
-| **Memory** | Project files, session history | Persistent goals and learned preferences | Shared data layer across agents |
-| **Subagents** | Spawned for search or parallel subtasks | Multiple bots that hand off work to each other | Specialised agents coordinated by an orchestration layer |
-| **Feedback** | Tests, compiler, linter | Progress reports to the user | Pipeline metrics: replies, meetings booked |
+| **Tools** | Filesystem, shell, Git, tests, code editor | Browser, terminal, files, sign-in to the user's apps | CRM, email, enrichment and campaign tools |
+| **Execution environment** | Developer's machine or sandbox | Its own cloud computer, running 24/7 | Cloud infrastructure connected to business systems |
+| **Filesystem / data access** | Reads and modifies project files directly; executes shell commands | Uses its own persistent filesystem and browser environment | Primarily reads and updates structured CRM records and shared business data |
+| **Feedback** | Tests, compiler, linter | Progress reports to the user | Replies, meetings booked and conversion metrics |
 | **Human in the loop** | Approves risky commands, reviews code | Approves sensitive actions; password changes stay with the user (Dots) | Trust-gated autonomy: more freedom as trust grows |
+| **Examples** | Claude Code, Codex CLI, Pi | Grok Bot, OpenAI Dots, Hermes, Clawdbot | Multi-agent sales and marketing systems |
 
-A coding harness is a focused pair-programmer working on your machine. An always-on agent is a digital coworker with its own computer that keeps working while you are away. A GTM harness is a team of agents wired into the sales stack. Same idea, model + loop + harness, but three very different agents.
+A coding harness is a focused pair-programmer working on your machine. An always-on agent is a digital coworker with its own computer that keeps working while you are away. A GTM harness is a team of agents wired into the sales stack.
+
+> Same idea (model + loop + harness), but three very different agents.
 
 ## Conclusion
 
-An AI agent is a model that reasons, a loop that keeps it acting, and a harness that gives it context, tools, an environment and guardrails. The model sets how smart the agent can be; the harness decides what that intelligence is used for. That is why two agents on the same model can be fundamentally different.
+An AI agent is a model that reasons, a loop that keeps it acting, and a harness that gives it context, tools, an environment and guardrails. The model sets how smart the agent can be; the harness decides what that intelligence is used for.
+
+**The key architectural principle:** build one reusable harness core, and configure it with different context sources, toolsets, execution environments and domain skills to produce specialized agents.
 
 ---
 
