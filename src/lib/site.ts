@@ -6,12 +6,12 @@ export const SITE_DOMAIN = "parallelflow.ai";
 export const SITE_TAGLINE =
   "A shared workspace where humans and AI turn ideas into finished work.";
 
-// Footer social links. These are dummy values until the real accounts exist;
-// replace them before the site goes public.
+// Footer contact links. The founders' personal accounts for now (owner
+// decision, 2026-11-05); swap in company accounts once they exist.
 export const SOCIAL_LINKS = {
-  email: "hello@parallelflow.example",
-  x: "https://x.com/parallelflow",
-  linkedin: "https://www.linkedin.com/company/parallelflow",
+  email: "baghelkirankant0@gmail.com",
+  x: "https://x.com/Abhishek_ks26",
+  linkedin: "https://www.linkedin.com/in/abhishek-shakya-42bab8212/",
 };
 
 // Hero "Talk to us" booking page. Placeholder until the real Calendly link
