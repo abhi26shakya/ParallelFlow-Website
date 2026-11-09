@@ -1,0 +1,283 @@
+/* The Product page's mode sections, imported by ModeStory.tsx. A copy of
+   ../home/solution/solution.css with every class renamed to pf-mode-, so the
+   Product page matches the home page's look but shares no selectors with it.
+   Instead of the square scene card, each mode shows its 16:9 video full size
+   with a caption below. */
+
+.pf-mode-root {
+  --pf-mode-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --pf-mode-border: #262626;
+  --pf-mode-title: #bdbdbd;
+  --pf-mode-text: #9a9a9a;
+  --pf-mode-active-bg: linear-gradient(
+    90deg,
+    #0b0c0f,
+    #16181c 60%,
+    #0b0c0f
+  );
+  --pf-mode-highlight: rgb(255 255 255 / 0.04);
+}
+
+[data-theme="light"] .pf-mode-root {
+  --pf-mode-border: var(--color-line);
+  --pf-mode-title: var(--color-muted);
+  --pf-mode-text: var(--color-muted);
+  --pf-mode-active-bg: linear-gradient(
+    90deg,
+    #ffffff,
+    #f1f2f4 60%,
+    #ffffff
+  );
+  --pf-mode-highlight: rgb(0 0 0 / 0.04);
+}
+
+.pf-mode-subtitle {
+  color: var(--pf-mode-text);
+}
+
+/* Accordion */
+
+.pf-mode-list {
+  border: 1px solid var(--pf-mode-border);
+}
+
+.pf-mode-row {
+  position: relative;
+}
+
+.pf-mode-row + .pf-mode-row {
+  border-top: 1px solid var(--pf-mode-border);
+}
+
+.pf-mode-row[data-active="true"] {
+  background: var(--pf-mode-active-bg);
+  box-shadow: inset 0 1px 0 var(--pf-mode-highlight);
+}
+
+.pf-mode-title {
+  color: var(--pf-mode-title);
+  font-weight: 400;
+  transition: color 400ms var(--pf-mode-ease);
+}
+
+.pf-mode-row[data-active="true"] .pf-mode-title {
+  color: var(--color-foreground);
+  font-weight: 500;
+}
+
+/* A thin "+" that becomes "–" by flattening its vertical stroke. */
+.pf-mode-icon {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--pf-mode-title);
+}
+
+.pf-mode-icon::before,
+.pf-mode-icon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  background: currentColor;
+  transition: transform 400ms var(--pf-mode-ease);
+}
+
+.pf-mode-icon::before {
+  width: 100%;
+  height: 1px;
+}
+
+.pf-mode-icon::after {
+  width: 1px;
+  height: 100%;
+}
+
+.pf-mode-row[data-active="true"] .pf-mode-icon {
+  color: var(--color-foreground);
+}
+
+.pf-mode-row[data-active="true"] .pf-mode-icon::after {
+  transform: scaleY(0);
+}
+
+/* Expands without measuring: the grid row grows from 0fr to 1fr. */
+.pf-mode-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 400ms var(--pf-mode-ease),
+    opacity 400ms var(--pf-mode-ease);
+}
+
+.pf-mode-panel[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.pf-mode-panel > div {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.pf-mode-text {
+  color: var(--pf-mode-text);
+}
+
+.pf-mode-progress {
+  position: absolute;
+  inset-inline: 0;
+  bottom: -1px;
+  height: 1px;
+  transform-origin: left;
+  background: var(--color-foreground);
+}
+
+/* Auto-advance: the line fills over 6s and its animationend moves to the
+   next row, so pausing the animation pauses the advance too. */
+@keyframes pf-mode-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.pf-mode-progress-auto {
+  animation: pf-mode-fill 6s linear both;
+}
+
+.pf-mode-root[data-paused="true"] .pf-mode-progress-auto,
+.pf-mode-list:focus-within .pf-mode-progress-auto {
+  animation-play-state: paused;
+}
+
+@media (hover: hover) {
+  .pf-mode-list:hover .pf-mode-progress-auto {
+    animation-play-state: paused;
+  }
+}
+
+/* The mode's video, full size: no blurred background or frosted frame
+   (owner request, 2026-11-09). */
+
+.pf-mode-screen {
+  position: relative;
+  /* Dark in both themes, like a device screen. */
+  color-scheme: dark;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: #050506;
+}
+
+/* Below the screen: the active row's icon and title, and the counter. */
+.pf-mode-caption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+
+/* The work loop panel (WorkLoop.tsx): "How they connect" and "People stay in
+   charge" in one dark screen, like the video windows, in both themes. */
+
+.pf-loop {
+  color-scheme: dark;
+  border: 1px solid var(--color-line);
+  border-radius: 20px;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 50% 0%, #101013 0%, #050506 60%) #050506;
+}
+
+.pf-loop-step {
+  position: relative;
+  z-index: 1;
+  border: 1px solid #26262b;
+  border-radius: 14px;
+  background: #0b0b0e;
+  padding: 20px;
+}
+
+@media (width >= 40rem) {
+  .pf-loop-step {
+    padding: 20px 22px;
+  }
+}
+
+/* A hairline with a light pulse running along it. The connectors run left
+   to right, one after another (--pf-loop-delay), then the return path runs
+   right to left: one 3.6s cycle around the loop. */
+.pf-loop-track {
+  --pf-loop-light: 60%;
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: 1px;
+  background: #2a2a2f;
+}
+
+.pf-loop-track::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: calc(var(--pf-loop-light) * -1);
+  width: var(--pf-loop-light);
+  height: 3px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, #ffffff);
+  box-shadow: 0 0 6px rgb(255 255 255 / 0.6);
+  opacity: 0;
+  animation: pf-loop-run 3.6s linear infinite;
+  animation-delay: var(--pf-loop-delay, 0s);
+}
+
+@keyframes pf-loop-run {
+  0% {
+    left: calc(var(--pf-loop-light) * -1);
+    opacity: 1;
+  }
+  33% {
+    left: 100%;
+    opacity: 1;
+  }
+  34%,
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+/* The return path: a U from under the last step back to the first. Its
+   pulse runs right to left along the bottom. */
+.pf-loop-return {
+  position: relative;
+  height: 32px;
+  border: 1px solid #2a2a2f;
+  border-top: 0;
+  border-radius: 0 0 14px 14px;
+}
+
+.pf-loop-track-back {
+  --pf-loop-light: 18%;
+  --pf-loop-delay: 2.4s;
+  top: auto;
+  bottom: -1px;
+  background: transparent;
+  transform: scaleX(-1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-loop-track::after {
+    animation: none;
+    opacity: 0;
+  }
+}
