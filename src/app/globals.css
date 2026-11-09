@@ -204,6 +204,73 @@
   }
 }
 
+/* A narrow, bright light that travels continuously around a video window's
+   edge: the home page product video, "The Problems" and "The Solution"
+   screens, the Product page's Arena and Private screens and its work loop
+   panel (owner requests, 2026-11-09). A short white comet on a rotating
+   conic gradient, masked to a 2px band just inside the border (::after),
+   over a slightly blurred 4px copy for its glow (::before). The element needs
+   a border radius and overflow hidden; the light sits over the dark video,
+   so it shows in both themes. White only, so it stays monochrome. Holds still
+   under reduced motion. */
+@property --edge-light-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes edge-light-travel {
+  to {
+    --edge-light-angle: 360deg;
+  }
+}
+
+@utility edge-light {
+  position: relative;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    border-radius: inherit;
+    /* --edge-light-arc sets the comet's length: shorter on larger windows,
+       so the light looks the same size on each. */
+    background: conic-gradient(
+      from var(--edge-light-angle),
+      transparent 0deg,
+      transparent calc(360deg - var(--edge-light-arc, 22deg)),
+      rgb(255 255 255 / 0.5) calc(360deg - var(--edge-light-arc, 22deg) * 0.45),
+      #ffffff calc(360deg - var(--edge-light-arc, 22deg) * 0.2),
+      #ffffff 359deg,
+      transparent 360deg
+    );
+    mask:
+      linear-gradient(#000 0 0) content-box exclude,
+      linear-gradient(#000 0 0);
+    pointer-events: none;
+    animation: edge-light-travel 6s linear infinite;
+  }
+
+  &::after {
+    padding: 2px;
+  }
+
+  &::before {
+    padding: 4px;
+    filter: blur(3px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &::before,
+    &::after {
+      animation: none;
+      --edge-light-angle: 135deg;
+    }
+  }
+}
+
 /* With neon-ring: shows the ring at all times, for labels that are never
    hovered, like the hero's pre-launch badge. --neon-ring-opacity dims it. */
 @utility neon-ring-on {

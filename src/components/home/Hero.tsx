@@ -54,9 +54,10 @@ export function ProductPreview() {
       {/* Fixed 16:9 frame for the product video: a wide app-window frame that
           fills the container. The soft white glow above and dark shadow below
           lift it off the page (a soft drop shadow in the light theme; see
-          --window-shadow). */}
+          --window-shadow). A light travels around its edge (edge-light in
+          globals.css). */}
       <div
-        className={`relative aspect-video w-full overflow-hidden rounded-card border border-line bg-card shadow-window ${fadeIn}`}
+        className={`edge-light [--edge-light-arc:12deg] relative aspect-video w-full overflow-hidden rounded-card border border-line bg-card shadow-window ${fadeIn}`}
       >
         {/* No visible "Product preview" badge (removed at the owner's
             request, 2026-10-25); the section's aria-label keeps it for

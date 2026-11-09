@@ -9,10 +9,10 @@ import { ProblemScene03 } from "./ProblemScene03";
 import { ProblemScene04 } from "./ProblemScene04";
 import { ProblemScene05 } from "./ProblemScene05";
 import type { SceneProps } from "./sceneKit";
-import { useCardHover } from "./useCardHover";
 
-// The visual card for "The Problems": a softly blurred background, a frosted
-// frame and a black screen showing the active item's scene. Scenes crossfade;
+// The visual card for "The Problems": a full-size black screen showing the
+// active item's scene, with no background or frame around it (owner request,
+// 2026-11-09). Scenes crossfade;
 // the outgoing one stays mounted only for the fade. Everything pauses while
 // the card is off screen, and holds still under reduced motion.
 
@@ -66,12 +66,11 @@ export function ProblemCard({
     return () => observer.disconnect();
   }, []);
 
-  useCardHover(ref, reduced);
 
   const play = inView && !reduced;
 
   return (
-    <div ref={ref} className="pf-problems-card">
+    <div ref={ref} className="pf-problems-card edge-light">
       <div aria-hidden="true" className="pf-problems-frame">
         <div className="pf-problems-screen">
           {SCENES.map((Scene, index) =>

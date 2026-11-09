@@ -4,7 +4,6 @@ import type { LucideIcon } from "lucide-react";
 import { motion } from "motion/react";
 import { type ComponentType, useEffect, useRef, useState } from "react";
 import type { SceneProps } from "../problems/sceneKit";
-import { useCardHover } from "../problems/useCardHover";
 import { SolutionScene01 } from "./SolutionScene01";
 import { SolutionScene02 } from "./SolutionScene02";
 import { SolutionScene03 } from "./SolutionScene03";
@@ -12,8 +11,8 @@ import { SolutionScene04 } from "./SolutionScene04";
 import { SolutionScene05 } from "./SolutionScene05";
 
 // The visual card for "The Solution", a copy of ProblemCard.tsx with the
-// solution scenes: the same blurred background, frosted frame, black screen
-// and counter. Scenes crossfade; the outgoing one stays mounted only for the
+// solution scenes: the same full-size black screen and counter, with no
+// background or frame (owner request, 2026-11-09). Scenes crossfade; the outgoing one stays mounted only for the
 // fade. Everything pauses while the card is off screen, and holds still under
 // reduced motion.
 
@@ -67,12 +66,11 @@ export function SolutionCard({
     return () => observer.disconnect();
   }, []);
 
-  useCardHover(ref, reduced);
 
   const play = inView && !reduced;
 
   return (
-    <div ref={ref} className="pf-solution-card">
+    <div ref={ref} className="pf-solution-card edge-light">
       <div aria-hidden="true" className="pf-solution-frame">
         <div className="pf-solution-screen">
           {SCENES.map((Scene, index) =>

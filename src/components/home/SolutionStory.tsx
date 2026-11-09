@@ -255,7 +255,7 @@ export function SolutionStory() {
     >
       <div ref={wrapperRef} className="relative pin:h-[350svh]">
         <div className="pin:sticky pin:top-(--navbar-height) pin:flex pin:h-[calc(100svh-var(--navbar-height))] pin:items-center">
-          <div className="mx-auto w-full max-w-6xl px-4 py-20 sm:px-6 sm:py-24 pin:grid pin:grid-cols-[minmax(0,52fr)_minmax(0,45fr)] pin:grid-rows-[auto_auto] pin:content-center pin:gap-x-20 pin:py-6">
+          <div className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 sm:py-24 pin:grid pin:grid-cols-[minmax(0,55fr)_minmax(0,45fr)] pin:grid-rows-[auto_auto] pin:content-center pin:gap-x-16 pin:py-6">
             <div className="pin:col-start-2 pin:row-start-1 pin:self-end">
               <h2
                 id="solution-title"
@@ -268,7 +268,7 @@ export function SolutionStory() {
               </p>
             </div>
 
-            <div className="mx-auto mt-10 w-full max-w-xl pin:sticky pin:top-[110px] pin:col-start-1 pin:row-span-2 pin:row-start-1 pin:mt-0 pin:w-[min(100%,calc(100svh-var(--navbar-height)-3rem))] pin:max-w-none pin:self-center pin:justify-self-start">
+            <div className="mx-auto mt-10 w-full max-w-2xl pin:sticky pin:top-[110px] pin:col-start-1 pin:row-span-2 pin:row-start-1 pin:mt-0 pin:w-[min(100%,calc((100svh-var(--navbar-height)-3rem)*440/276))] pin:max-w-none pin:self-center pin:justify-self-start">
               <SolutionCard
                 active={active}
                 title={ROWS_TEXT[active].title}
