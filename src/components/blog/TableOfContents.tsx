@@ -58,7 +58,7 @@ function HeadingList({
               href={`#${h.id}`}
               onClick={onNavigate}
               aria-current={active ? "location" : undefined}
-              className={`-ml-px block border-l py-1 text-sm leading-snug transition-colors duration-200 ${
+              className={`-ml-px block border-l py-1 text-sm leading-snug transition-colors duration-200 pointer-coarse:py-3 ${
                 h.level === 3 ? "pl-7" : "pl-4"
               } ${
                 active
@@ -76,15 +76,56 @@ function HeadingList({
 }
 
 // Sticky "On this page" list beside the post on desktop. The heading the
-// reader is in is highlighted.
+// reader is in is highlighted. The list never runs past the bottom of the
+// screen (owner requests, 2026-11-09):
+// - It scrolls on its own, with a thin scrollbar, so the reader can browse
+//   every heading without moving the article; scrolling past its end
+//   doesn't scroll the page (overscroll-contain).
+// - It follows the reader, keeping the current heading in view. Only the
+//   list scrolls, never the page.
+// Soft fades at its edges show there is more above or below.
 export function TableOfContents({ headings }: { headings: Heading[] }) {
   const activeId = useActiveHeading(headings);
+  const list = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const box = list.current;
+    const link = box?.querySelector<HTMLElement>('[aria-current="location"]');
+    if (!box || !link) return;
+    const boxRect = box.getBoundingClientRect();
+    const linkRect = link.getBoundingClientRect();
+    // Keep the current heading in the middle band of the list.
+    const margin = boxRect.height * 0.25;
+    if (
+      linkRect.top >= boxRect.top + margin &&
+      linkRect.bottom <= boxRect.bottom - margin
+    ) {
+      return;
+    }
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    box.scrollTo({
+      top:
+        box.scrollTop +
+        (linkRect.top - boxRect.top) -
+        (boxRect.height - linkRect.height) * 0.4,
+      behavior: reduced ? "auto" : "smooth",
+    });
+  }, [activeId]);
+
   return (
-    <nav aria-label="On this page">
+    <nav
+      aria-label="On this page"
+      className="flex max-h-[calc(100svh-var(--navbar-height)-6rem)] flex-col"
+    >
       <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted">
         On this page
       </p>
-      <div className="mt-4">
+      <div
+        ref={list}
+        className="mt-2 min-h-0 overflow-y-auto overscroll-contain py-2 [mask-image:linear-gradient(to_bottom,transparent,#000_12px,#000_calc(100%-24px),transparent)] pr-2 [scrollbar-color:var(--color-line)_transparent] [scrollbar-width:thin]"
+      >
         <HeadingList headings={headings} activeId={activeId} />
       </div>
     </nav>

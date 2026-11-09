@@ -2,6 +2,44 @@
 
 Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge. Developer Space was then removed from the site, and the Product page lost its "How it connects" cards and closing waitlist band. The hero beams then appeared in the light theme too, inverted to dark grey. The home page's "Who it's for" grid was then replaced by a rotating "Built for [role]" section. The animated dotted backgrounds of the Problems and Solution cards were then replaced by a plain blurred background that follows the theme, and their inner screens grew. The hero's preview slot then got the real product video in its own section below the hero, the hero was made to fill the first screen with its copy at the top centre, and the hero beams were removed. The hero then got an animated particle galaxy behind its copy. A team blog was then added: a Blog navbar link, an editorial `/blog` index and post pages, with posts written as MDX files in the repo. The home video's "Product preview" badge was then removed. The Product page's Arena and Private preview windows then got their real videos. A pre-deployment audit (2026-10-31) followed, and its first fixes added security headers and gave unknown blog slugs a real 404. The blog was then made responsive, and the Product page was redesigned to match the home page, with new draft copy.
 
+## Change after Phase 11: Blog "On this page" index follows the reader and scrolls on its own
+
+### Asked for
+- The blog index should move with the scrolling of the post, and be scrollable on its own to see every heading without scrolling the post (owner requests, 2026-11-09).
+
+### Done
+- The cause: the desktop "On this page" list was already sticky, but on long posts it was taller than the screen (842px for "The Life of a Feature" against about 788px of room at 1440x900). Its bottom entries sat below the screen and never came into view.
+- `src/components/blog/TableOfContents.tsx` (desktop list only; the phone and tablet box is unchanged):
+  - **Fits the screen:** the list is capped at the screen height below its pinned position.
+  - **Scrolls on its own:** it has its own thin scrollbar and soft fades at its edges. `overscroll-contain` means scrolling over it moves only the list, never the post, even past its end.
+  - **Follows the reader:** when the current heading changes and its entry is outside the middle band of the list, the list scrolls to bring it into view. Only the list scrolls, and it's instant under reduced motion.
+- Verified in headless Chrome: scrolling through both posts at 1440x900, 1280x720, 1024x768 and 1920x1080 (245 positions), the current heading was always visible in the list and the pinned list always stayed within the screen. With the mouse over the list at 1280x720, the wheel scrolled the list to its end while the post stayed put, including past the end.
+
+## Change after Phase 11: Responsive pass
+
+### Asked for
+- Analyse the whole codebase and make it responsive on mobile, tablet, laptop and desktop (owner request, 2026-11-09).
+
+### Audit (headless Chrome, device emulation)
+- Every route (`/`, `/product`, `/blog`, both posts, 404) at 13 sizes: 320x568, 375x667, 390x844, 430x932, 768x1024, 820x1180, 1024x1366, 1024x768, 1180x820, 1280x720, 1366x768, 1440x900 and 1920x1080, with touch emulated for phones and tablets. Pinned sections were also checked at 1024x700, 1280x800 and 2560x1440.
+- Already fine before this pass: no sideways scroll anywhere, nothing running off screen, no text under 11px.
+
+### Fixed
+- **Product page, Private and Arena:** while pinned, content ran 30–130px past the bottom of the screen at common laptop sizes (1024x700 to 1440x900), cutting off accordion rows. The heading, subtitle, rows and open-row text now scale with screen height (`svh` clamps), with a narrower column gap below 1280px. They fit at every size from 1024x700 to 2560x1440, so no unpinned fallback was needed.
+- **Home, "The Problems" and "The Solution":** "The Solution" ran 20–46px past the bottom at 1024x700 and 1024x768. Both sections got the same `svh`-scaled rows, titles and text and now fit at every size.
+- **Product hero on portrait tablets:** the full-screen height now applies only in landscape (`lg:landscape:`). At 1024x1366 the hero is 800px with the heading at 280px (was 1302px and 531px). Landscape laptops and desktops are unchanged.
+- **Work loop:** the three-column steps, connectors and return path start at 1024px (was 768px). Tablets get full-width stacked steps instead of 170px-wide columns.
+- **Touch targets (touch screens only, via `pointer-coarse:`; mouse layouts unchanged):** the navbar logo, footer links, footer social icons, theme toggle, navbar Join Waitlist, blog topic chips, a post's "All posts" and "View all" links, and the "On this page" rows are now at least 40–44px tall on touch. The only links still under 40px are inline links inside post text, which guidelines exempt.
+
+### Files changed
+- `src/components/product/ModeStory.tsx`, `src/components/home/ProblemStory.tsx`, `src/components/home/SolutionStory.tsx`, `src/app/product/page.tsx`, `src/components/product/WorkLoop.tsx`, `src/components/brand/Logo.tsx`, `src/components/layout/Footer.tsx`, `src/components/layout/ThemeToggle.tsx`, `src/components/layout/Navbar.tsx`, `src/components/blog/BlogTagFilter.tsx`, `src/components/blog/TableOfContents.tsx`, `src/app/blog/[slug]/page.tsx`, `PROGRESS.md`
+
+### Verified
+- Final audit: 78 of 78 page/size combinations clean, and every pinned section fits at all 9 laptop and desktop sizes. Screenshots checked at 1024x768 (Arena, The Solution), 768x1024 (work loop) and 1024x1366 (Product hero). Lint, type-check and production build pass.
+
+### Still open
+- Not checked on real devices or in Safari: emulation only.
+
 ## Change after Phase 11: "See how it works" removed from the Product hero
 
 ### Asked for
