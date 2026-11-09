@@ -4,7 +4,6 @@ import { SandLogo } from "@/components/hero/sand-logo";
 import { FeatureGrid } from "@/components/product/FeatureGrid";
 import { ModeStory } from "@/components/product/ModeStory";
 import { WorkLoop } from "@/components/product/WorkLoop";
-import { LinkButton } from "@/components/ui/Button";
 import { WaitlistButton } from "@/components/waitlist/WaitlistButton";
 import { VALUE_PROPOSITION } from "@/content/home";
 import { PRODUCT_MODES, PRODUCT_PAGE } from "@/content/product-modes";
@@ -57,9 +56,6 @@ export default function ProductPage() {
                   {hero.primaryCta}
                   <ChevronRight aria-hidden="true" className="size-4" />
                 </WaitlistButton>
-                <LinkButton href="#private" variant="soft" className="h-11">
-                  {hero.secondaryCta}
-                </LinkButton>
               </div>
             </div>
 

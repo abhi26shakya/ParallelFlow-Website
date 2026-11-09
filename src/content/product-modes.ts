@@ -137,8 +137,6 @@ export const PRODUCT_PAGE = {
       "Coordinate the team in Arena. Execute the work in Private.",
     // Owner choice, 2026-10-15. Opens the waitlist.
     primaryCta: "Get early access",
-    // Draft.
-    secondaryCta: "See how it works",
   },
   // "How they connect" and "People stay in charge", merged into one
   // screen-tall section at the owner's request (2026-11-09). Draft. From
