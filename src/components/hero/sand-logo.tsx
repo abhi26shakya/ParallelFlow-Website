@@ -11,13 +11,16 @@ import { useEffect, useRef } from "react";
 // grain starts at its own moment, so the sand pours in rather than snapping.
 //
 // Plain Canvas 2D, no libraries. The canvas fills its parent (give the parent
-// a size and `position: relative`). color="currentColor" follows the CSS
+// a size and `position: relative`). For sand that drifts past the box and
+// dissolves into the page, put the canvas in a larger wrapper and mark the
+// logo's box with data-sand-box (see app/product/page.tsx). color="currentColor" follows the CSS
 // text colour and is re-read when the theme changes; light grains on the
 // dark theme blend with "lighter", dark grains on the light theme with normal
 // blending. Grains are allocated once per grain count; the frame loop
 // allocates nothing. It pauses off screen and in hidden tabs, and under
 // prefers-reduced-motion (or speed 0) draws the settled logo as one still
-// frame. Steps are capped at 50ms so returning to a tab doesn't jump.
+// frame. Mouse hover matches the home page galaxy: a slight lean toward the
+// mouse and a gentle ripple around it (see the hover block). Steps are capped at 50ms so returning to a tab doesn't jump.
 
 // Must match LOGO_FACES / LOGO_TAPE_CUTS / LOGO_VIEWBOX in Logo.tsx.
 const FACES = [
@@ -42,8 +45,12 @@ const NARROW = 640;
 const NARROW_SHARE = 0.4;
 const MAX_STEP = 0.05;
 const STILL_TIME = 4; // a settled moment, for the still frame
-// Grain record: target x, y (logo units), face light, size, delay, seed.
-const STRIDE = 6;
+// How far each face shifts when the cube tilts toward the mouse, relative to
+// the whole: the top face leads and the side faces lag, so it reads as 3D.
+const FACE_DEPTH = [1.35, 0.85, 0.85, 1.35];
+// Grain record: target x, y (logo units), face light, size, delay, seed,
+// face depth.
+const STRIDE = 7;
 
 // A repeatable pseudo-random number in [0, 1) for grain i in cycle k.
 function hash(i: number, k: number, salt: number) {
@@ -97,6 +104,7 @@ function seed(count: number, ctx: CanvasRenderingContext2D) {
     data[o + 3] = 1 + Math.pow(Math.random(), 2) * 1.2;
     data[o + 4] = Math.random() * STAGGER;
     data[o + 5] = Math.random() * 1000;
+    data[o + 6] = FACE_DEPTH[face];
   }
   ctx.restore();
   return data;
@@ -135,6 +143,9 @@ function scatter(
   spot[0] = tx + Math.cos(ang) * r + (hash(i, c, 3) - 0.5) * side * 0.18;
   spot[1] = ty + Math.sin(ang) * r + (hash(i, c, 4) - 0.3) * side * 0.12;
 }
+
+// A per-frame easing rate at 60fps, scaled to a frame of `step` seconds.
+const ease = (rate: number, step: number) => 1 - Math.pow(1 - rate, step * 60);
 
 const easeOut = (x: number) => 1 - Math.pow(1 - x, 3);
 const easeInOut = (x: number) =>
@@ -200,12 +211,29 @@ export function SandLogo({
     let width = 1;
     let height = 1;
     let dpr = 1;
+    // The logo's box inside the canvas, in device pixels. The nearest
+    // ancestor marked data-sand-box sets it; the canvas can be larger than
+    // that box so scattered sand drifts past it and fades out instead of
+    // being cut off at a rectangle. Without one, the box is the canvas.
+    let boxX = 0;
+    let boxY = 0;
+    let boxW = 1;
+    let boxH = 1;
     const resize = () => {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       width = Math.max(1, Math.round(canvas.clientWidth * dpr));
       height = Math.max(1, Math.round(canvas.clientHeight * dpr));
       if (canvas.width !== width) canvas.width = width;
       if (canvas.height !== height) canvas.height = height;
+      const own = canvas.getBoundingClientRect();
+      const box =
+        canvas.parentElement
+          ?.closest("[data-sand-box]")
+          ?.getBoundingClientRect() ?? own;
+      boxX = (box.left - own.left) * dpr;
+      boxY = (box.top - own.top) * dpr;
+      boxW = Math.max(1, box.width * dpr);
+      boxH = Math.max(1, box.height * dpr);
       const next = countFor();
       if (next !== count) {
         count = next;
@@ -218,14 +246,50 @@ export function SandLogo({
     };
     resize();
 
+    // Hover, matching the home page galaxy (components/home/HeroGalaxy.tsx,
+    // owner request, 2026-11-09). Two parts, both eased with the galaxy's
+    // per-frame rates:
+    // - Tilt: wherever the mouse is on the page, the cube leans a little
+    //   toward it (the galaxy's yaw/pitch, as a small parallax shift; the top
+    //   face moves more than the sides).
+    // - Ripple: over the canvas, grains near the pointer ease outward up to
+    //   16px with a gentle travelling wave, the galaxy's exact falloff.
+    // Mouse only; off under reduced motion. The canvas ignores pointer
+    // events (so the copy stays clickable), so the pointer is tracked on the
+    // window and mapped into the canvas.
+    let tiltTargetX = 0; // -0.5 to 0.5 across the window
+    let tiltTargetY = 0;
+    let tiltX = 0;
+    let tiltY = 0;
+    let pointerX = -9999; // target, device px in the canvas
+    let pointerY = -9999;
+    let hoverX = -9999; // smoothed position
+    let hoverY = -9999;
+    let hoverOn = 0; // 1 while the mouse is over the canvas
+    let hover = 0; // smoothed strength, 0 to 1
+    let clock = 0; // real seconds, for the ripple wave
+
     const draw = () => {
       const t = timeRef.current;
-      const side = Math.min(width, height);
+      const side = Math.min(boxW, boxH);
       const scale = (side * 0.84) / VIEW.size;
-      const ox = (width - VIEW.size * scale) / 2 - VIEW.x * scale;
-      const oy = (height - VIEW.size * scale) / 2 - VIEW.y * scale;
-      const cx = width / 2;
-      const cy = height / 2;
+      const ox = boxX + (boxW - VIEW.size * scale) / 2 - VIEW.x * scale;
+      const oy = boxY + (boxH - VIEW.size * scale) / 2 - VIEW.y * scale;
+      const cx = boxX + boxW / 2;
+      const cy = boxY + boxH / 2;
+      // Grains fade to nothing toward the canvas edges, across the margin
+      // outside the logo's box (at least 48px), so there is no hard edge.
+      const fadeX = Math.max(48 * dpr, boxX, width - boxX - boxW);
+      const fadeY = Math.max(48 * dpr, boxY, height - boxY - boxH);
+      // The galaxy's numbers, in CSS px: up to 16px of push, Gaussian falloff
+      // exp(-d^2 / 16200), and a wave of 0.8 to 1 along the distance.
+      const pushMax = 16 * dpr;
+      const spread = 16200 * dpr * dpr;
+      const reach2 = spread * 6; // beyond this the push is under 0.1px
+      // Tilt shift: the galaxy turns up to 0.08 rad sideways and 0.04 up and
+      // down; here that is a lean of up to about 2.6% and 1.3% of the box.
+      const leanX = tiltX * side * 0.052;
+      const leanY = tiltY * side * 0.026;
 
       for (let i = 0; i < count; i++) {
         const o = i * STRIDE;
@@ -258,11 +322,38 @@ export function SandLogo({
           settled = 1 - p;
         }
 
+        // Lean toward the mouse, more for the top face than the sides.
+        x += leanX * data[o + 6];
+        y += leanY * data[o + 6];
+
+        // Ripple: ease outward from the pointer, like the home galaxy.
+        if (hover > 0.001) {
+          const dx = x - hoverX;
+          const dy = y - hoverY;
+          const d2 = dx * dx + dy * dy;
+          if (d2 < reach2) {
+            const d = Math.sqrt(d2) || 1;
+            const push =
+              hover *
+              pushMax *
+              Math.exp(-d2 / spread) *
+              (0.8 + 0.2 * Math.sin((d / dpr) * 0.05 - clock * 1.6));
+            x += (dx / d) * push;
+            y += (dy / d) * push;
+          }
+        }
+
         xs[i] = x;
         ys[i] = y;
         sizes[i] = data[o + 3] * dpr;
-        const alpha = data[o + 2] * (0.32 + 0.68 * settled);
-        buckets[i] = Math.min(BUCKETS - 1, Math.floor(alpha * BUCKETS));
+        let edge =
+          Math.min(1, Math.max(0, Math.min(x, width - x) / fadeX)) *
+          Math.min(1, Math.max(0, Math.min(y, height - y) / fadeY));
+        edge = edge * edge * (3 - 2 * edge);
+        const alpha = data[o + 2] * (0.32 + 0.68 * settled) * edge;
+        // Bucket 255 = invisible (faded out at the edge), never drawn.
+        buckets[i] =
+          alpha < 0.02 ? 255 : Math.min(BUCKETS - 1, Math.floor(alpha * BUCKETS));
       }
 
       ctx.clearRect(0, 0, width, height);
@@ -289,6 +380,18 @@ export function SandLogo({
       const step = last ? Math.min((now - last) / 1000, MAX_STEP) : 0;
       last = now;
       timeRef.current += step * speedRef.current;
+      clock += step;
+      // The galaxy's per-frame easing (0.045 tilt, 0.08 pointer, 0.05
+      // strength at 60fps), scaled to the real frame time.
+      tiltX += (tiltTargetX - tiltX) * ease(0.045, step);
+      tiltY += (tiltTargetY - tiltY) * ease(0.045, step);
+      if (hoverX < -9000) {
+        hoverX = pointerX;
+        hoverY = pointerY;
+      }
+      hoverX += (pointerX - hoverX) * ease(0.08, step);
+      hoverY += (pointerY - hoverY) * ease(0.08, step);
+      hover += (hoverOn - hover) * ease(0.05, step);
       draw();
       frame = requestAnimationFrame(loop);
     };
@@ -303,8 +406,13 @@ export function SandLogo({
       } else if (!run) {
         if (frame) cancelAnimationFrame(frame);
         frame = 0;
-        // Reduced motion shows the settled logo, not a scattered moment.
-        if (still) timeRef.current = STILL_TIME + STAGGER;
+        // Reduced motion shows the settled logo, not a scattered moment,
+        // upright and with no ripple.
+        if (still) {
+          timeRef.current = STILL_TIME + STAGGER;
+          tiltX = tiltY = tiltTargetX = tiltTargetY = 0;
+          hover = hoverOn = 0;
+        }
         draw();
       }
     };
@@ -331,6 +439,28 @@ export function SandLogo({
     });
     viewObserver.observe(canvas);
     document.addEventListener("visibilitychange", sync);
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse" || reducedQuery.matches) return;
+      const r = canvas.getBoundingClientRect();
+      const inside =
+        event.clientX >= r.left &&
+        event.clientX <= r.right &&
+        event.clientY >= r.top &&
+        event.clientY <= r.bottom;
+      tiltTargetX = event.clientX / window.innerWidth - 0.5;
+      tiltTargetY = event.clientY / window.innerHeight - 0.5;
+      pointerX = (event.clientX - r.left) * dpr;
+      pointerY = (event.clientY - r.top) * dpr;
+      hoverOn = inside ? 1 : 0;
+    };
+    const onPointerLeave = () => {
+      hoverOn = 0;
+      tiltTargetX = 0;
+      tiltTargetY = 0;
+    };
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    document.documentElement.addEventListener("pointerleave", onPointerLeave);
     reducedQuery.addEventListener("change", sync);
     sync();
 
@@ -341,6 +471,11 @@ export function SandLogo({
       resizeObserver.disconnect();
       viewObserver.disconnect();
       document.removeEventListener("visibilitychange", sync);
+      window.removeEventListener("pointermove", onPointerMove);
+      document.documentElement.removeEventListener(
+        "pointerleave",
+        onPointerLeave,
+      );
       reducedQuery.removeEventListener("change", sync);
     };
   }, [grains, color]);

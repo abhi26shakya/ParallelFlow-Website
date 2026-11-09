@@ -14,6 +14,13 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 
 - Visibility in both themes (owner request, 2026-11-09): in the light theme the logo was invisible. Bug: on a theme switch the component read the canvas's computed `color`, which still holds the old theme's value for a moment right after the toggle. The grains stayed white, with "lighter" blending, on a white page. Both sand components now read the theme's `--color-foreground` variable, which updates immediately. Checked: switching dark → light → dark recolours the grains at once, both animated and as a still frame. The grains are also more visible: 12,000 grains (was 9,000), larger (1 to 2.2px), more opaque, and more contrast on the side faces. They use the theme's own text colour on its background: white sand on #080808, near-black sand on white. Still 60fps (16.6ms per frame).
 
+- No rectangular boundary (owner request, 2026-11-09): scattered sand used to stop at the canvas box, which showed as a hard rectangle. The canvas now bleeds well past the animation's box (30% each side and 22% up and down on phones; 55% left and 25% right from 1024px). The box is marked `data-sand-box`, so the logo keeps its size and position. Grains fade out smoothly toward the canvas edges, so the sand dissolves into the page background in both themes. The copy sits above the sand (`z-10`). A full-width `overflow-x-clip` wrapper clips the sideways bleed at the screen edge, so there's no horizontal scroll (checked at 375 and 1024). Still 60fps.
+
+- Hover (owner requests, 2026-11-09): after a few rounds (a strong push, then subtler, then barely noticeable), the hover now matches the home page galaxy (`HeroGalaxy.tsx`), at the owner's request. Two parts, both eased with the galaxy's own per-frame rates (0.045 tilt, 0.08 pointer, 0.05 strength):
+  - **Tilt:** wherever the mouse is on the page, the cube leans slightly toward it (up to about 2.6% of the box sideways and 1.3% up and down, matching the galaxy's 0.08 and 0.04 rad). The top face shifts more than the sides, so it reads as 3D.
+  - **Ripple:** over the animation, grains ease outward from the pointer by up to 16px, with the galaxy's falloff `exp(-d^2/16200)` and travelling wave `0.8 + 0.2*sin(d*0.05 - t*1.6)`. There is no brightening, as on the home page.
+  - Mouse only, and off under reduced motion (the still frame is upright with no ripple). The canvas ignores pointer events, so the buttons stay clickable. Still 60fps while hovering.
+
 ### Still open
 - `src/components/hero/mobius-sand.tsx` is no longer used. It is kept (it was never committed) in case the owner wants it back. Delete it if not.
 
