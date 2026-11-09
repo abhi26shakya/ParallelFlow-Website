@@ -49,7 +49,7 @@ export function BlogTagFilter({
           type="button"
           aria-pressed={selected}
           onClick={() => setActive(value)}
-          className={`rounded-pill border px-4 py-1.5 text-sm transition-colors duration-200 ${
+          className={`rounded-pill border px-4 py-1.5 text-sm pointer-coarse:py-2.5 transition-colors duration-200 ${
             selected
               ? "border-foreground bg-foreground text-background"
               : "border-line text-muted hover:border-foreground/40 hover:text-foreground"

@@ -27,7 +27,7 @@ export function Logo({ className = "" }: { className?: string }) {
     <Link
       href="/"
       aria-label={`${SITE_NAME} home`}
-      className={`inline-flex items-center gap-2 rounded-control text-xl font-semibold tracking-tight text-foreground ${className}`}
+      className={`inline-flex items-center gap-2 rounded-control text-xl font-semibold tracking-tight text-foreground pointer-coarse:min-h-11 ${className}`}
     >
       <LogoMark className="size-7 shrink-0" />
       {SITE_NAME}

@@ -34,7 +34,7 @@ export function Navbar() {
           </div>
         </div>
         <div className="hidden md:block">
-          <WaitlistButton className="h-9 py-0" />
+          <WaitlistButton className="h-9 py-0 pointer-coarse:h-11" />
         </div>
         <MobileMenu />
       </nav>

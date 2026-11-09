@@ -68,7 +68,7 @@ export default async function BlogPostPage({
       <header className="mx-auto max-w-5xl px-4 pt-16 text-center sm:px-6 sm:pt-24">
         <Link
           href="/blog"
-          className="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-foreground"
+          className="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-foreground pointer-coarse:-my-3 pointer-coarse:py-3"
         >
           <ArrowLeft
             aria-hidden="true"
@@ -134,7 +134,7 @@ export default async function BlogPostPage({
             <h2 id="more-posts" className="text-3xl font-medium tracking-tight">
               More from the blog
             </h2>
-            <Link href="/blog" className="text-sm text-muted transition-colors hover:text-foreground">
+            <Link href="/blog" className="text-sm text-muted transition-colors hover:text-foreground pointer-coarse:-my-3 pointer-coarse:py-3">
               View all
             </Link>
           </div>

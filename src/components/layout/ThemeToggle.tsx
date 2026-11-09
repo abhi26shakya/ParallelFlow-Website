@@ -63,7 +63,7 @@ export function ThemeToggle() {
           // Storage blocked: the switch still applies for this page view.
         }
       }}
-      className="relative -ml-2 inline-flex size-8 shrink-0 items-center justify-center rounded-pill text-muted transition-colors hover:text-foreground"
+      className="relative -ml-2 inline-flex size-8 shrink-0 pointer-coarse:size-11 items-center justify-center rounded-pill text-muted transition-colors hover:text-foreground"
     >
       <Sun
         aria-hidden="true"

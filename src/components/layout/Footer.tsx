@@ -113,11 +113,11 @@ function FooterLink({ item }: { item: FooterLinkItem }) {
   return (
     <Link
       href={item.href}
-      className="group relative inline-flex items-center py-1 text-sm text-muted transition-colors hover:text-foreground focus-visible:text-foreground"
+      className="group relative inline-flex items-center py-1 text-sm text-muted transition-colors hover:text-foreground focus-visible:text-foreground pointer-coarse:py-2.5"
     >
       {item.label}
-      <span aria-hidden="true" className={`${underline} bottom-1 bg-foreground`} />
-      <span aria-hidden="true" className={`${underline} bottom-0 bg-muted delay-75`} />
+      <span aria-hidden="true" className={`${underline} bottom-1 bg-foreground pointer-coarse:bottom-2.5`} />
+      <span aria-hidden="true" className={`${underline} bottom-0 bg-muted delay-75 pointer-coarse:bottom-2`} />
     </Link>
   );
 }
@@ -154,7 +154,7 @@ export function Footer() {
                   <a
                     href={social.href}
                     aria-label={social.external ? `${social.label} (opens in a new tab)` : social.label}
-                    className="inline-flex size-9 items-center justify-center rounded-pill border border-line text-muted transition-colors hover:bg-hover hover:text-foreground focus-visible:text-foreground"
+                    className="inline-flex size-9 items-center justify-center rounded-pill border border-line pointer-coarse:size-11 text-muted transition-colors hover:bg-hover hover:text-foreground focus-visible:text-foreground"
                     {...(social.external && { target: "_blank", rel: "noopener noreferrer" })}
                   >
                     {social.icon}

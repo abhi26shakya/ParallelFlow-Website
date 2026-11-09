@@ -30,7 +30,9 @@ export default function ProductPage() {
   const { hero } = PRODUCT_PAGE;
   return (
     <main>
-      {/* From lg the hero fills the first screen below the navbar: copy and
+      {/* From lg in landscape, the hero fills the first screen below the
+          navbar (large portrait tablets get natural height instead, so the
+          heading isn't pushed halfway down a tall screen): copy and
           animation in two columns, centred against each other, with the
           animation box sized to the screen height (680px at most). Below lg
           they stack. Aligned to the same max-w-7xl edges as the sections
@@ -38,7 +40,7 @@ export default function ProductPage() {
       {/* Full width, so the sand's sideways bleed is clipped only at the
           screen edge and never adds a horizontal scroll. */}
       <div className="overflow-x-clip">
-        <section className="mx-auto flex max-w-7xl items-center px-4 pb-16 pt-14 sm:px-6 sm:pb-20 sm:pt-20 lg:min-h-[calc(100svh-var(--navbar-height))] lg:py-8">
+        <section className="mx-auto flex max-w-7xl items-center px-4 pb-16 pt-14 sm:px-6 sm:pb-20 sm:pt-20 lg:landscape:min-h-[calc(100svh-var(--navbar-height))] lg:landscape:py-8">
           <div
             className={`w-full lg:grid lg:grid-cols-2 lg:items-center lg:gap-12 ${fadeIn}`}
           >

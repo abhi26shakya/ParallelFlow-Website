@@ -108,10 +108,10 @@ function ProblemRow({
           aria-controls={`${id(index)}-panel`}
           onClick={onSelect}
           onKeyDown={onKeyDown}
-          className="flex min-h-18 w-full items-center justify-between gap-6 px-5 text-left outline-offset-[-2px] sm:px-8 pin:min-h-[clamp(52px,9svh,88px)] pin:px-11"
+          className="flex min-h-18 w-full items-center justify-between gap-6 px-5 text-left outline-offset-[-2px] sm:px-8 pin:min-h-[clamp(46px,7.5svh,88px)] pin:px-11"
         >
           <span
-            className="pf-problems-title py-3 text-xl leading-snug tracking-tight sm:text-2xl pin:text-[25px]"
+            className="pf-problems-title py-3 text-xl leading-snug tracking-tight sm:text-2xl pin:py-2 pin:text-[clamp(18px,3svh,25px)]"
           >
             {item.title}
           </span>
@@ -129,7 +129,7 @@ function ProblemRow({
         <div>
           {text && (
             <p
-              className="pf-problems-text max-w-[720px] px-5 pb-6 text-[17px] leading-[1.6] sm:px-8 sm:text-[19px] pin:px-11 pin:pb-7"
+              className="pf-problems-text max-w-[720px] px-5 pb-6 text-[17px] leading-[1.6] sm:px-8 sm:text-[19px] pin:px-11 pin:pb-[min(28px,3svh)] pin:text-[clamp(15px,2.3svh,19px)]"
             >
               {text}
             </p>
@@ -254,11 +254,11 @@ export function ProblemStory() {
     >
       <div ref={wrapperRef} className="relative pin:h-[350svh]">
         <div className="pin:sticky pin:top-(--navbar-height) pin:flex pin:h-[calc(100svh-var(--navbar-height))] pin:items-center">
-          <div className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 sm:py-24 pin:grid pin:grid-cols-[minmax(0,45fr)_minmax(0,55fr)] pin:grid-rows-[auto_auto] pin:content-center pin:gap-x-16 pin:py-6">
+          <div className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 sm:py-24 pin:grid pin:grid-cols-[minmax(0,45fr)_minmax(0,55fr)] pin:grid-rows-[auto_auto] pin:content-center pin:gap-x-12 xl:pin:gap-x-16 pin:py-6">
             <div className="pin:col-start-1 pin:row-start-1 pin:self-end">
               <h2
                 id="problem-title"
-                className="text-[clamp(48px,5vw,80px)] font-light leading-[1.05] tracking-[-0.02em] pin:text-[min(clamp(48px,5vw,80px),9svh)]"
+                className="text-[clamp(48px,5vw,80px)] font-light leading-[1.05] tracking-[-0.02em] pin:text-[min(clamp(48px,5vw,80px),8svh)]"
               >
                 {PROBLEM.title}
               </h2>
@@ -277,7 +277,7 @@ export function ProblemStory() {
             </div>
 
             <ol
-              className="pf-problems-list mt-10 pin:col-start-1 pin:row-start-2 pin:mt-[min(48px,5svh)] pin:self-start"
+              className="pf-problems-list mt-10 pin:col-start-1 pin:row-start-2 pin:mt-[min(40px,4svh)] pin:self-start"
             >
               {PROBLEM.items.map((item, index) => (
                 <ProblemRow

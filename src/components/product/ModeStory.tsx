@@ -93,9 +93,9 @@ function ModeRowItem({
           aria-controls={`${id}-panel`}
           onClick={onSelect}
           onKeyDown={onKeyDown}
-          className="flex min-h-16 w-full items-center justify-between gap-6 px-5 text-left outline-offset-[-2px] sm:px-8 pin:min-h-[clamp(48px,8svh,76px)] pin:px-9"
+          className="flex min-h-16 w-full items-center justify-between gap-6 px-5 text-left outline-offset-[-2px] sm:px-8 pin:min-h-[clamp(40px,5.8svh,72px)] pin:px-8"
         >
-          <span className="pf-mode-title py-3 text-lg leading-snug tracking-tight sm:text-xl pin:text-[22px]">
+          <span className="pf-mode-title py-3 text-lg leading-snug tracking-tight sm:text-xl pin:py-2 pin:text-[clamp(16px,2.5svh,22px)]">
             {item.title}
           </span>
           <span aria-hidden="true" className="pf-mode-icon" />
@@ -110,7 +110,7 @@ function ModeRowItem({
         className="pf-mode-panel"
       >
         <div>
-          <p className="pf-mode-text max-w-[640px] px-5 pb-5 text-base leading-[1.6] sm:px-8 sm:text-[17px] pin:px-9 pin:pb-6">
+          <p className="pf-mode-text max-w-[640px] px-5 pb-5 text-base leading-[1.6] sm:px-8 sm:text-[17px] pin:px-8 pin:pb-4 pin:text-[clamp(14px,2svh,16px)] pin:leading-[1.5]">
             {item.body}
           </p>
         </div>
@@ -256,7 +256,7 @@ export function ModeStory({
       <div ref={wrapperRef} className="relative pin:h-[350svh]">
         <div className="pin:sticky pin:top-(--navbar-height) pin:flex pin:h-[calc(100svh-var(--navbar-height))] pin:items-center">
           <div
-            className={`mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 sm:py-24 pin:grid pin:grid-rows-[auto_auto] pin:content-center pin:gap-x-14 pin:py-6 ${
+            className={`mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 sm:py-24 pin:grid pin:grid-rows-[auto_auto] pin:content-center pin:gap-x-10 xl:pin:gap-x-14 pin:py-4 ${
               cardLeft
                 ? "pin:grid-cols-[minmax(0,60fr)_minmax(0,40fr)]"
                 : "pin:grid-cols-[minmax(0,40fr)_minmax(0,60fr)]"
@@ -273,11 +273,11 @@ export function ModeStory({
               </p>
               <h2
                 id={titleId}
-                className="mt-4 text-[clamp(44px,5vw,72px)] font-light leading-[1.05] tracking-[-0.02em] pin:text-[min(clamp(44px,5vw,72px),8svh)]"
+                className="mt-4 text-[clamp(44px,5vw,72px)] font-light leading-[1.05] tracking-[-0.02em] pin:mt-[min(12px,1.5svh)] pin:text-[min(clamp(44px,5vw,72px),6.5svh)]"
               >
                 {product.name}
               </h2>
-              <p className="pf-mode-subtitle mt-4 max-w-[48ch] text-lg text-pretty">
+              <p className="pf-mode-subtitle mt-4 max-w-[48ch] text-lg text-pretty pin:mt-[min(12px,1.5svh)] pin:text-[clamp(15px,2.2svh,18px)]">
                 {product.body}
               </p>
             </div>
@@ -300,7 +300,7 @@ export function ModeStory({
             </div>
 
             <ol
-              className={`pf-mode-list mt-10 pin:row-start-2 pin:mt-[min(40px,4svh)] pin:self-start ${
+              className={`pf-mode-list mt-10 pin:row-start-2 pin:mt-[min(32px,3svh)] pin:self-start ${
                 cardLeft ? "pin:col-start-2" : "pin:col-start-1"
               }`}
             >
