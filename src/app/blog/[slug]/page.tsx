@@ -6,7 +6,10 @@ import { AuthorChip } from "@/components/blog/AuthorChip";
 import { PostCard, PostMeta, PostTags } from "@/components/blog/PostCard";
 import { PostCover } from "@/components/blog/PostCover";
 import { ReadingProgress } from "@/components/blog/ReadingProgress";
-import { TableOfContents } from "@/components/blog/TableOfContents";
+import {
+  MobileTableOfContents,
+  TableOfContents,
+} from "@/components/blog/TableOfContents";
 import { getAllPosts, getPostContent } from "@/lib/blog";
 import { pageMetadata } from "@/lib/seo";
 
@@ -78,7 +81,7 @@ export default async function BlogPostPage({
         </div>
         {/* Sized so a short title fits on one line from phones up; longer
             titles wrap evenly. */}
-        <h1 className="mt-6 text-balance text-[clamp(1.75rem,7vw,4rem)] font-medium leading-[1.05] tracking-[-0.04em]">
+        <h1 className="mt-6 text-balance text-[clamp(1.5rem,7.5vw,4rem)] font-medium leading-[1.05] tracking-[-0.04em]">
           {post.title}
         </h1>
         {/* The subtitle is the subheading; posts without one show their summary. */}
@@ -105,8 +108,15 @@ export default async function BlogPostPage({
         </div>
       )}
 
-      <div className="mx-auto mt-6 grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_14rem]">
-        <article id={ARTICLE_ID} className="mx-auto w-full max-w-[68ch] lg:mx-0 lg:ml-auto">
+      {/* minmax(0,1fr) and min-w-0 keep wide content (tables, code) from
+          stretching the column past the screen; it scrolls in its own box. */}
+      <div className="mx-auto mt-6 grid max-w-6xl grid-cols-[minmax(0,1fr)] gap-12 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_14rem]">
+        <article id={ARTICLE_ID} className="mx-auto w-full min-w-0 max-w-[68ch] lg:mx-0 lg:ml-auto">
+          {post.headings.length > 1 && (
+            <div className="mt-10 lg:hidden">
+              <MobileTableOfContents headings={post.headings} />
+            </div>
+          )}
           <Content />
         </article>
         {post.headings.length > 1 && (

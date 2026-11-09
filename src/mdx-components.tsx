@@ -56,9 +56,16 @@ const components: MDXComponents = {
     <p className="mt-6 text-lg leading-[1.8] text-foreground/85" {...props} />
   ),
   a: MdxLink,
-  ul: (props) => (
+  // GFM task lists ("- [ ] item") arrive with the class contains-task-list:
+  // no bullets, and an outlined, read-only checkbox in place of each marker.
+  // The class is merged, not spread over ours, so the list keeps its styling.
+  ul: ({ className = "", ...props }) => (
     <ul
-      className="mt-6 list-disc space-y-2 pl-6 text-lg leading-[1.8] text-foreground/85 marker:text-muted"
+      className={`mt-6 space-y-2 text-lg leading-[1.8] text-foreground/85 ${
+        className.includes("contains-task-list")
+          ? "list-none pl-1 [&_input]:mr-3 [&_input]:size-4 [&_input]:shrink-0 [&_input]:appearance-none [&_input]:rounded-[4px] [&_input]:border [&_input]:border-muted [&_input]:align-[-2px]"
+          : "list-disc pl-6 marker:text-muted"
+      } ${className}`}
       {...props}
     />
   ),
@@ -99,8 +106,13 @@ const components: MDXComponents = {
     </div>
   ),
   table: (props) => (
+    // Wide tables scroll sideways inside this box on small screens; the
+    // first column (the row labels) stays pinned while they do.
     <div className="my-8 overflow-x-auto rounded-card border border-line">
-      <table className="w-full min-w-[40rem] border-collapse text-left text-base" {...props} />
+      <table
+        className="w-full min-w-[36rem] border-collapse text-left text-sm sm:min-w-[40rem] sm:text-base [&_tr>:first-child]:sticky [&_tr>:first-child]:left-0 [&_tr>:first-child]:z-10 [&_tr>:first-child]:border-r [&_tr>:first-child]:border-line [&_td:first-child]:bg-background"
+        {...props}
+      />
     </div>
   ),
   th: (props) => (

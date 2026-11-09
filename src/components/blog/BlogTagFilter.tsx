@@ -7,16 +7,23 @@ export type FilterablePost = {
   tags: string[];
   featured: ReactNode;
   card: ReactNode;
+  // The same card laid out full width, for a card alone on its row.
+  wideCard: ReactNode;
 };
 
+// A card alone on the last row (an odd number of cards below the featured
+// post) spans the full width and uses the wide layout, instead of leaving an
+// empty gap beside it.
+const isLone = (index: number, total: number) =>
+  index === total - 1 && index % 2 === 0;
+
 // Grid columns out of 12 on desktop: rows alternate wide/narrow and
-// narrow/wide, so the grid reads like a magazine spread.
+// narrow/wide, so the grid reads like a magazine spread. Tablets get two
+// equal columns, since a 5/12 column is too narrow there.
 function span(index: number, total: number) {
-  const row = Math.floor(index / 2);
-  const lone = index === total - 1 && index % 2 === 0;
-  if (lone) return "md:col-span-7";
-  const wideFirst = row % 2 === 0;
-  return (index % 2 === 0) === wideFirst ? "md:col-span-7" : "md:col-span-5";
+  if (isLone(index, total)) return "md:col-span-2 lg:col-span-12";
+  const wideFirst = Math.floor(index / 2) % 2 === 0;
+  return (index % 2 === 0) === wideFirst ? "lg:col-span-7" : "lg:col-span-5";
 }
 
 // Topic chips above the posts. Filtering happens in the browser, so the
@@ -66,10 +73,10 @@ export function BlogTagFilter({
       <div key={active ?? "all"} className="animate-fade-in">
         {featured && featured.featured}
         {rest.length > 0 && (
-          <ul className="mt-6 grid gap-6 md:grid-cols-12">
+          <ul className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-12">
             {rest.map((post, i) => (
               <li key={post.slug} className={span(i, rest.length)}>
-                {post.card}
+                {isLone(i, rest.length) ? post.wideCard : post.card}
               </li>
             ))}
           </ul>

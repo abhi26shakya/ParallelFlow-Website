@@ -16,13 +16,13 @@ export const metadata: Metadata = pageMetadata({
 // with no fake posts.
 function EmptyState() {
   return (
-    <div className="grid overflow-hidden rounded-card border border-line md:grid-cols-12">
+    <div className="grid overflow-hidden rounded-card border border-line lg:grid-cols-12">
       <BlogCover
         seed="parallelflow-blog"
         label="Issue 001"
-        className="relative aspect-[16/10] border-b border-line md:col-span-7 md:aspect-auto md:min-h-[24rem] md:border-b-0 md:border-r"
+        className="relative aspect-[16/10] border-b border-line lg:col-span-7 lg:aspect-auto lg:min-h-[24rem] lg:border-b-0 lg:border-r"
       />
-      <div className="flex flex-col justify-center p-8 md:col-span-5 md:p-10">
+      <div className="flex flex-col justify-center p-8 lg:col-span-5 lg:p-10">
         <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted">
           No posts yet
         </p>
@@ -46,7 +46,7 @@ export default async function BlogPage() {
 
   return (
     <main className="mx-auto max-w-6xl px-4 pb-28 pt-24 sm:px-6 sm:pb-36 sm:pt-32">
-      <header className="border-b border-line pb-10 sm:pb-14">
+      <header>
         <p className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted">
           <span>ParallelFlow</span>
           <span aria-hidden="true" className="h-3 w-px bg-line" />
@@ -62,17 +62,15 @@ export default async function BlogPage() {
             </>
           )}
         </p>
-        <div className="mt-6 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <h1 className="text-[clamp(4rem,14vw,10rem)] font-medium leading-[0.85] tracking-[-0.06em]">
-            {BLOG_PAGE.title}
-          </h1>
-          <p className="max-w-sm text-lg leading-relaxed text-muted md:pb-3 md:text-right">
-            {BLOG_PAGE.description}
-          </p>
-        </div>
+        {/* The tagline and the rule under the header were removed at the
+            owner's request (2026-11-09). BLOG_PAGE.description is still the
+            page's meta description. */}
+        <h1 className="mt-6 text-[clamp(4rem,14vw,10rem)] font-medium leading-[0.85] tracking-[-0.06em]">
+          {BLOG_PAGE.title}
+        </h1>
       </header>
 
-      <div className="mt-10 sm:mt-14">
+      <div className="mt-12 sm:mt-16">
         {posts.length === 0 ? (
           <EmptyState />
         ) : (
@@ -83,6 +81,7 @@ export default async function BlogPage() {
               tags: post.tags,
               featured: <FeaturedPost post={post} />,
               card: <PostCard post={post} />,
+              wideCard: <PostCard post={post} wide />,
             }))}
           />
         )}
