@@ -1,6 +1,8 @@
 {
   "enabledPlugins": {
     "github@anthropic-plugin-directory": true,
-    "supabase@anthropic-plugin-directory": true
+    "supabase@anthropic-plugin-directory": true,
+    "supabase-expert@anthropic-plugin-directory": true,
+    "vercel@anthropic-plugin-directory": true
   }
 }

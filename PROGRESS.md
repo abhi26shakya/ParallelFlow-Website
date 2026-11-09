@@ -1,6 +1,140 @@
 # ParallelFlow Build Progress
 
-Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge. Developer Space was then removed from the site, and the Product page lost its "How it connects" cards and closing waitlist band. The hero beams then appeared in the light theme too, inverted to dark grey. The home page's "Who it's for" grid was then replaced by a rotating "Built for [role]" section. The animated dotted backgrounds of the Problems and Solution cards were then replaced by a plain blurred background that follows the theme, and their inner screens grew. The hero's preview slot then got the real product video in its own section below the hero, the hero was made to fill the first screen with its copy at the top centre, and the hero beams were removed. The hero then got an animated particle galaxy behind its copy. A team blog was then added: a Blog navbar link, an editorial `/blog` index and post pages, with posts written as MDX files in the repo. The home video's "Product preview" badge was then removed. The Product page's Arena and Private preview windows then got their real videos. A pre-deployment audit (2026-10-31) followed, and its first fixes added security headers and gave unknown blog slugs a real 404.
+Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge. Developer Space was then removed from the site, and the Product page lost its "How it connects" cards and closing waitlist band. The hero beams then appeared in the light theme too, inverted to dark grey. The home page's "Who it's for" grid was then replaced by a rotating "Built for [role]" section. The animated dotted backgrounds of the Problems and Solution cards were then replaced by a plain blurred background that follows the theme, and their inner screens grew. The hero's preview slot then got the real product video in its own section below the hero, the hero was made to fill the first screen with its copy at the top centre, and the hero beams were removed. The hero then got an animated particle galaxy behind its copy. A team blog was then added: a Blog navbar link, an editorial `/blog` index and post pages, with posts written as MDX files in the repo. The home video's "Product preview" badge was then removed. The Product page's Arena and Private preview windows then got their real videos. A pre-deployment audit (2026-10-31) followed, and its first fixes added security headers and gave unknown blog slugs a real 404. The blog was then made responsive, and the Product page was redesigned to match the home page, with new draft copy.
+
+## Change after Phase 11: Product hero sand logo and big heading
+
+### Asked for
+- Make the hero heading big again, as before, and replace the Möbius strip with sand that builds the logo cube, from the owner's "Sand builds the logo" reference screenshot (owner request, 2026-11-09).
+
+### Done
+- New `src/components/hero/sand-logo.tsx` (`<SandLogo />`): about 9,000 sand grains (40% on phones) settle into the ParallelFlow logo, hold, then scatter, on a 9-second loop (settle 2.6s, hold about 3.4s, scatter 3s). Each grain starts at its own moment, so the sand pours in. Grain targets are sampled from the real logo geometry in `Logo.tsx` (three faces, the tape strip, minus the tape cut-outs). A third of the grains sit along the edges so the box reads crisply, and the faces differ in brightness (lit top, mid left, shaded right) so it reads as 3D. Grains use the theme's text colour (monochrome), not the reference's warm sand. Same lifecycle as the Möbius component: Canvas 2D, it pauses off screen and in hidden tabs, and reduced motion shows the settled logo as a still frame. Props: `grains`, `color`, `speed`, `className`.
+- Hero heading back to `clamp(48px,6.5vw,92px)`, wrapping over four lines on desktop like before and like the reference. Two equal columns, and the hero still fills the first screen, with the text and the cube centred on each other at 1440x900, 1280x720 and 1024x768.
+- Checked in headless Chrome: 16.6ms per frame at 9,000 grains (60fps), flat JS heap over 20s, no console errors, no sideways scroll at 375px. Frames captured across the full settle, hold and scatter cycle.
+
+- Visibility in both themes (owner request, 2026-11-09): in the light theme the logo was invisible. Bug: on a theme switch the component read the canvas's computed `color`, which still holds the old theme's value for a moment right after the toggle. The grains stayed white, with "lighter" blending, on a white page. Both sand components now read the theme's `--color-foreground` variable, which updates immediately. Checked: switching dark → light → dark recolours the grains at once, both animated and as a still frame. The grains are also more visible: 12,000 grains (was 9,000), larger (1 to 2.2px), more opaque, and more contrast on the side faces. They use the theme's own text colour on its background: white sand on #080808, near-black sand on white. Still 60fps (16.6ms per frame).
+
+### Still open
+- `src/components/hero/mobius-sand.tsx` is no longer used. It is kept (it was never committed) in case the owner wants it back. Delete it if not.
+
+## Change after Phase 11: Product hero alignment
+
+### Asked for
+- Adjust the Product page hero with proper alignment (owner request, 2026-11-09).
+
+### Done
+- From 1024px the hero fills exactly the first screen below the navbar, in two equal columns. The text and the Möbius sand animation are vertically centred against each other, and the animation box is sized to the screen height (680px at most). Before, the hero was 904px tall at 1440x900, the heading started 70px lower than the animation, the buttons fell below the fold at 1280x720, and at 1024 the columns wrapped into a 976x680 box under the text.
+- The heading breaks between its two sentences ("Two ways to work." / "One project context."), and each sits on one line from 1024px (`hero.title` is now an array of lines, `lg:whitespace-nowrap`). The subtitle is muted.
+- The heading was then made bigger (owner request, 2026-11-09): `clamp(44px,5.4vw,78px)` (was up to 68px), and the text column is now 7/12 of the hero (was half) so the lines fit. The longest line ends 50px before the animation at 1440, 126px at 1280 and 99px at 1024. The animation column is narrower, so the strip is a little smaller.
+- Phones: the text sits on top and the animation (340px, 440px from 640px) below. The left edge matches the sections below (`max-w-7xl`).
+- Checked at 1440x900, 1280x720, 1024x768 and 375x812: the hero fits the first screen on desktop, and there's no sideways scroll.
+
+## Change after Phase 11: Value proposition removed from the Product hero
+
+### Asked for
+- Remove the value proposition line from the Product page hero (owner request, 2026-11-09).
+
+### Done
+- `src/app/product/page.tsx`: the hero no longer shows "ParallelFlow brings teams, AI agents, tasks, and project context into a connected workspace…". It is still the page's meta description, word for word.
+
+## Change after Phase 11: Blog header tagline and rule removed
+
+### Asked for
+- Remove "Updates and writing from the ParallelFlow team." and the line under it from `/blog` (owner request, 2026-11-09).
+
+### Done
+- `src/app/blog/page.tsx`: the tagline beside the "Blog" heading and the hairline rule under the header are removed. The topic chips sit a little lower (`mt-12 sm:mt-16`) so they don't crowd the heading. `BLOG_PAGE.description` still supplies the page's meta description for search results.
+
+## Change after Phase 11: Second blog post, "The Life of a Feature"
+
+### Asked for
+- Publish the owner's doc `The Life of a Feature How Real Software Actually Gets Built.docx` as a blog post (owner request, 2026-11-09).
+
+### Done
+- `posts/the-life-of-a-feature.mdx` at `/blog/the-life-of-a-feature`. The title is "The Life of a Feature", with the subtitle "How real software actually gets built". It's dated 2026-11-09 and tagged Engineering and SDLC. The summary is new (Draft); the doc has none.
+- The body is the doc's text unchanged, checked word for word against the doc. Its headings make up the table of contents (18 entries), and its numbered lists, two tables and sources are kept. Ticket, branch and analytics event names are shown as inline code, and the launch checklist is a GFM task list.
+- The doc's architecture image is redrawn as `ReminderArchitectureDiagram.tsx` with theme tokens, like the first post's diagram, so it follows both themes. The doc's blue highlight on "Send worker" is a foreground outline, to keep the site monochrome. Wide screens use the doc's layout; phones show one column. The doc's image caption is the figure caption.
+- New author `abhishek`: Abhishek Singh, Co-founder. The doc's byline said "Abhishek Shakya"; the display name was changed to "Abhishek Singh" at the owner's request (2026-11-09). The role is taken from the founders listed for the footer links.
+- `src/mdx-components.tsx`: lists now merge their `className` instead of being overwritten by it, so GFM task lists keep the post's list styling, with outlined read-only checkboxes and no bullets.
+
+- `/blog` layout with two posts (owner request, 2026-11-09, "adjust both the blog sections properly"): the second post was a lone card 7/12 wide with an empty gap beside it. A card alone on the last row now spans the full width in a wide layout that mirrors the featured post: text on the left, cover on the right from 1024px, with the same height (26rem) and title size. So the two posts alternate like a magazine spread. Tablets and phones still stack the cards. This applies whenever the cards below the featured post are an odd number (`wideCard` in `BlogTagFilter.tsx`, `PostCard wide`).
+
+### Files changed
+- New: `src/content/blog/posts/the-life-of-a-feature.mdx`, `src/components/blog/ReminderArchitectureDiagram.tsx`
+- Changed: `src/content/blog/authors.ts`, `src/mdx-components.tsx`, `src/components/blog/PostCard.tsx`, `src/components/blog/BlogTagFilter.tsx`, `src/app/blog/page.tsx`, `PROGRESS.md`
+
+### Still open
+- Third-party names, figures and survey claims are kept as written in the doc and haven't been fact-checked. The post mentions SOC 2, ISO 27001 and a "vulnerability SLA" as general industry practice, not as ParallelFlow claims.
+- Already present before this post (the first post shows it too): in dev, Next.js logs that `/blog/[slug]` reads `params` outside `<Suspense>`. The production build passes.
+
+## Change after Phase 11: Home page Problems and Solution screens at full size
+
+### Asked for
+- Remove the background from "The Problems" and "The Solution" animation windows, show them full size, and adjust the layout (owner request, 2026-11-09).
+
+### Done
+- Each card is now just the dark screen, with no blurred background, frosted glass frame or padding. It takes the scenes' own 440:276 shape (`sceneKit.tsx` W x H), so every scene fills the card edge to edge. The counter and icon stay in the screen's top corners.
+- The hover tilt and sheen (which moved the frosted frame) are gone, and `useCardHover.ts` is deleted.
+- Both screens then got the moving edge light (`edge-light` in `globals.css`), like the home product video and the Product page screens (owner request, 2026-11-09).
+- Layout: both sections are wider (`max-w-7xl`, was `max-w-6xl`), and the screen's column grew from 52% to 55% (45/55 for Problems, 55/45 mirrored for Solution). The pinned width is capped by screen height at the new shape. At 1280px and up each screen is about 642x403 (the scene area used to be about 470x300 inside a 520px square card). The headings stay on one line and every accordion row fits on screen at 1440x900 and 1280x720. Phones show the screen full width above the rows.
+
+### Files changed
+- `src/components/home/problems/problems.css`, `src/components/home/solution/solution.css`, `src/components/home/problems/ProblemCard.tsx`, `src/components/home/solution/SolutionCard.tsx`, `src/components/home/ProblemStory.tsx`, `src/components/home/SolutionStory.tsx`, `PROGRESS.md`
+- Deleted: `src/components/home/problems/useCardHover.ts`
+
+### Verified
+- Lint, type-check and production build pass. Headless Chrome screenshots at 1440x900 (dark), 1280x720 (light) and 375px (dark) show no sideways scroll.
+
+## Change after Phase 11: Product page redesign
+
+### Asked for
+- Redesign the whole Product page to match the website and the product, and change its content (owner request, 2026-11-08).
+- Owner choices: match the home page style; Claude drafts the copy from PROJECT_BRIEF.md Part 6; sections are Private, Arena, "How they connect", human oversight and the feature grid (no closing waitlist band); keep the Arena and Private videos.
+
+### Done
+- **Hero:** left-aligned, light-weight heading in the home type scale. It has a new title and subtitle, the value proposition word for word, "Get early access" (opens the waitlist), and "See how it works" (`#private`). On the right is `<MobiusSand />` (`src/components/hero/mobius-sand.tsx`, built to the owner's spec, 2026-11-09): about 9,000 sand grains flowing along a turning Möbius strip on a plain Canvas 2D. Its props are `grains`, `color` (default `#e8d6ad`; `"currentColor"` follows the CSS text colour), `speed` (0 freezes it) and `className`. Phones get 40% of the grains. It pauses off screen and in hidden tabs, and draws one still frame under reduced motion. The hero is a two-column flex-wrap row: copy at `flex 1 1 440px`, and the strip in a box at `flex 1 1 520px` that is 680px tall (380px when stacked). The hero title is now "Two ways to work. One project context." (owner-supplied). This replaced the earlier wireframe and sand `MobiusStrip.tsx`, which is deleted.
+  - Owner decisions that differ from the spec (2026-11-09): on the page the grains use the theme's text colour (white in dark, near-black in light) instead of sand, to keep the site monochrome. The canvas is transparent instead of filled black, and uses normal blending for dark grains, so it works in the light theme.
+  - Changed from the spec on purpose: the projection scale is 0.29 × the shorter side, not 0.36. With perspective the near side reaches 1.56 radii from the centre, so 0.36 clipped the strip at the canvas edge.
+  - Checked in headless Chrome: about 16.6ms per frame at 9,000 grains, flat JS heap over 30s, an unchanging frame under reduced motion, no console errors, and no sideways scroll at 375px.
+- **Private and Arena:** each is a pinned accordion beside the mode's video, built like the home page's "The Solution" (scroll picks the row, a click scrolls to it, rows auto-advance when unpinned, nothing auto-advances under reduced motion, and the keyboard follows the WAI-ARIA accordion pattern). A caption under the video shows the active row and an `01 / 05` counter. Private has its video on the left and Arena is mirrored. The blurred background and frosted frame around each video were then removed, so each video shows full size: a plain 16:9 screen with a hairline border, in a wider 60/40 column (owner request, 2026-11-09). A bright white light then travels continuously around each screen's edge, about once every 6 seconds (owner request, 2026-11-09). It's a short, bright rotating conic-gradient comet (about 20° of arc) masked to a 2px band just inside the border, with a tight 4px glow (made narrower and brighter at the owner's request), and sits on the dark screen so it shows in both themes. It holds still under reduced motion. It's white, so it stays within the monochrome palette. The light then moved into a shared `edge-light` utility in `globals.css`, and the home page product video got it too (owner request, 2026-11-09). `--edge-light-arc` sets the streak length: 22° by default and 12° on the larger home window, so the light looks the same size on both. That's about 706px wide at 1280px and up, and it fits the pinned screen at 1280x720. The `#private` and `#arena` anchors still work.
+- **One loop. People in charge.** "How they connect" and "People stay in charge" were then merged into one screen-tall section (`WorkLoop.tsx`), at the owner's request (2026-11-09). A dark panel, like the video screens and with the same moving edge light, shows the loop: Arena "Plan together" → Private "Execute with AI" → Arena "Move forward as a team". White light pulses run along the connectors in turn, then back along a "Status and deliverables sync back to Arena" return path. The four guardrails (approval, permissions, private by default, visible status and a record) sit along the bottom with shorter lines. The section fits one screen at 1440x900 and 1280x720. On phones the steps stack with arrows. Pulses stop under reduced motion. `ConnectFlow.tsx` and `Oversight.tsx` are deleted, and the copy is now `PRODUCT_PAGE.loop`.
+- **What it's designed to do:** the feature grid is restyled as two bordered panels with hairline rows.
+- The old x.ai/grok-style `ModeShowcase` and `PreviewWindow` are deleted.
+
+### Files changed
+- `src/app/product/page.tsx`, `src/content/product-modes.ts`, `src/components/product/FeatureGrid.tsx`, `src/components/product/modes.ts`, `src/app/globals.css` (`edge-light`), `src/components/home/Hero.tsx` (edge light on the home video)
+- New: `src/components/hero/mobius-sand.tsx`, `src/components/product/ModeStory.tsx`, `ModeCard.tsx`, `WorkLoop.tsx`, `product.css`
+- Deleted: `src/components/product/ModeShowcase.tsx`, `PreviewWindow.tsx` (and the interim `ConnectFlow.tsx`, `Oversight.tsx`, `MobiusStrip.tsx`)
+
+### Env vars and migrations
+- None.
+
+### Verified
+- Lint, type-check and production build pass, and `/product` is prerendered as static.
+- In Chrome at 1440x900, in the dark and light themes: both modes pin, and the open row follows scroll.
+- Using DevTools emulation at 320, 375, 768 and 1024px, there is no horizontal overflow.
+
+- **No "coming soon" on the Product page** (owner decision, 2026-11-09). The hero's "Desktop apps are coming soon" pill and the "Both (are) coming soon" endings of the hero and feature-grid subtitles were removed. This overrides, for this page only, the CLAUDE.md rule that products are marked coming soon. The rest of the site keeps its wording.
+
+### Still open
+- **Draft copy awaiting the owner's review** (marked `// Draft.` in `src/content/product-modes.ts`): the hero subtitle, "See how it works", the accordion row lines, and all of the work loop section (title "One loop. People in charge.", subtitle, step lines, "sync back" label and the shortened guardrail lines).
+- Not checked by hand: Safari, real touch devices, and the reduced-motion setting.
+
+## Change after Phase 11: Responsive blog (phones, tablets, desktop)
+
+### Asked for
+- Make the blog section responsive on mobile and desktop (owner request, 2026-11-06).
+
+### Done
+- Fixed: on phones the post body was 658px wide and ran off the screen. The 40rem table minimum stretched the post grid, because grid items don't shrink below their content. The grid now uses `minmax(0,1fr)` and the article has `min-w-0`, so the table scrolls inside its own box.
+- Tables: smaller text and a 36rem minimum on phones. The first column (row labels) stays pinned while the table scrolls sideways.
+- Phones and tablets get a collapsible "On this page" box above the article (`MobileTableOfContents` in `TableOfContents.tsx`), with the same current-section highlight. It closes when a section is picked. Desktop keeps the sticky side list.
+- The post title scales down further on small phones (`clamp(1.5rem,7.5vw,4rem)`), so "One Recipe, Many Agents" fits on one line at 320px.
+- `/blog`: the featured card (and the empty state) sit side by side only from 1024px; on tablets they stack, instead of squeezing the text column. The card grid uses two equal columns on tablets and the 7/5 split on desktop.
+- Checked with Chrome device emulation at 320, 375, 768, 1024 and 1440px: no sideways page scrolling at any width.
+
+### Files changed
+- `src/app/blog/[slug]/page.tsx`, `src/app/blog/page.tsx`, `src/components/blog/PostCard.tsx`, `src/components/blog/BlogTagFilter.tsx`, `src/components/blog/TableOfContents.tsx`, `src/mdx-components.tsx`, `PROGRESS.md`
 
 ## Change after Phase 11: Real footer contact links
 
