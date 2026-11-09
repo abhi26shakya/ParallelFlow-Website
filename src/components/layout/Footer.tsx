@@ -1,16 +1,19 @@
 import { Mail } from "lucide-react";
+import { cacheLife } from "next/cache";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { WaitlistButton } from "@/components/waitlist/WaitlistButton";
 import { PRODUCTS, type ProductSlug } from "@/content/products";
+import { getAllPosts } from "@/lib/blog";
 import { SITE_NAME, SITE_TAGLINE, SOCIAL_LINKS } from "@/lib/site";
 import { CopyrightYear } from "./CopyrightYear";
 import { ThemeToggle } from "./ThemeToggle";
 
 // Footer links. List only pages that exist, keep a column only once it has at
-// least two links, and show at most three columns. Company and Legal come back
-// once their pages exist.
+// least two links, and show at most three columns. Product and Blog (built
+// from the posts, below) for now; Company and Legal come back once their
+// pages exist.
 type FooterLinkItem = { label: string; href: string };
 type FooterColumn = { label: string; items: FooterLinkItem[] };
 
@@ -62,6 +65,49 @@ const heading = "font-mono text-xs uppercase tracking-widest text-muted";
 // beat behind the first: people and agents moving together.
 const underline =
   "pointer-events-none absolute inset-x-0 h-px origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100";
+
+// How many of the newest posts the Blog column lists under "All posts".
+const FOOTER_POSTS = 3;
+
+function FooterColumnNav({ column }: { column: FooterColumn }) {
+  return (
+    <nav aria-label={column.label}>
+      <h2 className={heading}>{column.label}</h2>
+      <ul className="mt-4">
+        {column.items.map((item) => (
+          <li key={item.href}>
+            <FooterLink item={item} />
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
+
+// The Blog column (owner request, 2026-11-09): "All posts", then the newest
+// posts by their short titles, so it updates itself as posts are published.
+// Cached, because the posts are loaded in the shared layout and Cache
+// Components needs that inside a cache scope (as CopyrightYear does).
+async function BlogFooterColumn() {
+  "use cache";
+  // Posts only change with a deploy, so "days" (as CopyrightYear) keeps
+  // every page's revalidate time where it was.
+  cacheLife("days");
+  const posts = await getAllPosts();
+  return (
+    <FooterColumnNav
+      column={{
+        label: "Blog",
+        items: [
+          { label: "All posts", href: "/blog" },
+          ...posts
+            .slice(0, FOOTER_POSTS)
+            .map((post) => ({ label: post.title, href: `/blog/${post.slug}` })),
+        ],
+      }}
+    />
+  );
+}
 
 function FooterLink({ item }: { item: FooterLinkItem }) {
   return (
@@ -118,19 +164,11 @@ export function Footer() {
             </ul>
           </div>
 
-          <div className="flex gap-12">
+          <div className="flex gap-12 sm:gap-16">
             {FOOTER_COLUMNS.map((column) => (
-              <nav key={column.label} aria-label={column.label}>
-                <h2 className={heading}>{column.label}</h2>
-                <ul className="mt-4">
-                  {column.items.map((item) => (
-                    <li key={item.label}>
-                      <FooterLink item={item} />
-                    </li>
-                  ))}
-                </ul>
-              </nav>
+              <FooterColumnNav key={column.label} column={column} />
             ))}
+            <BlogFooterColumn />
           </div>
         </div>
       </div>
