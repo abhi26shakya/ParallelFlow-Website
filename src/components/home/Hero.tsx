@@ -17,7 +17,7 @@ export function Hero() {
     <section className="relative isolate mx-auto min-h-[calc(100svh-var(--navbar-height))] max-w-7xl px-4 py-16 text-center sm:px-6 sm:py-24">
       <HeroGalaxy />
       <div data-hero-copy className={`relative z-10 ${fadeIn}`}>
-        <p className="neon-ring neon-ring-on inline-flex rounded-pill border border-line px-3 py-1 text-xs font-medium text-muted [--neon-ring-inset:1px] [--neon-ring-opacity:0.45]">
+        <p className="neon-ring neon-ring-on inline-flex rounded-pill border border-line bg-background px-3 py-1 text-xs font-medium text-muted [--neon-ring-inset:1px] [--neon-ring-opacity:0.45]">
           {HERO.status}
         </p>
         <h1 className="mx-auto mt-6 max-w-[18ch] text-4xl font-bold tracking-tighter text-balance sm:text-6xl lg:text-7xl">
@@ -32,7 +32,7 @@ export function Hero() {
             href={TALK_TO_US_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className={buttonClass("secondary", "w-full gap-2 sm:w-auto")}
+            className={buttonClass("secondary", "w-full gap-2 bg-background sm:w-auto")}
           >
             <MessageCircle aria-hidden="true" className="size-4" />
             Talk to us

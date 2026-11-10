@@ -22,11 +22,12 @@
   --pf-mode-border: var(--color-line);
   --pf-mode-title: var(--color-muted);
   --pf-mode-text: var(--color-muted);
+  /* Follows the light theme's tokens (was #ffffff / #f1f2f4). */
   --pf-mode-active-bg: linear-gradient(
     90deg,
-    #ffffff,
-    #f1f2f4 60%,
-    #ffffff
+    var(--color-background),
+    var(--color-card) 60%,
+    var(--color-background)
   );
   --pf-mode-highlight: rgb(0 0 0 / 0.04);
 }
