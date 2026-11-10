@@ -29,9 +29,6 @@ export function WorkLoop() {
               {loop.title}
             </h2>
           </div>
-          <p className="mt-4 max-w-[44ch] text-base text-pretty text-muted sm:text-lg lg:mt-0 lg:pb-1">
-            {loop.subtitle}
-          </p>
         </div>
 
         <div className="pf-loop edge-light mt-8 p-5 sm:p-8 lg:mt-8">

@@ -15,7 +15,6 @@ export function FeatureGrid({ modes }: { modes: ProductMode[] }) {
         >
           {PRODUCT_PAGE.grid.title}
         </h2>
-        <p className="mt-4 text-lg text-muted">{PRODUCT_PAGE.grid.subtitle}</p>
         <div className="mt-12 grid gap-4 md:grid-cols-2">
           {modes.map((mode) => {
             const product = PRODUCTS.find((p) => p.slug === mode.slug)!;
@@ -29,8 +28,6 @@ export function FeatureGrid({ modes }: { modes: ProductMode[] }) {
                 <h3 className="flex items-center gap-2.5 border-b border-line px-6 py-4 font-mono text-xs uppercase tracking-widest text-muted sm:px-8">
                   <ModeIcon aria-hidden="true" strokeWidth={1.5} className="size-4" />
                   <span className="text-foreground">{product.name}</span>
-                  <span aria-hidden="true">·</span>
-                  {product.role}
                 </h3>
                 <ul className="divide-y divide-line">
                   {mode.features.map((feature, index) => {

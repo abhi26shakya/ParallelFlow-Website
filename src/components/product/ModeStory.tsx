@@ -16,7 +16,7 @@ import {
 } from "react";
 import type { ModeRow, ProductMode } from "@/content/product-modes";
 import type { Product } from "@/content/products";
-import { MODE_ICON, MODE_ICONS } from "./modes";
+import { MODE_ICONS } from "./modes";
 import { ModeCard } from "./ModeCard";
 import "./product.css";
 
@@ -156,7 +156,6 @@ export function ModeStory({
     Math.min(count - 1, Math.max(0, Math.floor(value * count)));
   const rowId = (index: number) => `${mode.slug}-row-${index + 1}`;
   const titleId = `${mode.slug}-title`;
-  const Icon = MODE_ICON[mode.slug];
   const rowIcons = MODE_ICONS[mode.slug];
 
   const pinned = useMedia(PIN_QUERY);
@@ -267,13 +266,12 @@ export function ModeStory({
                 cardLeft ? "pin:col-start-2" : "pin:col-start-1"
               }`}
             >
-              <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-muted">
-                <Icon aria-hidden="true" strokeWidth={1.5} className="size-4" />
-                {product.role}
-              </p>
+              {/* The eyebrow ("Execute the work", "Coordinate the team") was
+                  removed at the owner's request (2026-11-10); the one-line
+                  description under the name was kept. */}
               <h2
                 id={titleId}
-                className="mt-4 text-[clamp(44px,5vw,72px)] font-light leading-[1.05] tracking-[-0.02em] pin:mt-[min(12px,1.5svh)] pin:text-[min(clamp(44px,5vw,72px),6.5svh)]"
+                className="text-[clamp(44px,5vw,72px)] font-light leading-[1.05] tracking-[-0.02em] pin:text-[min(clamp(44px,5vw,72px),6.5svh)]"
               >
                 {product.name}
               </h2>

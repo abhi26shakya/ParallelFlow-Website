@@ -145,8 +145,6 @@ export const PRODUCT_PAGE = {
   loop: {
     eyebrow: "How it works",
     title: "One loop. People in charge.",
-    subtitle:
-      "Arena decides what needs to happen. Private is where it gets done. People approve what matters.",
     steps: [
       {
         label: "Arena",
@@ -188,7 +186,5 @@ export const PRODUCT_PAGE = {
   grid: {
     // Earlier approved section label.
     title: "What it's designed to do",
-    // Draft.
-    subtitle: "Across Private and Arena.",
   },
 };
