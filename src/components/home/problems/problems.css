@@ -21,12 +21,11 @@
   --pf-problems-border: var(--color-line);
   --pf-problems-title: var(--color-muted);
   --pf-problems-text: var(--color-muted);
-  /* Follows the light theme's tokens (was #ffffff / #f1f2f4). */
   --pf-problems-active-bg: linear-gradient(
     90deg,
-    var(--color-background),
-    var(--color-card) 60%,
-    var(--color-background)
+    #ffffff,
+    #f1f2f4 60%,
+    #ffffff
   );
   --pf-problems-highlight: rgb(0 0 0 / 0.04);
 }

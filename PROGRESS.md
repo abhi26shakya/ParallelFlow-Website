@@ -2,7 +2,22 @@
 
 Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge. Developer Space was then removed from the site, and the Product page lost its "How it connects" cards and closing waitlist band. The hero beams then appeared in the light theme too, inverted to dark grey. The home page's "Who it's for" grid was then replaced by a rotating "Built for [role]" section. The animated dotted backgrounds of the Problems and Solution cards were then replaced by a plain blurred background that follows the theme, and their inner screens grew. The hero's preview slot then got the real product video in its own section below the hero, the hero was made to fill the first screen with its copy at the top centre, and the hero beams were removed. The hero then got an animated particle galaxy behind its copy. A team blog was then added: a Blog navbar link, an editorial `/blog` index and post pages, with posts written as MDX files in the repo. The home video's "Product preview" badge was then removed. The Product page's Arena and Private preview windows then got their real videos. A pre-deployment audit (2026-10-31) followed, and its first fixes added security headers and gave unknown blog slugs a real 404. The blog was then made responsive, and the Product page was redesigned to match the home page, with new draft copy.
 
-## Change after Phase 11: Cream light mode
+## Change after Phase 11: Light mode back to white
+
+### Asked for
+- Change the yellow (cream) light mode back to the white light mode (owner request, 2026-11-12).
+
+### Done
+- Undid the code changes of the cream commit (`e78b4a5`), so the light theme is exactly as it was before 2026-11-10. Dark mode is unchanged.
+- `src/app/globals.css`: light tokens are white again. Background `#ffffff`, card `#f4f4f4`, hover `#e8e8e8`, line `#dcdcdc`, text `#0a0a0a`, muted `#555555`, field `#858585`, accent `#1f7a4d`.
+- `problems.css`, `solution.css`, `product.css`: accordion highlights are back to the fixed `#ffffff` / `#f1f2f4` gradient.
+- `HeroGalaxy.tsx`: the light-theme galaxy is back to its neutral grey grains, original size, strength and text clearing.
+- `Hero.tsx`: the badge and "Talk to us" button lost the solid background added for cream.
+
+### Needed
+- No migrations or env vars.
+
+## Change after Phase 11: Cream light mode (undone 2026-11-12)
 
 ### Asked for
 - Use a cream colour instead of pure white for the light mode, a little yellowish (owner request, 2026-11-10). Then make the home galaxy more visible in cream mode, and keep the hero text readable over it.

@@ -97,39 +97,26 @@ const VS_SOURCE = `
     px += d / max(dist, 1.0) * push;
 
     gl_Position = vec4(px / u_res * 2.0 - 1.0, 0.0, 1.0) * vec4(1.0, -1.0, 1.0, 1.0);
-    // A touch larger in the light (cream) theme, where dark grains on a pale
-    // ground read smaller than light grains on black.
-    gl_PointSize = max(1.0, a_look.x * u_dpr * persp * mix(1.0, 1.15, u_light));
+    gl_PointSize = max(1.0, a_look.x * u_dpr * persp);
 
     // Brightness: per-grain, a slow twinkle, the radial falloff, and dimmer
     // inside the copy so the heading stays the focal point.
     float twinkle = 1.0 + 0.16 * sin(u_time * (0.5 + phase * 1.1) + phase * 40.0);
     float radial = 1.0 - smoothstep(0.62, 1.12, r);
     vec2 q = (px - u_text.xy) / max(u_text.zw, vec2(1.0));
-    // In the light (cream) theme the darker grains would cross the copy, so
-    // the clearing there is deeper and a little wider (owner request,
-    // 2026-11-10): grains fade to 6% over the text instead of 28%.
-    float textDim = mix(
-      mix(0.28, 0.06, u_light),
-      1.0,
-      smoothstep(mix(0.55, 0.7, u_light), mix(1.25, 1.5, u_light), length(q))
-    );
+    float textDim = mix(0.28, 1.0, smoothstep(0.55, 1.25, length(q)));
     vec2 e = (px - u_res * 0.5) / (u_res * 0.5);
     float edge = 1.0 - smoothstep(0.72, 1.0, length(e));
     float b = a_look.y;
-    // The light (cream) theme draws about a third stronger, so the galaxy
-    // reads as clearly as on black (owner request, 2026-11-10).
-    v_alpha = clamp(clamp(b * 2.0 * twinkle, 0.0, 1.0) * radial * fade * textDim * edge
-      * mix(1.0, 1.35, u_light), 0.0, 1.0) * u_opacity;
+    v_alpha = clamp(b * 2.0 * twinkle, 0.0, 1.0) * radial * fade * textDim * edge * u_opacity
+      * mix(1.0, 0.95, u_light);
 
     // Dark theme: graphite to silver to soft white, with rare warm grains.
     vec3 dark = mix(vec3(0.34), vec3(0.7), smoothstep(0.15, 0.6, b));
     dark = mix(dark, vec3(0.86), smoothstep(0.7, 1.0, b));
     dark = mix(dark, vec3(0.9, 0.87, 0.81), step(0.97, a_look.w) * step(0.45, b));
-    // Light theme: the brighter the grain, the darker it is. A warm graphite
-    // that sits on the cream background, darker than before (was 0.48 to
-    // 0.1 grey) so the fainter grains don't fade into the page.
-    vec3 light = mix(vec3(0.30, 0.27, 0.22), vec3(0.07, 0.06, 0.05), smoothstep(0.15, 0.9, b));
+    // Light theme: the brighter the grain, the darker the graphite.
+    vec3 light = mix(vec3(0.48), vec3(0.1), smoothstep(0.15, 0.9, b));
     v_color = mix(dark, light, u_light);
   }
 `;

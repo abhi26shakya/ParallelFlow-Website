@@ -106,26 +106,23 @@
     0 0 20px 2px rgb(255 255 255 / 0.12);
 }
 
-/* Light theme: a warm cream instead of pure white (owner decision,
-   2026-11-10). Set on <html> before first paint by the inline script in
-   layout.tsx and switched by ThemeToggle. Same monochrome system, inverted,
-   with every token warmed to match. The previous white values are noted
-   beside each token. All pass WCAG AA. */
+/* Light theme. Set on <html> before first paint by the inline script in
+   layout.tsx and switched by ThemeToggle. Same monochrome system, inverted. */
 :root[data-theme="light"] {
   color-scheme: light;
-  --color-background: #f5edd6; /* was #ffffff */
-  --color-card: #ede3c8; /* was #f4f4f4 */
-  --color-hover: #e4d9bb; /* was #e8e8e8 */
-  --color-foreground: #1c1a14; /* was #0a0a0a; 14.9:1 on cream */
-  /* 6.6:1 on cream, 6:1 on cards (was #555555). */
-  --color-muted: #5b5240;
-  --color-line: #dcd0b2; /* was #dcdcdc */
-  /* 3.1:1 on cards (was #858585). */
-  --color-field: #8a7f66;
+  --color-background: #ffffff;
+  --color-card: #f4f4f4;
+  --color-hover: #e8e8e8;
+  --color-foreground: #0a0a0a;
+  /* 7:1 on white, 6.4:1 on cards. */
+  --color-muted: #555555;
+  --color-line: #dcdcdc;
+  /* 3.3:1 on cards. */
+  --color-field: #858585;
   --color-scrim: rgb(0 0 0 / 0.4);
   --color-status: #16a34a;
-  /* 5.4:1 on cream, 4.9:1 on cards (was #1f7a4d, 4.2:1 on cream cards). */
-  --color-accent: #1a6e45;
+  /* 5.3:1 on white, 4.9:1 on cards. */
+  --color-accent: #1f7a4d;
   --color-agent-model: #1d5fb8;
   --color-agent-tools: #946000;
   --color-agent-env: #1f7a4d;
