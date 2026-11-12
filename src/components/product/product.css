@@ -1,9 +1,8 @@
-/* The Product page's screens and work loop, imported by TourSection.tsx
-   and WorkLoop.tsx. */
+/* The Product page's screens and work loop, imported by
+   PinnedTourSection.tsx and WorkLoop.tsx. */
 
-/* A tour section's 16:9 screen: a video or an empty frame waiting for
-   footage. Dark in both themes, like a device screen. Never taller than the
-   space under the navbar and sub-navigation: on short screens it narrows and
+/* Private's and Arena's 16:9 video screen. Dark in both themes, like a device screen. Never taller than the
+   space under the navbar: on short screens it narrows and
    centres (at least 320px wide). */
 .pf-screen {
   position: relative;
@@ -12,7 +11,7 @@
   width: 100%;
   max-width: max(
     320px,
-    calc((100svh - var(--navbar-height) - var(--subnav-height) - 4rem) * 16 / 9)
+    calc((100svh - var(--navbar-height) - 4rem) * 16 / 9)
   );
   margin-inline: auto;
   border: 1px solid var(--color-line);
@@ -20,6 +19,190 @@
   overflow: hidden;
   background: #050506;
 }
+
+/* Pinned accordion sections (PinnedTourSection.tsx), copied from the home
+   page's "The Solution" (../home/solution/solution.css) with classes renamed
+   to pf-mode-, so the Product page matches the home page but shares no
+   selectors with it. */
+
+.pf-mode-root {
+  --pf-mode-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --pf-mode-border: #262626;
+  --pf-mode-title: #bdbdbd;
+  --pf-mode-text: #9a9a9a;
+  --pf-mode-active-bg: linear-gradient(
+    90deg,
+    #0b0c0f,
+    #16181c 60%,
+    #0b0c0f
+  );
+  --pf-mode-highlight: rgb(255 255 255 / 0.04);
+}
+
+[data-theme="light"] .pf-mode-root {
+  --pf-mode-border: var(--color-line);
+  --pf-mode-title: var(--color-muted);
+  --pf-mode-text: var(--color-muted);
+  --pf-mode-active-bg: linear-gradient(
+    90deg,
+    #ffffff,
+    #f1f2f4 60%,
+    #ffffff
+  );
+  --pf-mode-highlight: rgb(0 0 0 / 0.04);
+}
+
+.pf-mode-subtitle {
+  color: var(--pf-mode-text);
+}
+
+/* Accordion */
+
+.pf-mode-list {
+  border: 1px solid var(--pf-mode-border);
+}
+
+.pf-mode-row {
+  position: relative;
+}
+
+.pf-mode-row + .pf-mode-row {
+  border-top: 1px solid var(--pf-mode-border);
+}
+
+.pf-mode-row[data-active="true"] {
+  background: var(--pf-mode-active-bg);
+  box-shadow: inset 0 1px 0 var(--pf-mode-highlight);
+}
+
+.pf-mode-title {
+  color: var(--pf-mode-title);
+  font-weight: 400;
+  transition: color 400ms var(--pf-mode-ease);
+}
+
+.pf-mode-row[data-active="true"] .pf-mode-title {
+  color: var(--color-foreground);
+  font-weight: 500;
+}
+
+/* A thin "+" that becomes "–" by flattening its vertical stroke. */
+.pf-mode-icon {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--pf-mode-title);
+}
+
+.pf-mode-icon::before,
+.pf-mode-icon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  background: currentColor;
+  transition: transform 400ms var(--pf-mode-ease);
+}
+
+.pf-mode-icon::before {
+  width: 100%;
+  height: 1px;
+}
+
+.pf-mode-icon::after {
+  width: 1px;
+  height: 100%;
+}
+
+.pf-mode-row[data-active="true"] .pf-mode-icon {
+  color: var(--color-foreground);
+}
+
+.pf-mode-row[data-active="true"] .pf-mode-icon::after {
+  transform: scaleY(0);
+}
+
+/* Expands without measuring: the grid row grows from 0fr to 1fr. */
+.pf-mode-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 400ms var(--pf-mode-ease),
+    opacity 400ms var(--pf-mode-ease);
+}
+
+.pf-mode-panel[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.pf-mode-panel > div {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.pf-mode-text {
+  color: var(--pf-mode-text);
+}
+
+.pf-mode-progress {
+  position: absolute;
+  inset-inline: 0;
+  bottom: -1px;
+  height: 1px;
+  transform-origin: left;
+  background: var(--color-foreground);
+}
+
+/* Auto-advance: the line fills over 6s and its animationend moves to the
+   next row, so pausing the animation pauses the advance too. */
+@keyframes pf-mode-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.pf-mode-progress-auto {
+  animation: pf-mode-fill 6s linear both;
+}
+
+.pf-mode-root[data-paused="true"] .pf-mode-progress-auto,
+.pf-mode-list:focus-within .pf-mode-progress-auto {
+  animation-play-state: paused;
+}
+
+@media (hover: hover) {
+  .pf-mode-list:hover .pf-mode-progress-auto {
+    animation-play-state: paused;
+  }
+}
+
+/* A pinned section's screen and caption together: never taller than the
+   space under the navbar, with room for the caption. */
+.pf-screen-fit {
+  width: 100%;
+  max-width: max(
+    320px,
+    calc((100svh - var(--navbar-height) - 7rem) * 16 / 9)
+  );
+  margin-inline: auto;
+}
+
+/* Below the screen: the active row's icon and title, and the counter. */
+.pf-mode-caption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
 
 /* The work loop panel (WorkLoop.tsx): one dark screen, like the video
    windows, in both themes. */

@@ -1,28 +1,25 @@
 // Product page copy, in page order. Rewritten 2026-11-12 from the owner's
-// product page plan: a tour of the real product, where each section pairs
-// its copy with a screen. Plain present tense on this page (owner decision,
-// 2026-11-12); anything not built yet appears only under "Coming soon".
+// product page plan: a tour of the real product. Private and Arena pair
+// their copy with a video; Push, Stages and Roles share one text-only
+// section (owner request, 2026-11-12). Plain present tense on this page (owner decision,
+// 2026-11-12). Unbuilt features are left out.
 // Change wording only with the owner's approval.
 
 import type { ProductSlug } from "./products";
 
 export type SectionId = ProductSlug | "push" | "stages" | "roles" | "trust";
 
-// A section's visual: a looping product video, or an empty 16:9 frame that
-// waits for footage from the live app (owner choice, 2026-11-12).
-export type SectionMedia =
-  | { kind: "video"; src: string; label: string }
-  | { kind: "slot"; label: string };
-
-export type TourSectionContent = {
+export type WorkflowItem = {
   id: SectionId;
-  // The label in the sticky sub-navigation.
-  nav: string;
   eyebrow: string;
   title: string;
-  body?: string;
-  bullets?: { title: string; body: string }[];
-  media: SectionMedia;
+  body: string;
+};
+
+// Private and Arena: a pinned accordion of features beside a looping video.
+export type TourSectionContent = WorkflowItem & {
+  bullets: { title: string; body: string }[];
+  video: { src: string; label: string };
 };
 
 export const CTA_LABEL = "Join the waitlist";
@@ -66,7 +63,6 @@ export const PRODUCT_PAGE = {
 export const TOUR_SECTIONS: TourSectionContent[] = [
   {
     id: "private",
-    nav: "Private",
     eyebrow: "Private",
     title: "Think before you share.",
     body: "Your own AI workspace.",
@@ -92,23 +88,13 @@ export const TOUR_SECTIONS: TourSectionContent[] = [
         body: "A chat can draw on one arena's context, and that context never mixes with another arena's.",
       },
     ],
-    media: {
-      kind: "video",
+    video: {
       src: "/videos/private.mp4",
       label: "Private: the AI drafting a file",
     },
   },
   {
-    id: "push",
-    nav: "Push",
-    eyebrow: "Push to Arena",
-    title: "Share the result, not the mess.",
-    body: "When a draft is ready, push it to the Arena. Your team gets a copy of the file. Your chat history stays yours.",
-    media: { kind: "slot", label: "Push to Arena" },
-  },
-  {
     id: "arena",
-    nav: "Arena",
     eyebrow: "Arena",
     title: "Your team and AI, in one conversation.",
     body: "One shared room per project.",
@@ -130,39 +116,43 @@ export const TOUR_SECTIONS: TourSectionContent[] = [
         body: "Projects never leak into each other.",
       },
     ],
-    media: {
-      kind: "video",
+    video: {
       src: "/videos/arena.mp4",
       label: "Arena: @AI replying to the team",
     },
   },
+];
+
+// Push, Stages and Roles, side by side in one section after Arena.
+export const WORKFLOW: WorkflowItem[] = [
+  {
+    id: "push",
+    eyebrow: "Push to Arena",
+    title: "Share the result, not the mess.",
+    body: "When a draft is ready, push it to the Arena. Your team gets a copy of the file. Your chat history stays yours.",
+  },
   {
     id: "stages",
-    nav: "Stages",
     eyebrow: "Stage gates",
     title: "Nothing moves until a human says so.",
     body: "Every project runs in stages (Plan → Build → Test → Ship). The AI does the work; a teammate reviews the approval card and approves. Every approval updates PROGRESS.md and STATE.md, so anyone can see where the project is and how it got there.",
-    media: { kind: "slot", label: "Stage strip and approval card" },
   },
   {
     id: "roles",
-    nav: "Roles",
     eyebrow: "Custom roles",
     title: "Your team, your roles.",
     body: "Start from a template or define roles like Frontend, Backend, QA or PM. Roles decide who approves which stage, so permissions follow responsibility, not job titles.",
-    media: { kind: "slot", label: "Roles and templates" },
   },
 ];
 
 export const TRUST = {
   id: "trust" as const,
-  nav: "Trust",
   eyebrow: "Guardrails",
   title: "AI does the work. Humans close the loop.",
   items: [
     {
       title: "AI can't approve",
-      body: "AI work can reach \"in review\", never \"done\". People approve gates.",
+      body: 'AI work can reach "in review", never "done". People approve gates.',
     },
     {
       title: "Arenas are isolated",
@@ -178,53 +168,3 @@ export const TRUST = {
     },
   ],
 };
-
-export const COMING_SOON = {
-  title: "Coming soon",
-  items: [
-    {
-      title: "Developer mode",
-      body: "Run coding agents from your editor, connected to your Arena.",
-    },
-    {
-      title: "Autonomous runs",
-      body: "Let the AI run within the permissions you grant.",
-    },
-    {
-      title: "Tool connections (MCP)",
-      body: "Connect tools to each project.",
-    },
-  ],
-};
-
-export const FAQ = {
-  title: "Questions",
-  items: [
-    {
-      q: "Is this a chat app or a project tool?",
-      a: "Both: chat is where the work happens, and stages are how it moves forward.",
-    },
-    {
-      q: "What does the AI know?",
-      a: "In an Arena, only that Arena's messages and files. In Private, only your own chats and whatever you link.",
-    },
-    {
-      q: "Does it replace my coding tools?",
-      a: "No. Keep Cursor or Claude Code; ParallelFlow is where the team's work meets.",
-    },
-    {
-      q: "Which models?",
-      a: "Leading models via OpenRouter.",
-    },
-  ],
-};
-
-export const FINAL_CTA = {
-  title: "See the whole loop for yourself.",
-};
-
-// The sticky sub-navigation, in page order.
-export const SUBNAV = [
-  ...TOUR_SECTIONS.map(({ id, nav }) => ({ id, label: nav })),
-  { id: TRUST.id, label: TRUST.nav },
-];

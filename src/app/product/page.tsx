@@ -2,22 +2,13 @@ import { ChevronRight } from "lucide-react";
 import type { Metadata } from "next";
 import { SandLogo } from "@/components/hero/sand-logo";
 import { DemoVideoButton } from "@/components/product/DemoVideoButton";
-import {
-  ComingSoon,
-  FinalCta,
-  ProductFaq,
-  TrustSection,
-} from "@/components/product/ProductClosing";
-import { ProductSubnav } from "@/components/product/ProductSubnav";
-import { TourScreen, TourSection } from "@/components/product/TourSection";
+import { TrustSection } from "@/components/product/TrustSection";
+import { PinnedTourSection } from "@/components/product/PinnedTourSection";
+import { WorkflowSection } from "@/components/product/WorkflowSection";
 import { WorkLoop } from "@/components/product/WorkLoop";
 import { WaitlistButton } from "@/components/waitlist/WaitlistButton";
 import { VALUE_PROPOSITION } from "@/content/home";
-import {
-  CTA_LABEL,
-  PRODUCT_PAGE,
-  TOUR_SECTIONS,
-} from "@/content/product-page";
+import { CTA_LABEL, PRODUCT_PAGE, TOUR_SECTIONS } from "@/content/product-page";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -31,10 +22,12 @@ const fadeIn =
   "motion-safe:transition-[opacity,translate] motion-safe:duration-700 motion-safe:ease-out motion-safe:starting:translate-y-2 motion-safe:starting:opacity-0";
 
 // The Product page, rewritten 2026-11-12 from the owner's plan as a tour of
-// the real product: the hero beside sand that settles into the logo cube, a
-// sticky sub-navigation, the loop, then one section per step (Private, Push,
-// Arena, Stages, Roles), each pairing copy with its screen and alternating
-// sides, then the guardrails, the roadmap, the FAQ and a closing CTA.
+// the real product: the hero beside sand that settles into the logo cube,
+// the loop, Private and Arena as pinned accordions beside their videos (like
+// the home page's "The Solution"), mirrored, Push, Stages and Roles together
+// as text, then the guardrails. The Coming soon, FAQ and closing CTA
+// sections and the sticky sub-navigation were removed (owner requests,
+// 2026-11-12).
 export default function ProductPage() {
   const { hero } = PRODUCT_PAGE;
   return (
@@ -91,22 +84,16 @@ export default function ProductPage() {
         </section>
       </div>
 
-      <ProductSubnav />
       <WorkLoop />
       {TOUR_SECTIONS.map((section, index) => (
-        <TourSection
+        <PinnedTourSection
           key={section.id}
           section={section}
-          side={index % 2 === 0 ? "left" : "right"}
-          large={section.id === "roles"}
-        >
-          <TourScreen media={section.media} />
-        </TourSection>
+          side={index % 2 === 0 ? "right" : "left"}
+        />
       ))}
+      <WorkflowSection />
       <TrustSection />
-      <ComingSoon />
-      <ProductFaq />
-      <FinalCta />
     </main>
   );
 }

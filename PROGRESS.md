@@ -15,14 +15,18 @@ Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home 
 
 ### Done
 - `src/content/product-page.ts` (new, replaces `product-modes.ts`): all copy, from the owner's plan.
-- `src/app/product/page.tsx`: hero (new copy, "Join the waitlist", demo button) → sticky sub-nav → loop → Private, Push, Arena, Stages, Roles (largest) → Trust → Coming soon → FAQ → final CTA. `#private` and `#arena` keep working for the navbar and footer.
+- `src/app/product/page.tsx`: hero (new copy, "Join the waitlist", demo button) → sticky sub-nav → loop → Private, Push, Arena, Stages, Roles (largest) → Trust. `#private` and `#arena` keep working for the navbar and footer.
 - New components: `ProductSubnav.tsx`, `TourSection.tsx`, `ProductClosing.tsx` (Trust, Coming soon, FAQ, final CTA), `DemoVideoButton.tsx`. `WorkLoop.tsx` rewritten for four steps numbered 1–4. `product.css` trimmed to the screen and loop styles.
 - Deleted `ModeStory.tsx` (including its uncommitted short-screen fix, now not needed), `ModeCard.tsx`, `FeatureGrid.tsx`, `modes.ts`, `src/content/product-modes.ts`.
 - `globals.css`: `--subnav-height`, and anchors scroll below both bars on the Product page.
+- Then removed the Coming soon, FAQ ("Questions") and closing "See the whole loop for yourself." sections (owner request). The page now ends with Trust. `ProductClosing.tsx` became `TrustSection.tsx`.
+- Then made Private and Arena pinned accordions like the home page's "The Solution" (owner request): `PinnedTourSection.tsx` (adapted from the old `ModeStory.tsx`), with its `pf-mode-*` styles back in `product.css`. Each bullet is a row; scrolling opens them in turn while the screen and heading stay pinned under the navbar and sub-navigation, and the caption under the screen shows the open row and a counter. Push, Stages and Roles have no bullet list, so they stay as single sections. Checked: no sideways scroll at 390x844, 768x1024, 1280x553 and 1440x812.
+- Then removed the empty screens (owner request): Push, Stages and Roles now sit together after Arena as three text cards in `WorkflowSection.tsx`, each keeping its anchor. `TourSection.tsx` was deleted, and Private and Arena are now next to each other and mirrored. Page order: hero, sub-nav, loop, Private, Arena, Push/Stages/Roles, Trust. The sub-nav follows that order.
+- Then removed the sticky sub-navigation strip (owner request): `ProductSubnav.tsx` and `--subnav-height` are gone, and the pinned sections pin right under the navbar again.
 - Checked in Chrome: anchors, sub-nav highlight, demo modal (plays, pauses on close). No sideways scroll at 390x844, 360x640, 768x1024, 1280x553 and 1440x812.
 
 ### Still incomplete
-- Real footage for Push to Arena, the stage strip with approval card, and the roles screen (live app). Drop files in `public/videos/` and switch `media` in `product-page.ts` to `kind: "video"`.
+- Push, Stages and Roles have no visuals, by owner choice. Screenshots or clips from the live app could be added later.
 - Trimmed clips under 3 MB with poster images (ffmpeg isn't installed). The current videos are 34–42 MB.
 - The short loop step descriptions are draft wording, for the owner to review.
 - The navbar, footer and home page still say "Join Waitlist"; the plan's single "Join the waitlist" label for both pages is not applied there yet.

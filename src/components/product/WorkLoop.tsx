@@ -34,11 +34,16 @@ export function WorkLoop() {
                     aria-hidden="true"
                     className="flex items-center justify-center lg:relative"
                   >
-                    <ArrowDown className="size-4 text-[#6b6b70] lg:hidden" strokeWidth={1.5} />
+                    <ArrowDown
+                      className="size-4 text-[#6b6b70] lg:hidden"
+                      strokeWidth={1.5}
+                    />
                     <span
                       className="pf-loop-track hidden lg:block"
                       style={
-                        { "--pf-loop-delay": `${(index - 1) * 1.2}s` } as CSSProperties
+                        {
+                          "--pf-loop-delay": `${(index - 1) * 1.2}s`,
+                        } as CSSProperties
                       }
                     />
                     <ChevronRight
@@ -50,7 +55,10 @@ export function WorkLoop() {
                 <li className="pf-loop-step">
                   <p className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-widest text-[#8a8a8f]">
                     <span className="text-white">{index + 1}</span>
-                    <span aria-hidden="true" className="h-px w-5 bg-[#2e2e33]" />
+                    <span
+                      aria-hidden="true"
+                      className="h-px w-5 bg-[#2e2e33]"
+                    />
                     {step.label}
                   </p>
                   <h3 className="mt-4 text-lg font-medium tracking-tight text-white">
@@ -71,7 +79,11 @@ export function WorkLoop() {
             </div>
             <p className="flex items-center justify-center gap-2 font-mono text-[11px] uppercase tracking-widest text-[#8a8a8f] lg:absolute lg:inset-x-0 lg:bottom-0 lg:translate-y-1/2">
               <span className="flex items-center gap-2 bg-[#050506] px-3">
-                <RotateCcw aria-hidden="true" strokeWidth={1.5} className="size-3.5" />
+                <RotateCcw
+                  aria-hidden="true"
+                  strokeWidth={1.5}
+                  className="size-3.5"
+                />
                 {loop.returnLabel}
               </span>
             </p>
