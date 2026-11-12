@@ -1,13 +1,23 @@
 import { ChevronRight } from "lucide-react";
 import type { Metadata } from "next";
 import { SandLogo } from "@/components/hero/sand-logo";
-import { FeatureGrid } from "@/components/product/FeatureGrid";
-import { ModeStory } from "@/components/product/ModeStory";
+import { DemoVideoButton } from "@/components/product/DemoVideoButton";
+import {
+  ComingSoon,
+  FinalCta,
+  ProductFaq,
+  TrustSection,
+} from "@/components/product/ProductClosing";
+import { ProductSubnav } from "@/components/product/ProductSubnav";
+import { TourScreen, TourSection } from "@/components/product/TourSection";
 import { WorkLoop } from "@/components/product/WorkLoop";
 import { WaitlistButton } from "@/components/waitlist/WaitlistButton";
 import { VALUE_PROPOSITION } from "@/content/home";
-import { PRODUCT_MODES, PRODUCT_PAGE } from "@/content/product-modes";
-import { PRODUCTS } from "@/content/products";
+import {
+  CTA_LABEL,
+  PRODUCT_PAGE,
+  TOUR_SECTIONS,
+} from "@/content/product-page";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -20,12 +30,11 @@ export const metadata: Metadata = pageMetadata({
 const fadeIn =
   "motion-safe:transition-[opacity,translate] motion-safe:duration-700 motion-safe:ease-out motion-safe:starting:translate-y-2 motion-safe:starting:opacity-0";
 
-const productFor = (slug: string) => PRODUCTS.find((p) => p.slug === slug)!;
-
-// The Product page, redesigned 2026-11-08 to match the home page (owner
-// request): a left-aligned hero beside sand that settles into the logo cube, then each mode
-// as a pinned accordion beside its video (Private with the card on the left,
-// Arena mirrored), the work loop with its guardrails, and every feature.
+// The Product page, rewritten 2026-11-12 from the owner's plan as a tour of
+// the real product: the hero beside sand that settles into the logo cube, a
+// sticky sub-navigation, the loop, then one section per step (Private, Push,
+// Arena, Stages, Roles), each pairing copy with its screen and alternating
+// sides, then the guardrails, the roadmap, the FAQ and a closing CTA.
 export default function ProductPage() {
   const { hero } = PRODUCT_PAGE;
   return (
@@ -48,16 +57,17 @@ export default function ProductPage() {
               {/* Back to the big heading, wrapping over four lines on desktop
                   (owner request, 2026-11-09). */}
               <h1 className="max-w-[14ch] text-[clamp(48px,6.5vw,92px)] font-light leading-[1.02] tracking-[-0.03em]">
-                {hero.title.join(" ")}
+                {hero.title}
               </h1>
               <p className="mt-6 max-w-[40ch] text-lg text-pretty text-muted sm:text-xl">
                 {hero.subtitle}
               </p>
               <div className="mt-10 flex flex-wrap items-center gap-3">
                 <WaitlistButton className="h-11 gap-1.5 pl-5 pr-4">
-                  {hero.primaryCta}
+                  {CTA_LABEL}
                   <ChevronRight aria-hidden="true" className="size-4" />
                 </WaitlistButton>
+                <DemoVideoButton label={hero.demo} />
               </div>
             </div>
 
@@ -81,17 +91,22 @@ export default function ProductPage() {
         </section>
       </div>
 
-      {PRODUCT_MODES.map((mode, index) => (
-        <ModeStory
-          key={mode.slug}
-          mode={mode}
-          product={productFor(mode.slug)}
-          side={index % 2 === 0 ? "left" : "right"}
-        />
-      ))}
-
+      <ProductSubnav />
       <WorkLoop />
-      <FeatureGrid modes={PRODUCT_MODES} />
+      {TOUR_SECTIONS.map((section, index) => (
+        <TourSection
+          key={section.id}
+          section={section}
+          side={index % 2 === 0 ? "left" : "right"}
+          large={section.id === "roles"}
+        >
+          <TourScreen media={section.media} />
+        </TourSection>
+      ))}
+      <TrustSection />
+      <ComingSoon />
+      <ProductFaq />
+      <FinalCta />
     </main>
   );
 }

@@ -43,6 +43,7 @@ If two instructions conflict, or something is listed under "Decisions still open
 - **Never publish prices.** The $25/user Teams price and the Enterprise pilot offer are unapproved. The Enterprise CTA is "Join Waitlist". Do not add "Contact Sales".
 - No invented features, integrations, metrics, testimonials, logos, customer counts, "Most Popular" labels, checkout, or billing. Do not mention SSO, compliance, SLAs, or other enterprise guarantees.
 - Describe products as what ParallelFlow is "designed to" or "aims to" do, and mark them coming soon. Avoid "download now", "try it free", and "get started". Label product visuals "Product preview", except the home page product video and the Product page's Arena and Private videos, which have no visible badge (owner decisions, 2026-10-25 and 2026-10-26).
+- Owner exception for `/product` (2026-11-12): it uses plain present tense, not "designed to", and the CTA label "Join the waitlist". Unbuilt features appear only in its "Coming soon" section with a "Soon" label. Copy lives in `src/content/product-page.ts`.
 - No broken or placeholder links. Nav and footer items without a real page are either a non-clickable "Coming soon" label or left out.
 - Reuse the core value proposition word for word: "ParallelFlow brings teams, AI agents, tasks, and project context into a connected workspace to help them plan, build, and ship together."
 

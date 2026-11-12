@@ -2,6 +2,60 @@
 
 Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge. Developer Space was then removed from the site, and the Product page lost its "How it connects" cards and closing waitlist band. The hero beams then appeared in the light theme too, inverted to dark grey. The home page's "Who it's for" grid was then replaced by a rotating "Built for [role]" section. The animated dotted backgrounds of the Problems and Solution cards were then replaced by a plain blurred background that follows the theme, and their inner screens grew. The hero's preview slot then got the real product video in its own section below the hero, the hero was made to fill the first screen with its copy at the top centre, and the hero beams were removed. The hero then got an animated particle galaxy behind its copy. A team blog was then added: a Blog navbar link, an editorial `/blog` index and post pages, with posts written as MDX files in the repo. The home video's "Product preview" badge was then removed. The Product page's Arena and Private preview windows then got their real videos. A pre-deployment audit (2026-10-31) followed, and its first fixes added security headers and gave unknown blog slugs a real 404. The blog was then made responsive, and the Product page was redesigned to match the home page, with new draft copy.
 
+## Change after Phase 11: Product page rewrite
+
+### Asked for
+- Replace the Product page with the owner's plan (2026-11-12): a tour of the real product instead of all-text carousels. The old page had the flow backwards (it said tasks open in Private; in the app you draft in Private and push to Arena), promised unbuilt features (personal assistants, autonomous runs, MCP, "permissions agents can't bypass"), and left out built ones (stages, approvals, custom roles, PROGRESS.md and STATE.md, file viewer, invite links, Projects, Extensions).
+
+### Owner decisions (2026-11-12)
+- Push, Stages and Roles show an empty 16:9 frame until real footage exists.
+- No hedging on `/product` (exception noted in CLAUDE.md).
+- "Watch the full demo" opens the home product video in a modal.
+- The hero keeps the sand logo.
+
+### Done
+- `src/content/product-page.ts` (new, replaces `product-modes.ts`): all copy, from the owner's plan.
+- `src/app/product/page.tsx`: hero (new copy, "Join the waitlist", demo button) → sticky sub-nav → loop → Private, Push, Arena, Stages, Roles (largest) → Trust → Coming soon → FAQ → final CTA. `#private` and `#arena` keep working for the navbar and footer.
+- New components: `ProductSubnav.tsx`, `TourSection.tsx`, `ProductClosing.tsx` (Trust, Coming soon, FAQ, final CTA), `DemoVideoButton.tsx`. `WorkLoop.tsx` rewritten for four steps numbered 1–4. `product.css` trimmed to the screen and loop styles.
+- Deleted `ModeStory.tsx` (including its uncommitted short-screen fix, now not needed), `ModeCard.tsx`, `FeatureGrid.tsx`, `modes.ts`, `src/content/product-modes.ts`.
+- `globals.css`: `--subnav-height`, and anchors scroll below both bars on the Product page.
+- Checked in Chrome: anchors, sub-nav highlight, demo modal (plays, pauses on close). No sideways scroll at 390x844, 360x640, 768x1024, 1280x553 and 1440x812.
+
+### Still incomplete
+- Real footage for Push to Arena, the stage strip with approval card, and the roles screen (live app). Drop files in `public/videos/` and switch `media` in `product-page.ts` to `kind: "video"`.
+- Trimmed clips under 3 MB with poster images (ffmpeg isn't installed). The current videos are 34–42 MB.
+- The short loop step descriptions are draft wording, for the owner to review.
+- The navbar, footer and home page still say "Join Waitlist"; the plan's single "Join the waitlist" label for both pages is not applied there yet.
+- The home page review from the same plan.
+
+### Needed
+- No migrations or env vars.
+
+## Change after Phase 11: Product page on wide but short screens
+
+### Asked for
+- The Product page did not show properly on a Lenovo laptop in Chrome (owner report with screenshot, 2026-11-12).
+
+### Cause
+- That laptop's browser window is wide but short (about 1280 by 553 CSS pixels: a 1080p screen at 150% Windows scaling). Below 672px tall the mode sections do not pin, and they fell back to the phone layout: the video stacked under the heading at full page width, about 700px tall, taller than the screen.
+
+### Done
+- `src/components/product/ModeStory.tsx`: from `lg` (1024px wide) the Private and Arena sections always use the two-column layout, with the video sized to fit the screen height. Pinning while scrolling still needs the `pin` size (1024 by 672 or more); on shorter screens the section scrolls normally and the rows advance on their own every 6s. Below `lg` nothing changed.
+- Checked in headless Chrome at 1280 by 553: both sections show the whole video (670 by 377) beside the rows, with no sideways scroll. The pinned layout at 1440 by 812 is unchanged.
+
+- Then extended to the whole site (owner request, "make it visible properly for all the systems"):
+  - `ProblemStory.tsx`, `SolutionStory.tsx`: the same change as the Product page. From `lg` they are always two columns; pinning still needs the `pin` size. On phones in landscape the card narrows so it fits the screen height.
+  - `Hero.tsx` (home product video) and the Product page mode videos: never taller than the screen. On short screens they narrow and centre (at least 320px wide).
+  - Audited `/`, `/product`, `/blog` and a blog post in headless Chrome at 14 window sizes: 1280x553, 1366x625, 1536x703, 1024x600, 1280x672, 1440x812, 1920x950, 2560x1300, iPad portrait (1024x1366, 820x1180, 768x1024), phones (390x844, 360x640) and phone landscape (844x390). No sideways scroll, and no video or visual card taller than the screen, at any of them. The blog needed no changes.
+
+### Still incomplete
+- Not checked on the Lenovo itself, or on real phones and tablets.
+- On short laptop screens the unpinned sections are taller than the screen, so the last rows sit below the fold until the visitor scrolls. This is expected without pinning.
+- On phones the "Built for" role tabs scroll sideways inside their row. This was already the design and was not changed.
+
+### Needed
+- No migrations or env vars.
+
 ## Change after Phase 11: Light mode back to white
 
 ### Asked for

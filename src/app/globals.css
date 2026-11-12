@@ -56,6 +56,8 @@
 
   /* Height of the sticky navbar, used for anchor offsets. */
   --navbar-height: 4rem;
+  /* The Product page's sticky sub-navigation (ProductSubnav.tsx). */
+  --subnav-height: 3rem;
 
   /* Solution diagram (SolutionDiagram.tsx): a light pulse travelling along a
      path with pathLength="1", and its idle shimmer. Used with motion-safe:
@@ -281,6 +283,11 @@
 
 html {
   scroll-padding-top: var(--navbar-height);
+}
+
+/* The Product page also has its sticky sub-navigation under the navbar. */
+html:has([data-subnav]) {
+  scroll-padding-top: calc(var(--navbar-height) + var(--subnav-height));
 }
 
 body {
