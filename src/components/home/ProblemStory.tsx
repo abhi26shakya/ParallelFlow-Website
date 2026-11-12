@@ -250,7 +250,7 @@ export function ProblemStory() {
       ref={sectionRef}
       aria-labelledby="problem-title"
       data-paused={!inView}
-      className="pf-problems-root relative border-t border-line"
+      className="pf-problems-root relative"
     >
       <div ref={wrapperRef} className="relative pin:h-[350svh]">
         <div className="pin:sticky pin:top-(--navbar-height) pin:flex pin:h-[calc(100svh-var(--navbar-height))] pin:items-center">

@@ -2,7 +2,6 @@ import { ChevronRight } from "lucide-react";
 import type { Metadata } from "next";
 import { SandLogo } from "@/components/hero/sand-logo";
 import { DemoVideoButton } from "@/components/product/DemoVideoButton";
-import { TrustSection } from "@/components/product/TrustSection";
 import { PinnedTourSection } from "@/components/product/PinnedTourSection";
 import { WorkflowSection } from "@/components/product/WorkflowSection";
 import { WorkLoop } from "@/components/product/WorkLoop";
@@ -24,8 +23,8 @@ const fadeIn =
 // The Product page, rewritten 2026-11-12 from the owner's plan as a tour of
 // the real product: the hero beside sand that settles into the logo cube,
 // the loop, Private and Arena as pinned accordions beside their videos (like
-// the home page's "The Solution"), mirrored, Push, Stages and Roles together
-// as text, then the guardrails. The Coming soon, FAQ and closing CTA
+// the home page's "The Solution"), mirrored, Push, Stages and Roles as text
+// cards together with the guardrails on one screen. The Coming soon, FAQ and closing CTA
 // sections and the sticky sub-navigation were removed (owner requests,
 // 2026-11-12).
 export default function ProductPage() {
@@ -93,7 +92,6 @@ export default function ProductPage() {
         />
       ))}
       <WorkflowSection />
-      <TrustSection />
     </main>
   );
 }

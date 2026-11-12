@@ -193,7 +193,6 @@ export function BuiltFor() {
     <section
       ref={sectionRef}
       aria-labelledby="built-for-title"
-      className="border-t border-line"
       onPointerEnter={() => setHovered(true)}
       onPointerLeave={() => setHovered(false)}
       onFocus={() => setFocused(true)}

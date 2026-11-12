@@ -97,7 +97,7 @@ function RowItem({
           onKeyDown={onKeyDown}
           className="flex min-h-16 w-full items-center justify-between gap-6 px-5 text-left outline-offset-[-2px] sm:px-8 pin:min-h-[clamp(40px,5.4svh,68px)] pin:px-8"
         >
-          <span className="pf-mode-title py-3 text-lg leading-snug tracking-tight sm:text-xl pin:py-2 pin:text-[clamp(16px,2.4svh,21px)]">
+          <span className="pf-mode-title py-3 text-xl leading-snug tracking-tight sm:text-2xl pin:py-2 pin:text-[clamp(18px,3svh,25px)]">
             {item.title}
           </span>
           <span aria-hidden="true" className="pf-mode-icon" />
@@ -112,7 +112,7 @@ function RowItem({
         className="pf-mode-panel"
       >
         <div>
-          <p className="pf-mode-text max-w-[640px] px-5 pb-5 text-base leading-[1.6] sm:px-8 sm:text-[17px] pin:px-8 pin:pb-4 pin:text-[clamp(14px,2svh,16px)] pin:leading-[1.5]">
+          <p className="pf-mode-text max-w-[720px] px-5 pb-6 text-[17px] leading-[1.6] sm:px-8 sm:text-[19px] pin:px-8 pin:pb-[min(24px,2.6svh)] pin:text-[clamp(15px,2.3svh,19px)] pin:leading-[1.5]">
             {item.body}
           </p>
         </div>
@@ -249,15 +249,15 @@ export function PinnedTourSection({
       id={section.id}
       aria-labelledby={titleId}
       data-paused={!inView}
-      className="pf-mode-root relative border-t border-line"
+      className="pf-mode-root relative"
     >
       <div ref={wrapperRef} className="relative pin:h-[350svh]">
         <div className="pin:sticky pin:top-(--navbar-height) pin:flex pin:h-[calc(100svh-var(--navbar-height))] pin:items-center">
           <div
-            className={`mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 sm:py-24 lg:grid lg:grid-rows-[auto_auto] lg:content-center lg:gap-x-10 xl:gap-x-14 pin:py-4 ${
+            className={`mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 sm:py-24 lg:grid lg:grid-rows-[auto_auto] lg:content-center lg:gap-x-10 xl:gap-x-12 pin:py-4 ${
               screenLeft
-                ? "lg:grid-cols-[minmax(0,58fr)_minmax(0,42fr)]"
-                : "lg:grid-cols-[minmax(0,42fr)_minmax(0,58fr)]"
+                ? "lg:grid-cols-[minmax(0,64fr)_minmax(0,36fr)]"
+                : "lg:grid-cols-[minmax(0,36fr)_minmax(0,64fr)]"
             }`}
           >
             <div
@@ -270,12 +270,12 @@ export function PinnedTourSection({
               </p>
               <h2
                 id={titleId}
-                className="mt-3 text-[clamp(40px,4.5vw,64px)] font-light leading-[1.05] tracking-[-0.02em] text-balance pin:text-[min(clamp(40px,4.5vw,64px),6svh)]"
+                className="mt-3 text-[clamp(48px,5vw,80px)] font-light leading-[1.05] tracking-[-0.02em] text-balance pin:text-[min(clamp(48px,5vw,80px),8svh)]"
               >
                 {section.title}
               </h2>
               {section.body && (
-                <p className="pf-mode-subtitle mt-4 max-w-[48ch] text-lg text-pretty pin:mt-[min(12px,1.5svh)] pin:text-[clamp(15px,2.2svh,18px)]">
+                <p className="pf-mode-subtitle mt-5 max-w-[48ch] text-lg text-pretty pin:mt-[min(20px,2svh)]">
                   {section.body}
                 </p>
               )}

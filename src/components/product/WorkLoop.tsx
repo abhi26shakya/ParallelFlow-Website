@@ -3,7 +3,8 @@ import { type CSSProperties, Fragment } from "react";
 import { PRODUCT_PAGE } from "@/content/product-page";
 import "./product.css";
 
-// "One loop. People in charge." (owner plan, 2026-11-12): a dark panel,
+// "One loop. People in charge." (owner plan, 2026-11-12), one screen tall
+// from lg like every Product page section: a dark panel,
 // styled like the video screens and with the same traveling edge light,
 // holding the loop as four numbered steps (Private, Push, Arena, Stage gate)
 // joined by connectors with light pulses running along them, and a return
@@ -13,14 +14,14 @@ import "./product.css";
 export function WorkLoop() {
   const { loop } = PRODUCT_PAGE;
   return (
-    <section aria-labelledby="loop-title" className="border-t border-line">
-      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24 lg:py-28">
+    <section aria-labelledby="loop-title">
+      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24 lg:flex lg:min-h-[calc(100svh-var(--navbar-height))] lg:flex-col lg:justify-center lg:py-10">
         <p className="font-mono text-xs uppercase tracking-widest text-muted">
           {loop.eyebrow}
         </p>
         <h2
           id="loop-title"
-          className="mt-3 text-[clamp(36px,3.8vw,56px)] font-light leading-[1.05] tracking-[-0.02em] text-balance"
+          className="mt-3 text-[clamp(48px,5vw,80px)] font-light leading-[1.05] tracking-[-0.02em] text-balance lg:text-[min(clamp(48px,5vw,80px),8svh)]"
         >
           {loop.title}
         </h2>

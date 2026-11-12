@@ -251,7 +251,7 @@ export function SolutionStory() {
       ref={sectionRef}
       aria-labelledby="solution-title"
       data-paused={!inView}
-      className="pf-solution-root relative border-t border-line"
+      className="pf-solution-root relative"
     >
       <div ref={wrapperRef} className="relative pin:h-[350svh]">
         <div className="pin:sticky pin:top-(--navbar-height) pin:flex pin:h-[calc(100svh-var(--navbar-height))] pin:items-center">
