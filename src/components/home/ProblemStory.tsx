@@ -254,8 +254,8 @@ export function ProblemStory() {
     >
       <div ref={wrapperRef} className="relative pin:h-[350svh]">
         <div className="pin:sticky pin:top-(--navbar-height) pin:flex pin:h-[calc(100svh-var(--navbar-height))] pin:items-center">
-          <div className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 sm:py-24 pin:grid pin:grid-cols-[minmax(0,45fr)_minmax(0,55fr)] pin:grid-rows-[auto_auto] pin:content-center pin:gap-x-12 xl:pin:gap-x-16 pin:py-6">
-            <div className="pin:col-start-1 pin:row-start-1 pin:self-end">
+          <div className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 sm:py-24 lg:grid lg:grid-cols-[minmax(0,45fr)_minmax(0,55fr)] lg:grid-rows-[auto_auto] lg:content-center lg:gap-x-12 xl:gap-x-16 pin:py-6">
+            <div className="lg:col-start-1 lg:row-start-1 lg:self-end">
               <h2
                 id="problem-title"
                 className="text-[clamp(48px,5vw,80px)] font-light leading-[1.05] tracking-[-0.02em] pin:text-[min(clamp(48px,5vw,80px),8svh)]"
@@ -267,7 +267,7 @@ export function ProblemStory() {
               </p>
             </div>
 
-            <div className="mx-auto mt-10 w-full max-w-2xl pin:sticky pin:top-[110px] pin:col-start-2 pin:row-span-2 pin:row-start-1 pin:mt-0 pin:w-[min(100%,calc((100svh-var(--navbar-height)-3rem)*440/276))] pin:max-w-none pin:self-center pin:justify-self-end">
+            <div className="mx-auto mt-10 w-full max-w-[min(42rem,max(20rem,calc((100svh-var(--navbar-height)-3rem)*440/276)))] pin:sticky pin:top-[110px] lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mx-0 lg:mt-0 lg:w-[min(100%,calc((100svh-var(--navbar-height)-3rem)*440/276))] lg:max-w-none lg:self-center lg:justify-self-end">
               <ProblemCard
                 active={active}
                 title={PROBLEM.items[active].title}
@@ -277,7 +277,7 @@ export function ProblemStory() {
             </div>
 
             <ol
-              className="pf-problems-list mt-10 pin:col-start-1 pin:row-start-2 pin:mt-[min(40px,4svh)] pin:self-start"
+              className="pf-problems-list mt-10 lg:col-start-1 lg:row-start-2 lg:self-start pin:mt-[min(40px,4svh)]"
             >
               {PROBLEM.items.map((item, index) => (
                 <ProblemRow
