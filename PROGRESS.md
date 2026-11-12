@@ -2,6 +2,19 @@
 
 Phase 1 audit done. Phases 2 (foundation), 3 (home hero), 4 (waitlist), 5 (home body), 6 (SDLC page), 7 (pricing page), 8 (remaining pages), 9 (SEO) and 10 (quality gate) built and committed. Phase 11 (launch) done on localhost: a real signup is saved in the Supabase database. Hosting waits for the owner's go-ahead. The pricing page was removed after Phase 11 at the owner's request. The home hero and then the footer were redesigned after that, also at the owner's request. Then the waitlist moved into a shared modal, "The problem" got a sticky visual window, the site got a light theme with a footer toggle, "The problem" became the pinned "The Problems" list, the "Why now" section was removed, "The solution" became the scroll-built "The Solution" diagram, the "How it works" and "Trust" sections were removed from the home page, the three product pages were merged into one Product page, the home hero got animated monochrome light beams behind its heading, "The Problems" became an accordion beside a pinned, dithered visual card, "The Solution" was rebuilt to match it, mirrored, both visual cards got a hover effect, and the Product page was rebuilt around the three work modes and then restyled after x.ai/grok's product page, with a blank preview window waiting for videos. The real logo (a box mark) then replaced the placeholder mark and joined the text wordmark. The footer was then redesigned as a minimal YC-startup-style footer. Solutions and Resources were then removed from the navbar and the SDLC page was deleted. Pill buttons then got a neon ring on hover, the hero's pre-launch badge got an always-on neon ring, and the footer lost its status badge. Developer Space was then removed from the site, and the Product page lost its "How it connects" cards and closing waitlist band. The hero beams then appeared in the light theme too, inverted to dark grey. The home page's "Who it's for" grid was then replaced by a rotating "Built for [role]" section. The animated dotted backgrounds of the Problems and Solution cards were then replaced by a plain blurred background that follows the theme, and their inner screens grew. The hero's preview slot then got the real product video in its own section below the hero, the hero was made to fill the first screen with its copy at the top centre, and the hero beams were removed. The hero then got an animated particle galaxy behind its copy. A team blog was then added: a Blog navbar link, an editorial `/blog` index and post pages, with posts written as MDX files in the repo. The home video's "Product preview" badge was then removed. The Product page's Arena and Private preview windows then got their real videos. A pre-deployment audit (2026-10-31) followed, and its first fixes added security headers and gave unknown blog slugs a real 404. The blog was then made responsive, and the Product page was redesigned to match the home page, with new draft copy.
 
+## Change after Phase 11: Private and Arena removed from the navbar
+
+### Asked for
+- Remove Private and Arena from the navbar (owner request, 2026-11-12).
+
+### Done
+- `src/lib/nav.ts`: the Product group has no dropdown items, so "Product" is now a plain link to `/product` on desktop and in the mobile menu (both already render an item-less group as a plain link). The unused `PRODUCT_ITEMS` list and its `products.ts` import are removed.
+- Not changed: the footer's Product column still lists Private and Arena, and `/product#private` and `/product#arena` still work.
+- Lint, typecheck and production build pass. Checked in headless Chrome: the navbar shows Product and Blog, with no dropdown.
+
+### Needed
+- No migrations or env vars.
+
 ## Change after Phase 11: Product page rewrite
 
 ### Asked for
